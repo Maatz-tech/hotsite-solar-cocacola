@@ -1,0 +1,32 @@
+---
+/**
+ * Cabeçalho de seção: pílula + heading + apoio opcional.
+ * O heading entra palavra a palavra (um `revealWords` por seção).
+ */
+import Eyebrow from './Eyebrow.astro';
+import RevealText from './RevealText.astro';
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  align?: 'left' | 'center';
+  id?: string;
+  class?: string;
+}
+
+const { eyebrow, title, lead, align = 'left', id, class: className = '' } = Astro.props;
+const centro = align === 'center';
+---
+
+<div
+  class:list={[
+    'flex flex-col items-start gap-4',
+    centro && 'items-center text-center',
+    className,
+  ]}
+>
+  {eyebrow && <Eyebrow data-reveal>{eyebrow}</Eyebrow>}
+  <RevealText as="h2" id={id} class="h2" text={title} />
+  {lead && <p class="lead max-w-[693px]" data-reveal>{lead}</p>}
+</div>

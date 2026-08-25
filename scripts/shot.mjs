@@ -19,6 +19,9 @@ const browser = await chromium.launch();
 const page = await browser.newPage({
   viewport: { width: Number(width), height: 900 },
   deviceScaleFactor: 2,
+  // Comparação pixel-perfect não pode fotografar reveal pela metade: com
+  // reduced-motion o motion.ts revela tudo de imediato (fallback que revela).
+  reducedMotion: 'reduce',
 });
 
 await page.goto(url, { waitUntil: 'networkidle' });
@@ -26,6 +29,11 @@ await page.goto(url, { waitUntil: 'networkidle' });
 await page.evaluate(() => document.fonts.ready);
 // o dev toolbar do Astro injeta <header>/<footer> próprios — fora daqui
 await page.evaluate(() => document.querySelector('astro-dev-toolbar')?.remove());
+// Header sticky se sobrepõe ao topo da seção no screenshot de elemento —
+// esconde para a comparação medir a seção, não a sobreposição.
+if (selector && !selector.includes('header')) {
+  await page.addStyleTag({ content: 'header { visibility: hidden !important; }' });
+}
 
 const target = selector ? page.locator(selector) : page;
 await target.screenshot({ path: out, ...(selector ? {} : { fullPage: true }) });

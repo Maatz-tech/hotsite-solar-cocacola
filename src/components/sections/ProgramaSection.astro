@@ -1,0 +1,61 @@
+---
+/**
+ * O programa — Figma desktop 4028:1884 · mobile 4031:2456.
+ * Bloco escuro de borda arredondada, com o selo dentado sangrando no canto.
+ */
+import Eyebrow from '../Eyebrow.astro';
+import RevealText from '../RevealText.astro';
+import Estrela from '../icons/Estrela.astro';
+---
+
+<section id="programa" class="px-3 lg:px-0">
+  <div
+    class="relative mx-auto max-w-[1440px] overflow-hidden rounded-[40px] bg-ink px-6 py-16 lg:px-28 lg:py-25"
+  >
+    <Estrela class="absolute right-20 top-[62px] size-26 text-brand max-lg:right-6 max-lg:top-6 max-lg:size-16" />
+
+    <div class="grid gap-8 lg:grid-cols-[595px_1fr] lg:items-start lg:gap-x-20">
+      <div class="flex flex-col items-start gap-8">
+        <div class="flex flex-col items-start gap-4">
+          <Eyebrow data-reveal>Trainee 2026 · Supply Chain</Eyebrow>
+          <RevealText as="h2" class="h2 text-surface" text="Conectamos você a um futuro sustentável" />
+        </div>
+
+        <div class="rich-text text-surface" data-reveal>
+          <p>
+            Queremos desenvolver os talentos de perto, gerando um impacto
+            positivo não só no nosso negócio, mas principalmente na vida de cada
+            pessoa que vai construir essa história com a gente.
+          </p>
+          <p>
+            Criamos uma trilha de aprendizagem robusta, com desafios práticos e
+            mentoria direta com as principais lideranças da empresa para
+            impulsionar as carreiras dos novos trainees rumo a posições de
+            destaque.
+          </p>
+          <p>
+            Buscamos talentos autênticos, dinâmicos e que queiram ser futuras
+            “Pessoas Solares”, liderando a nossa transformação diária de forma
+            protagonista.
+          </p>
+        </div>
+      </div>
+
+      <img
+        src="/images/programa/time.webp"
+        width="546"
+        height="388"
+        alt="Três trainees da Solar Coca-Cola reunidos em volta de um notebook, sorrindo"
+        loading="lazy"
+        class="w-full rounded-card border border-brand object-cover shadow-[-5px_5px_0_var(--color-brand)] lg:h-full"
+        data-reveal
+      />
+    </div>
+  </div>
+</section>
+
+<script>
+  import { revealWords, revealOnScroll } from '../../lib/motion';
+  revealWords('#programa [data-reveal-words]');
+  revealOnScroll('#programa [data-reveal]', { atraso: 0.15 });
+</script>

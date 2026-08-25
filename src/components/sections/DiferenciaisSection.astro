@@ -1,0 +1,53 @@
+---
+/** Porque ser Solar Coca-Cola — Figma desktop 4015:5 · mobile 4031:2494. */
+import Button from '../Button.astro';
+import SectionHeader from '../SectionHeader.astro';
+import BenefitCard from '../BenefitCard.astro';
+import { CTA_URL } from '../../data/site';
+---
+
+<section id="diferenciais" class="px-3 lg:px-0">
+  <div
+    class="mx-auto flex max-w-[1440px] flex-col items-center gap-16 rounded-[40px] bg-surface-alt px-6 py-16 lg:px-28 lg:py-25"
+  >
+    <!-- Sem eyebrow: no Figma a pílula desta seção está hidden (4023:506). -->
+    <SectionHeader
+      title="Porque ser Solar Coca-Cola?"
+      lead="Uma trilha de aprendizagem com desafios práticos e mentoria direta das principais lideranças para acelerar sua carreira"
+      align="center"
+    />
+
+    <div class="grid w-full gap-8 lg:grid-cols-2" data-reveal-stagger>
+      <BenefitCard icone="/images/beneficios/impacto-nacional.svg" titulo="Impacto Nacional">
+        Entregamos sorrisos no Norte, Nordeste e parte do Centro-Oeste,
+        alcançando 70% do território brasileiro.
+      </BenefitCard>
+
+      <BenefitCard icone="/images/beneficios/escala-global.svg" titulo="Escala Global">
+        Somos um dos 15 maiores fabricantes do Sistema Coca-Cola no mundo e a 2ª
+        maior fabricante do Brasil, impactando milhões de brasileiros.
+      </BenefitCard>
+
+      <BenefitCard icone="/images/beneficios/gptw.svg" titulo="Ambiente Reconhecido">
+        Somos certificados pela <strong class="font-bold">Great Place to Work (GPTW)</strong>
+        como uma das melhores empresas para se trabalhar no Brasil.
+      </BenefitCard>
+
+      <BenefitCard icone="/images/beneficios/cultura.svg" titulo="Nossa Cultura" caixa>
+        Um ambiente de trabalho seguro e colaborativo, onde a individualidade e a
+        autenticidade das nossas pessoas Solares são o combustível para ir além.
+      </BenefitCard>
+    </div>
+
+    <div data-reveal>
+      <Button href={CTA_URL}>Inscreva-se agora!</Button>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { revealWords, revealOnScroll, revealStagger } from '../../lib/motion';
+  revealWords('#diferenciais [data-reveal-words]');
+  revealOnScroll('#diferenciais [data-reveal]', { atraso: 0.15 });
+  revealStagger('#diferenciais [data-reveal-stagger]');
+</script>

@@ -1,0 +1,18 @@
+---
+/** Pílula vermelha acima do heading. Figma: px 14, py 8, radius 6, 18px Light. */
+interface Props {
+  class?: string;
+  [key: string]: unknown;
+}
+const { class: className = '', ...rest } = Astro.props;
+---
+
+<span
+  class:list={[
+    'inline-flex h-[29px] items-center rounded-md bg-brand px-3.5 text-lg font-light uppercase leading-none text-surface',
+    className,
+  ]}
+  {...rest}
+>
+  <slot />
+</span>

@@ -1,0 +1,101 @@
+---
+/**
+ * Sobre a Solar — Figma desktop 4010:796 · mobile 4031:2385.
+ *
+ * A ordem muda entre breakpoints: no mobile o título vem antes das fotos,
+ * no desktop as fotos ocupam a coluna da esquerda inteira. Resolvido com
+ * grid (posicionamento) em vez de duplicar markup.
+ */
+import Button from '../Button.astro';
+import SectionHeader from '../SectionHeader.astro';
+import { CTA_URL } from '../../data/site';
+
+const fotos = [
+  {
+    src: '/images/sobre/foto-1.webp',
+    alt: 'Duas colaboradoras da Solar Coca-Cola sorrindo e segurando garrafas de Coca-Cola',
+  },
+  {
+    src: '/images/sobre/foto-2.webp',
+    alt: 'Mãos de várias pessoas brindando com garrafas de Coca-Cola',
+  },
+];
+---
+
+<section id="sobre" class="px-6 py-16 lg:px-28 lg:py-25">
+  <div
+    class="mx-auto grid max-w-lp gap-8 lg:grid-cols-[488px_1fr] lg:gap-x-20"
+  >
+    <SectionHeader
+      eyebrow="Solar Coca-Cola"
+      title="Uma empresa brasileira, feita de talento, paixão e de pessoas solares!"
+      class="lg:col-start-2 lg:row-start-1"
+    />
+
+    <div
+      class="flex flex-col gap-6 lg:col-start-1 lg:row-start-1 lg:row-span-3 lg:self-start"
+      data-reveal-stagger
+    >
+      <div class="grid grid-cols-2 gap-6">
+        {
+          fotos.map((foto) => (
+            <img
+              src={foto.src}
+              alt={foto.alt}
+              width="232"
+              height="357"
+              loading="lazy"
+              class="h-[357px] w-full rounded-card object-cover max-lg:h-[240px]"
+            />
+          ))
+        }
+      </div>
+
+      <img
+        src="/images/sobre/card-icones.webp"
+        alt=""
+        aria-hidden="true"
+        width="488"
+        height="207"
+        loading="lazy"
+        class="w-full rounded-card"
+      />
+    </div>
+
+    <div class="rich-text lg:col-start-2 lg:row-start-2" data-reveal>
+      <p>
+        Somos uma das maiores fabricantes do <strong class="font-bold"
+          >Sistema Coca-Cola</strong
+        > no mundo e contamos com 13 fábricas espalhadas pelo Brasil. Com cerca de
+        120 centros de distribuição, entre próprios e terceirizados, somos responsáveis
+        pela produção e distribuição para aproximadamente 380 mil pontos de venda,
+        impactando positivamente mais de 80 milhões de brasileiros.
+      </p>
+      <p>
+        A sustentabilidade está presente na nossa relação com as pessoas, com as
+        comunidades, com os parceiros e com o meio ambiente. Por meio de diversas
+        iniciativas - dentro e fora das nossas fábricas - trabalhamos para gerar
+        valor e contribuir para a construção de um futuro melhor nos territórios
+        onde estamos presentes.
+      </p>
+      <p>
+        Somos movidos por um propósito que conecta nossas pessoas em fábricas,
+        centros de distribuição e escritórios: transformar positivamente a
+        realidade onde atuamos. É esse jeito de fazer acontecer, com paixão e
+        protagonismo, que impulsiona a jornada da Solar todos os dias.
+      </p>
+      <p class="text-ink"><strong>Vem fazer parte dessa história com a gente!</strong></p>
+    </div>
+
+    <div class="lg:col-start-2 lg:row-start-3" data-reveal>
+      <Button href={CTA_URL}>Dê um gás na sua carreira!</Button>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { revealWords, revealOnScroll, revealStagger } from '../../lib/motion';
+  revealWords('#sobre [data-reveal-words]');
+  revealOnScroll('#sobre [data-reveal]', { atraso: 0.15 });
+  revealStagger('#sobre [data-reveal-stagger]');
+</script>

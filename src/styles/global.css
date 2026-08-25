@@ -127,13 +127,13 @@
   .h1 {
     font-weight: 700;
     font-size: 48px;
-    line-height: 1.15;
+    line-height: 1.19;
   }
 
   .h2 {
     font-weight: 700;
     font-size: 48px;
-    line-height: 1.15;
+    line-height: 1.19;
   }
 
   .h3 {
@@ -161,6 +161,24 @@
     font-size: 14px;
     line-height: 1.5;
     color: var(--color-ink-70);
+  }
+
+  /* Texto corrido de seção. O Figma usa leading normal (~1.19) aqui e 1.5
+     só nas descrições de card — são dois estilos, não um. */
+  .rich-text {
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.19;
+    color: var(--color-ink-70);
+  }
+
+  .rich-text strong {
+    font-weight: 700;
+  }
+
+  /* No Figma a separação entre parágrafos é uma linha em branco. */
+  .rich-text p + p {
+    margin-top: 19px;
   }
 
   .body-on-dark {
