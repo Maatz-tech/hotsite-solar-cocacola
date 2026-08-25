@@ -270,12 +270,36 @@
     transition: transform 200ms ease;
   }
 
+  /* Seta do carrossel — círculo vermelho, apaga quando não há para onde ir. */
+  .seta-carrossel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    border-radius: var(--radius-pill);
+    background: var(--color-brand);
+    color: var(--color-surface);
+    transition:
+      background-color 200ms ease,
+      opacity 200ms ease;
+  }
+
   /* --- Cards --- */
   .card {
     border-radius: var(--radius-card);
     background: var(--color-surface);
     border: 1px solid var(--color-ink);
     box-shadow: var(--shadow-solid);
+  }
+
+  /* Acordeão: some o marcador nativo e deixa o cabeçalho clicável inteiro. */
+  .faq-item summary {
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
   }
 
   /* --- Pill / chip --- */
@@ -315,6 +339,14 @@
 .btn-outline:hover {
   transform: translate(-3px, 3px);
   box-shadow: 0 0 0 var(--color-ink);
+}
+
+.seta-carrossel:hover:not(:disabled) {
+  background: var(--color-brand-dark);
+}
+.seta-carrossel:disabled {
+  opacity: 0.5;
+  cursor: default;
 }
 
 .nav-link:hover {

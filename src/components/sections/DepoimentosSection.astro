@@ -1,0 +1,164 @@
+---
+/**
+ * Depoimentos — Figma desktop 4016:377 · mobile 4031:3255.
+ * Cards em 4102:120 · 127 · 141 · 149 · 156.
+ *
+ * Carrossel com scroll-snap nativo: os botões só empurram o scroll. Sem
+ * biblioteca, funciona com teclado, com toque e sem JS.
+ */
+import RevealText from '../RevealText.astro';
+
+const depoimentos = [
+  {
+    foto: '/images/depoimentos/carlos.webp',
+    nome: 'Carlos Antonio Formenton Barp',
+    cargo: 'Coordenador Financeiro',
+    citacao: `“Ser trainee na Solar é viver um aprendizado acelerado, com desafios reais, autonomia e contato com pessoas que te fazem crescer. É a oportunidade de conhecer o negócio de ponta a ponta e construir uma visão estratégica da companhia. Aprendi a enxergar a empresa de forma integrada, entendendo como diferentes áreas se conectam para gerar resultados. Mais do que processos, <strong>o programa me ensinou a liderar, influenciar e aprender continuamente</strong>.”`,
+  },
+  {
+    foto: '/images/depoimentos/augusto.webp',
+    nome: 'Augusto da Rocha Simas Junior',
+    cargo: 'Especialista de Marketing',
+    citacao: `“É se desafiar constantemente, liderando projetos e vivendo mudanças, pressão e responsabilidades que exigem maturidade. Tudo isso amparado por uma forte trilha de desenvolvimento, treinamentos, mentorias e líderes inspiradores. Aprendi a entregar resultados em ambientes de alta complexidade e velocidade, liderando a mim mesmo e multiplicando a cultura da empresa.<strong> No fim, ser Trainee é transformar potencial em resultado</strong>.”`,
+  },
+  {
+    foto: '/images/depoimentos/beatriz.webp',
+    nome: 'Beatriz Ribeiro Pianco da Silva',
+    cargo: 'Especialista de Marketing',
+    citacao: `“Vim de fora do mercado de bens de consumo e encontrei um ambiente acolhedor, onde aprendi na prática com times dispostos a ensinar. Ter curiosidade e resiliência para entender que não precisamos ter todas as respostas foi fundamental. <strong>O que mais marcou minha experiência foi estar cercada de pessoas colaborativas, dispostas a compartilhar conhecimento</strong>. Estar conectada com as pessoas certas me fez aprender com os outros e me colocou em prontidão para ensinar os que virão.”`,
+  },
+  {
+    foto: '/images/depoimentos/keila.webp',
+    nome: 'Keila Leticia Fernandes Vidal',
+    cargo: 'Especialista de Marketing',
+    citacao: `“Desde o primeiro dia somos incentivados a liderar nossa jornada. Aprendi que o caminho é desafiador e que nem sempre vamos acertar… o importante é ter humildade para aprender com os erros. Entrei em Finanças e hoje estou em Key Accounts, uma área que nem estava nos meus planos, mas onde me encontrei. <strong>Aprendi a lidar com mudanças, resolver problemas buscando a causa raiz e entender que a empresa é feita de pessoas para pessoas</strong>.”`,
+  },
+  {
+    foto: '/images/depoimentos/luiz.webp',
+    nome: 'Luiz Felipe Ribas Motta',
+    cargo: 'Coordenador de Estoque',
+    citacao: `Ser trainee na Solar é acelerar o desenvolvimento profissional por meio de projetos estratégicos, mentorias e treinamentos de alto nível. <strong>O programa fortaleceu minha capacidade de liderar iniciativas, enfrentar desafios complexos e gerar valor para o negócio</strong> por meio de dados, transformação digital e melhoria contínua.`,
+  },
+];
+
+const decorativos = [
+  { src: '/images/icones/garrafa-tampa.svg', w: 31, h: 52 },
+  { src: '/images/icones/garrafa.svg', w: 13, h: 48 },
+  { src: '/images/icones/copo.svg', w: 29, h: 59 },
+];
+---
+
+<section id="depoimentos" class="px-3 lg:px-0">
+  <div
+    class="mx-auto grid max-w-[1440px] gap-10 rounded-[40px] bg-surface-alt px-6 py-16 lg:grid-cols-[280px_1fr] lg:gap-16 lg:px-28 lg:py-25"
+  >
+    <div class="flex flex-col justify-between gap-10">
+      <div class="flex flex-col gap-6">
+        <RevealText
+          as="h2"
+          class="text-[40px] font-bold leading-[48px] text-black"
+          text="Talentos que passaram pelo programa"
+        />
+
+        <div class="flex gap-3">
+          <button
+            type="button"
+            data-carrossel="anterior"
+            class="seta-carrossel"
+            aria-label="Depoimento anterior"
+            aria-controls="trilho-depoimentos"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-6 rotate-180">
+              <path d="M5 12h14M12 5l7 7-7 7"></path>
+            </svg>
+          </button>
+          <button
+            type="button"
+            data-carrossel="proximo"
+            class="seta-carrossel"
+            aria-label="Próximo depoimento"
+            aria-controls="trilho-depoimentos"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="size-6">
+              <path d="M5 12h14M12 5l7 7-7 7"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div
+        aria-hidden="true"
+        class="flex w-full items-end justify-center gap-8 rounded-pill border-[1.06px] border-brand px-13 py-2 max-lg:hidden"
+      >
+        {
+          decorativos.map((d) => (
+            <img src={d.src} alt="" width={d.w} height={d.h} style={`height:${d.h}px`} class="w-auto" loading="lazy" />
+          ))
+        }
+      </div>
+    </div>
+
+    <div
+      id="trilho-depoimentos"
+      class="flex snap-x snap-mandatory gap-8 overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      tabindex="0"
+      role="group"
+      aria-roledescription="carrossel"
+      aria-label="Depoimentos de ex-trainees"
+    >
+      {
+        depoimentos.map((d, i) => (
+          <article
+            class="flex w-full shrink-0 snap-start flex-col items-start gap-10 rounded-card bg-surface p-6 lg:flex-row lg:p-10"
+            aria-roledescription="slide"
+            aria-label={`${i + 1} de ${depoimentos.length}`}
+          >
+            <img
+              src={d.foto}
+              width="300"
+              height="400"
+              alt={d.nome}
+              loading="lazy"
+              class="h-[400px] w-[300px] shrink-0 rounded-btn border border-ink object-cover shadow-solid-lg max-lg:h-[320px] max-lg:w-full"
+            />
+
+            <div class="flex flex-1 flex-col justify-between gap-8 self-stretch">
+              <p class="text-lg leading-[1.5] text-ink-70 [&>strong]:font-bold [&>strong]:text-brand" set:html={d.citacao} />
+
+              <div class="flex flex-col gap-1">
+                <p class="text-xl font-bold leading-[1.3]">{d.nome}</p>
+                <p class="text-lg leading-[1.3]">{d.cargo}</p>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  import { revealWords } from '../../lib/motion';
+  revealWords('#depoimentos [data-reveal-words]');
+
+  const trilho = document.getElementById('trilho-depoimentos');
+  const anterior = document.querySelector<HTMLButtonElement>('[data-carrossel="anterior"]');
+  const proximo = document.querySelector<HTMLButtonElement>('[data-carrossel="proximo"]');
+
+  if (trilho && anterior && proximo) {
+    const passo = () => trilho.querySelector('article')?.clientWidth ?? trilho.clientWidth;
+
+    anterior.addEventListener('click', () => trilho.scrollBy({ left: -passo() - 32 }));
+    proximo.addEventListener('click', () => trilho.scrollBy({ left: passo() + 32 }));
+
+    // As setas mostram onde dá pra ir: no fim do trilho a seta apaga.
+    const sincronizar = () => {
+      const fim = trilho.scrollWidth - trilho.clientWidth - 1;
+      anterior.disabled = trilho.scrollLeft <= 1;
+      proximo.disabled = trilho.scrollLeft >= fim;
+    };
+
+    trilho.addEventListener('scroll', sincronizar, { passive: true });
+    sincronizar();
+  }
+</script>

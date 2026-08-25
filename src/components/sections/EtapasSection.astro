@@ -1,0 +1,90 @@
+---
+/**
+ * Etapas do processo seletivo — Figma desktop 4026:905 · mobile 4031:3006.
+ * Cinco colunas no desktop, empilhadas no mobile. A linha vertical é o
+ * `border-l` de cada coluna: sólida vermelha no mês, tracejada no conteúdo.
+ */
+import RevealText from '../RevealText.astro';
+import { CTA_URL } from '../../data/site';
+
+const meses = [
+  {
+    mes: 'Setembro',
+    etapas: [{ texto: '1. Inscrições online', destaque: true, link: true }],
+    chamada: 'Clique para se inscrever',
+  },
+  {
+    mes: 'Outubro',
+    etapas: [{ texto: '2. Entrevista online' }, { texto: '3. Vídeo-Entrevista' }],
+  },
+  {
+    mes: 'Novembro',
+    etapas: [{ texto: '4. Dinâmica Online' }, { texto: '5. Entrevista Online' }],
+  },
+  { mes: 'Dezembro', etapas: [{ texto: '6. Etapa presencial' }] },
+  { mes: 'Janeiro', etapas: [{ texto: '7. Admissão', destaque: true }], foguete: true },
+];
+---
+
+<section id="etapas" class="px-6 py-16 lg:px-28 lg:py-25">
+  <div class="mx-auto flex max-w-lp flex-col items-center gap-16">
+    <RevealText as="h2" class="h2 text-center" text="Conheça as etapas do processo seletivo" />
+
+    <ol class="grid w-full gap-8 lg:grid-cols-5 lg:gap-0" data-reveal-stagger>
+      {
+        meses.map((m) => (
+          <li class="flex flex-col items-start">
+            <p class="border-l border-brand px-4 py-1 text-xl font-bold">{m.mes}</p>
+
+            <div class="flex w-full flex-1 flex-col items-start gap-4 border-l border-dashed border-ink-20 px-4 py-6">
+              {m.etapas.map((e) =>
+                e.link ? (
+                  <a
+                    href={CTA_URL}
+                    class="btn btn-primary flex h-11 items-center rounded-btn px-4 text-lg font-bold"
+                  >
+                    {e.texto}
+                  </a>
+                ) : (
+                  /* O foguete é irmão do chip, não conteúdo dele (Figma 4141:39). */
+                  <span class="flex items-center gap-4">
+                    <span
+                      class:list={[
+                        'flex h-11 items-center rounded-btn px-4 text-lg font-bold text-surface',
+                        e.destaque ? 'bg-brand' : 'bg-ink',
+                      ]}
+                    >
+                      {e.texto}
+                    </span>
+                    {m.foguete && <span class="text-2xl">🚀</span>}
+                  </span>
+                )
+              )}
+
+              {m.chamada && (
+                <p class="flex items-start gap-2 px-3 text-base text-brand">
+                  <img
+                    src="/images/icones/seta-curva.svg"
+                    alt=""
+                    aria-hidden="true"
+                    width="20"
+                    height="24"
+                    class="size-8 shrink-0 -rotate-90 object-contain"
+                    loading="lazy"
+                  />
+                  {m.chamada}
+                </p>
+              )}
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<script>
+  import { revealWords, revealStagger } from '../../lib/motion';
+  revealWords('#etapas [data-reveal-words]');
+  revealStagger('#etapas [data-reveal-stagger]');
+</script>
