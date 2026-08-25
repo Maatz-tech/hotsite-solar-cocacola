@@ -1,0 +1,28 @@
+---
+/**
+ * Botão da marca. Estilo mora em global.css (.btn / .btn-primary / …).
+ * Com `href` vira <a> (navega), sem `href` vira <button> (executa ação).
+ */
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'outline' | 'invert';
+  size?: 'sm' | 'md' | 'lg';
+  class?: string;
+}
+
+const { href, variant = 'primary', size = 'md', class: className = '' } = Astro.props;
+
+const classes = ['btn', `btn-${variant}`, `btn-${size}`, className].filter(Boolean).join(' ');
+---
+
+{
+  href ? (
+    <a href={href} class={classes}>
+      <slot />
+    </a>
+  ) : (
+    <button type="button" class={classes}>
+      <slot />
+    </button>
+  )
+}

@@ -1,0 +1,30 @@
+{
+  "name": "hotsite-solar-cocacola",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "shot": "node scripts/shot.mjs",
+    "review:ux": "node scripts/audit-ux.mjs",
+    "review:perf": "node scripts/lighthouse.mjs",
+    "review:cmp": "node scripts/compare-section.mjs",
+    "collect": "node scripts/collect.mjs"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.18",
+    "astro": "^5.16.11",
+    "motion": "^12.43.0",
+    "tailwindcss": "^4.1.18"
+  },
+  "devDependencies": {
+    "axe-core": "^4.13.0",
+    "chrome-launcher": "^1.2.1",
+    "lighthouse": "^12.8.2",
+    "playwright": "^1.62.0"
+  },
+  "description": "Site Solar Coca-Cola — feito a partir de astro-power-website-template.",
+  "private": true
+}

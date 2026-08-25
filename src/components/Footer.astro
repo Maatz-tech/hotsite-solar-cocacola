@@ -1,0 +1,78 @@
+---
+import Instagram from './icons/Instagram.astro';
+import Facebook from './icons/Facebook.astro';
+import LinkedIn from './icons/LinkedIn.astro';
+import TikTok from './icons/TikTok.astro';
+import { SOCIAL_LINKS, LEGAL_LINKS, SITE_NAME } from '../data/site';
+
+const ICONS = { Instagram, Facebook, LinkedIn, TikTok };
+---
+
+<footer class="bg-surface">
+  <!-- Bloco 1: logo + redes sociais -->
+  <div
+    class="container-lp flex flex-col items-center gap-10 py-10 md:flex-row md:items-center md:justify-between md:py-14"
+  >
+    <img
+      src="/images/brand/logo.svg"
+      alt={SITE_NAME}
+      width="140"
+      height="32"
+      class="h-8 w-auto"
+      loading="lazy"
+    />
+
+    <ul class="flex items-center gap-2">
+      {
+        SOCIAL_LINKS.map((social) => {
+          const Icon = ICONS[social.icon];
+          return (
+            <li>
+              <a
+                href={social.href}
+                aria-label={social.label}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex size-10 items-center justify-center rounded-full text-ink-70 transition-colors hover:text-brand"
+              >
+                <Icon class="size-6" />
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+
+  <!-- Bloco 2: legal + créditos -->
+  <div
+    class="container-lp flex flex-col items-center gap-5 pb-6 text-center md:flex-row md:justify-between md:gap-4"
+  >
+    <ul class="flex items-center gap-4 leading-[1.2]">
+      {
+        LEGAL_LINKS.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class="body-sm leading-[1.2] underline transition-colors hover:text-brand"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="flex items-center gap-2">
+      <span class="body-sm">Desenvolvido por</span>
+      <img
+        src="/images/brand/maatz.svg"
+        alt="Maatz"
+        width="72"
+        height="18"
+        class="h-[18px] w-auto"
+        loading="lazy"
+      />
+    </div>
+  </div>
+</footer>

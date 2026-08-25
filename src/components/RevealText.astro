@@ -1,0 +1,48 @@
+---
+/**
+ * Heading que entra palavra a palavra. As palavras são quebradas em <span>
+ * NO BUILD — fazer isso no cliente causa reflow e piscada.
+ *
+ * Sintaxe do texto:
+ *   "Bora elevar |**o game**?"   →   `|` quebra linha, `**…**` destaca
+ *
+ * Uso:
+ *   <RevealText as="h2" class="h2" text="Como a gente |**trabalha**" />
+ *   <script>
+ *     import { revealWords } from '../../lib/motion';
+ *     revealWords('#minha-secao [data-reveal-words]');
+ *   </script>
+ */
+interface Props {
+  as?: string;
+  text: string;
+  class?: string;
+  id?: string;
+}
+
+const { as: Tag = 'h2', text, class: className = '', id } = Astro.props;
+
+type Token = { quebra: true } | { palavra: string; destaque: boolean };
+
+const tokens: Token[] = text.split(/(\s+|\|)/).flatMap((parte): Token[] => {
+  if (parte === '|') return [{ quebra: true }];
+  if (!parte.trim()) return [];
+  const destaque = parte.startsWith('**') && parte.endsWith('**');
+  return [{ palavra: destaque ? parte.slice(2, -2) : parte, destaque }];
+});
+---
+
+<Tag id={id} class:list={[className]} data-reveal-words>
+  {
+    tokens.map((t) =>
+      'quebra' in t ? (
+        <br />
+      ) : (
+        <>
+          {/* inline-block é obrigatório: transform não se aplica a inline */}
+          <span data-palavra class:list={['inline-block', t.destaque && 'text-accent']}>{t.palavra}</span>{' '}
+        </>
+      )
+    )
+  }
+</Tag>

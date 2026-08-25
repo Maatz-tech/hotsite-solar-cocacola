@@ -1,0 +1,41 @@
+---
+import Button from './Button.astro';
+import { NAV_LINKS, CTA_URL, CTA_LABEL, SITE_NAME } from '../data/site';
+---
+
+<header class="bg-surface">
+  <div class="container-lp flex h-20 items-center justify-between">
+    <a href="/" class="shrink-0" aria-label={`${SITE_NAME} — página inicial`}>
+      <img
+        src="/images/brand/logo.svg"
+        alt={SITE_NAME}
+        width="140"
+        height="32"
+        class="h-8 w-auto"
+        fetchpriority="high"
+      />
+    </a>
+
+    <nav aria-label="Navegação principal" class="hidden lg:block">
+      <ul class="flex items-center gap-6 text-base">
+        {
+          NAV_LINKS.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="whitespace-nowrap transition-colors hover:text-brand"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <Button href={CTA_URL} size="sm" class="shrink-0">{CTA_LABEL}</Button>
+  </div>
+
+  <!-- TODO: menu mobile (hamburger com aria-expanded/aria-controls) se o
+       Figma tiver navegação no mobile. Ver playbook/03-componentes-globais.md -->
+</header>

@@ -1,0 +1,303 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Design tokens — <NOME DO PROJETO>
+   Fonte de verdade: Figma <fileKey> (get_variable_defs)
+   NUNCA hard-codar cor/fonte fora deste arquivo.
+   Ver playbook/02-tokens-e-globais.md
+   ============================================================ */
+
+@theme {
+  /* --- Marca (mapear 1:1 com as variables do Figma) --- */
+  --color-brand: #2563eb;        /* cor de ação (botões, links) */
+  --color-brand-dark: #1d4ed8;   /* hover / sombra sólida */
+  --color-brand-soft: #dbeafe;   /* fundos suaves */
+  --color-accent: #f59e0b;       /* destaque / eyebrow */
+
+  /* --- Superfícies neutras --- */
+  --color-ink: #0f172a;          /* texto e fundos escuros */
+  --color-surface: #ffffff;
+  --color-surface-alt: #f6f7f9;
+
+  /* --- Derivadas: ink com alpha (body copy, bordas) --- */
+  --color-ink-70: rgb(15 23 42 / 0.7);
+  --color-ink-40: rgb(15 23 42 / 0.4);
+  --color-ink-08: rgb(15 23 42 / 0.08);
+
+  /* --- Derivadas: on-dark (texto sobre fundo escuro) --- */
+  --color-on-dark-70: rgb(255 255 255 / 0.7);
+  --color-on-dark-45: rgb(255 255 255 / 0.45);
+  --color-on-dark-32: rgb(255 255 255 / 0.32);
+  --color-on-dark-15: rgb(255 255 255 / 0.15);
+
+  /* --- Tipografia ---
+     Trocar pela família do projeto. Se for licenciada, usar uma
+     substituta do Google Fonts na frente da cadeia e declarar os
+     @font-face quando os .woff2 chegarem. */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* --- Layout --- */
+  --container-lp: 1216px;   /* 1440 - 112*2 — ajustar ao grid do Figma */
+  --radius-card: 20px;
+  --radius-btn: 12px;
+  --radius-pill: 999px;
+}
+
+/* Fonte local (quando houver .woff2 em public/fonts/):
+@font-face {
+  font-family: "<Família>";
+  src: url("/fonts/<arquivo>.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+*/
+
+/* ============================================================
+   Base
+   ============================================================ */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: var(--color-surface);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Tudo que é clicável tem cursor — <button> e <summary> não têm
+     por padrão em todos os browsers. Ver playbook/06-micro-interacoes.md */
+  button,
+  summary,
+  label[for],
+  a[href],
+  [role="button"] {
+    cursor: pointer;
+  }
+
+  /* Focus sempre visível — nunca remover sem substituir */
+  :focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+/* ============================================================
+   Utilitárias semânticas
+   Se apareceu 2× no design com o mesmo estilo, mora aqui —
+   não duplicar text-[32px] font-bold leading-[1.4] nas seções.
+   Ajustar a escala aos valores medidos no Figma.
+   ============================================================ */
+
+@layer components {
+  /* --- Container --- */
+  .container-lp {
+    width: 100%;
+    max-width: var(--container-lp);
+    margin-inline: auto;
+    padding-inline: 24px;
+  }
+
+  /* --- Tipografia --- */
+  .h1 {
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 1.1;
+  }
+
+  .h2 {
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 1.25;
+  }
+
+  .h3 {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1.4;
+  }
+
+  .body {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--color-ink-70);
+  }
+
+  .body-sm {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-ink-70);
+  }
+
+  .body-on-dark {
+    color: var(--color-on-dark-70);
+  }
+
+  /* Eyebrow — rótulo colorido acima do heading */
+  .eyebrow {
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  /* --- Botões --- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-weight: 600;
+    line-height: 20px;
+    border-radius: var(--radius-btn);
+    white-space: nowrap;
+    transition:
+      background-color 200ms ease,
+      color 200ms ease,
+      border-color 200ms ease,
+      transform 200ms ease,
+      box-shadow 200ms ease;
+  }
+
+  .btn-primary {
+    background: var(--color-brand);
+    color: var(--color-surface);
+  }
+
+  .btn-outline {
+    border: 1px solid var(--color-brand);
+    color: var(--color-brand);
+    background: transparent;
+  }
+
+  /* Invertido — dentro de seções de fundo escuro */
+  .btn-invert {
+    background: var(--color-surface);
+    color: var(--color-brand);
+  }
+
+  /* Tamanhos — medir no Figma */
+  .btn-sm {
+    font-size: 14px;
+    padding: 10px 18px;
+  }
+
+  .btn-md {
+    font-size: 16px;
+    padding: 14px 24px;
+  }
+
+  .btn-lg {
+    font-size: 18px;
+    padding: 18px 32px;
+  }
+
+  /* --- Cards --- */
+  .card {
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+  }
+
+  /* --- Pill / chip --- */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: var(--radius-pill);
+    font-size: 16px;
+    line-height: 1.4;
+    padding: 12px 20px;
+  }
+}
+
+/* ============================================================
+   Hover — FORA de @layer de propósito.
+   No Tailwind v4 as utilitárias vencem qualquer coisa dentro de
+   @layer components, então `border-transparent` no elemento mataria
+   um hover escrito lá dentro. Regra sem layer vence todas as layers.
+   Ver playbook/09-qa-erros-comuns.md#qa-001
+   ============================================================ */
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+.btn:active {
+  transform: translateY(0);
+}
+.btn-primary:hover {
+  background: var(--color-brand-dark);
+}
+.btn-outline:hover {
+  background: var(--color-brand);
+  color: var(--color-surface);
+}
+.btn:hover .btn-icon {
+  transform: translateX(3px);
+}
+.btn-icon {
+  transition: transform 200ms ease;
+}
+
+/* Card que leva a algum lugar reage; card informativo não. */
+.card-interactive {
+  transition:
+    transform 200ms ease,
+    box-shadow 200ms ease,
+    border-color 200ms ease;
+}
+.card-interactive:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgb(15 23 42 / 0.1);
+}
+
+/* ============================================================
+   Movimento — estado inicial dos reveals.
+   Condicionado à classe .js (setada no <head> do Base.astro):
+   sem JS, nada fica invisível.
+   Ver playbook/05-animacao.md
+   ============================================================ */
+
+.js [data-reveal],
+.js [data-reveal-x],
+.js [data-reveal-stagger] > *,
+.js [data-reveal-words] > [data-palavra] {
+  opacity: 0;
+  will-change: transform, opacity, filter;
+}
+
+.js [data-draw-line] {
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .js [data-reveal],
+  .js [data-reveal-x],
+  .js [data-reveal-stagger] > *,
+  .js [data-reveal-words] > [data-palavra] {
+    opacity: 1;
+  }
+
+  .js [data-draw-line] {
+    transform: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
