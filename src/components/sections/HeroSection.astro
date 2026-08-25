@@ -1,0 +1,121 @@
+---
+/**
+ * Hero — Figma desktop 4010:290 · mobile 4029:2268.
+ *
+ * O palco tem altura fixa nos dois breakpoints (o design é de largura fixa),
+ * e toda a arte é ancorada às bordas para degradar bem entre 1024 e 1440.
+ */
+import Button from '../Button.astro';
+import { CTA_URL } from '../../data/site';
+---
+
+<section id="top" class="px-3 lg:px-10">
+  <div
+    class="relative mx-auto h-[819px] max-w-[1360px] overflow-hidden rounded-[32px] bg-surface-alt lg:h-[570px]"
+  >
+    <!-- Curvas de nível da garrafa. Vetor: escala sem perder nitidez. -->
+    <img
+      src="/images/hero/stripes.svg"
+      alt=""
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-0 size-full object-cover"
+    />
+
+    <!--
+      Anel vermelho: círculo de 838 com furo de 263 (desktop). Feito com
+      `border` em vez de dois elementos — assim o furo é transparente e as
+      curvas de nível aparecem através dele, como no Figma.
+    -->
+    <div
+      aria-hidden="true"
+      class="pointer-events-none absolute left-1/2 top-[607px] size-[458px] -translate-x-1/2 rounded-full border-[157.5px] border-brand lg:left-auto lg:right-[406px] lg:top-[163px] lg:size-[838px] lg:translate-x-1/2 lg:border-[287.5px]"
+    >
+    </div>
+
+    <!--
+      Foto: o recorte transparente original (as pessoas sem fundo), com o
+      mesmo enquadramento do Figma nos dois breakpoints — 156.44% de largura,
+      deslocada -28.22%. O export achatado do node perdia o alpha e escondia
+      o anel vermelho por trás das pessoas.
+    -->
+    <div
+      class="pointer-events-none absolute bottom-[-11px] left-1/2 h-[329px] w-[336px] -translate-x-1/2 overflow-hidden lg:bottom-0 lg:left-auto lg:right-[98px] lg:top-[-33px] lg:h-[603px] lg:w-[616px] lg:translate-x-0"
+    >
+      <img
+        src="/images/hero/pessoas.webp"
+        width="1449"
+        height="1086"
+        alt="Dois jovens trainees da Solar Coca-Cola sorrindo, um deles segurando uma garrafa de Coca-Cola"
+        loading="eager"
+        fetchpriority="high"
+        class="absolute left-[-28.22%] top-0 h-auto w-[156.44%] max-w-none"
+      />
+    </div>
+
+    <div
+      class="absolute left-5 top-20 flex w-[311px] flex-col gap-8 lg:left-[72px] lg:top-1/2 lg:w-[406px] lg:-translate-y-1/2 lg:gap-10"
+    >
+      <div class="flex flex-col gap-8">
+        <div class="flex items-start gap-8">
+          <p
+            class="flex h-11 shrink-0 items-center justify-center gap-2.5 rounded-btn bg-ink p-3 text-xl font-bold text-surface"
+            data-reveal
+          >
+            <img
+              src="/images/hero/setas.webp"
+              alt=""
+              aria-hidden="true"
+              width="52"
+              height="16"
+              class="h-4 w-13"
+            />
+            Supply Chain
+          </p>
+
+          <!-- Desktop: pílula leve e vermelha ao lado do badge. -->
+          <p
+            class="hidden h-11 shrink-0 items-center rounded-btn border border-ink bg-surface px-4 text-lg font-light text-brand lg:flex"
+            data-reveal
+          >
+            Inscrições até 28 de setembro
+          </p>
+        </div>
+
+        <h1 class="flex flex-col gap-8">
+          <span class="display block leading-[0.908] text-brand max-lg:text-[80px] max-lg:leading-[0.925]">Trainee</span>
+          <img
+            src="/images/brand/logo.svg"
+            alt="Solar Coca-Cola"
+            width="363"
+            height="38"
+            class="h-[29px] w-auto lg:h-[38px]"
+          />
+        </h1>
+
+        <p class="text-lg leading-[22px] text-brand" data-reveal>
+          <strong class="font-bold">Paixão</strong> que transforma.<br />
+          <strong class="font-bold">Sede</strong> que impulsiona.
+        </p>
+      </div>
+
+      <div class="flex flex-col items-start gap-4 lg:gap-0" data-reveal>
+        <Button href={CTA_URL}>Inscreva-se</Button>
+
+        <!-- Mobile: a data vira botão cheio, abaixo do CTA (Figma 4029:2374). -->
+        <p
+          class="flex h-11 items-center justify-center rounded-btn border border-ink bg-surface px-8 text-lg font-bold text-ink shadow-solid lg:hidden"
+        >
+          Até 28 de setembro
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { revealOnScroll } from '../../lib/motion';
+
+  // Acima da dobra: só o que NÃO é LCP entra com reveal — o "Trainee", o logo
+  // e a foto aparecem imediatos. Ver playbook/09-qa-erros-comuns.md#qa-006
+  revealOnScroll('#top [data-reveal]', { atraso: 0.1 });
+</script>

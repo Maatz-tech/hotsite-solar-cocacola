@@ -3,28 +3,27 @@ import Button from './Button.astro';
 import { NAV_LINKS, CTA_URL, CTA_LABEL, SITE_NAME } from '../data/site';
 ---
 
-<header class="bg-surface">
-  <div class="container-lp flex h-20 items-center justify-between">
-    <a href="/" class="shrink-0" aria-label={`${SITE_NAME} — página inicial`}>
+<header class="sticky top-0 z-50 bg-surface">
+  <div
+    class="mx-auto flex h-14 max-w-[1440px] items-center justify-between px-6 lg:h-23 lg:px-28"
+  >
+    <a href="#top" class="shrink-0" aria-label={`${SITE_NAME} — topo da página`}>
       <img
         src="/images/brand/logo.svg"
         alt={SITE_NAME}
-        width="140"
-        height="32"
-        class="h-8 w-auto"
+        width="268"
+        height="28"
+        class="h-[22px] w-auto lg:h-7"
         fetchpriority="high"
       />
     </a>
 
     <nav aria-label="Navegação principal" class="hidden lg:block">
-      <ul class="flex items-center gap-6 text-base">
+      <ul class="flex items-center gap-10 text-base font-bold">
         {
           NAV_LINKS.map((link) => (
             <li>
-              <a
-                href={link.href}
-                class="whitespace-nowrap transition-colors hover:text-brand"
-              >
+              <a href={link.href} class="nav-link whitespace-nowrap">
                 {link.label}
               </a>
             </li>
@@ -33,9 +32,78 @@ import { NAV_LINKS, CTA_URL, CTA_LABEL, SITE_NAME } from '../data/site';
       </ul>
     </nav>
 
-    <Button href={CTA_URL} size="sm" class="shrink-0">{CTA_LABEL}</Button>
+    <Button href={CTA_URL} class="hidden lg:inline-flex">{CTA_LABEL}</Button>
+
+    <button
+      type="button"
+      id="menu-toggle"
+      class="-mr-2 flex size-11 items-center justify-center lg:hidden"
+      aria-label="Abrir menu"
+      aria-expanded="false"
+      aria-controls="menu-mobile"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        aria-hidden="true"
+        class="size-6"
+      >
+        <path d="M3 6h18M3 12h18M3 18h18" data-menu-linhas></path>
+      </svg>
+    </button>
   </div>
 
-  <!-- TODO: menu mobile (hamburger com aria-expanded/aria-controls) se o
-       Figma tiver navegação no mobile. Ver playbook/03-componentes-globais.md -->
+  <!-- Menu mobile: fecha com Esc, com clique no link e ao voltar pro desktop -->
+  <div id="menu-mobile" hidden class="border-t border-ink-20 bg-surface lg:hidden">
+    <nav aria-label="Navegação principal (mobile)" class="px-6 py-6">
+      <ul class="flex flex-col gap-1">
+        {
+          NAV_LINKS.map((link) => (
+            <li>
+              <a href={link.href} class="nav-link block py-3 text-lg font-bold">
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <Button href={CTA_URL} class="mt-4 w-full">{CTA_LABEL}</Button>
+    </nav>
+  </div>
 </header>
+
+<script>
+  const botao = document.getElementById('menu-toggle');
+  const menu = document.getElementById('menu-mobile');
+
+  if (botao && menu) {
+    const definir = (aberto: boolean) => {
+      menu.hidden = !aberto;
+      botao.setAttribute('aria-expanded', String(aberto));
+      botao.setAttribute('aria-label', aberto ? 'Fechar menu' : 'Abrir menu');
+    };
+
+    botao.addEventListener('click', () =>
+      definir(botao.getAttribute('aria-expanded') !== 'true')
+    );
+
+    menu.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('a')) definir(false);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !menu.hidden) {
+        definir(false);
+        botao.focus();
+      }
+    });
+
+    // Voltar pro desktop com o menu aberto deixaria `hidden` inconsistente
+    matchMedia('(min-width: 1024px)').addEventListener('change', (e) => {
+      if (e.matches) definir(false);
+    });
+  }
+</script>
