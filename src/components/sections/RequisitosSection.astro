@@ -1,0 +1,167 @@
+---
+/**
+ * Pré-requisitos + Benefícios — Figma 4028:1686 (desktop 4015:213 e 4025:651;
+ * mobile 4031:2669 e 4031:2785).
+ *
+ * No Figma os dois blocos se sobrepõem em 40px: o vermelho sobe por cima do
+ * cinza e só ele arredonda o topo. Por isso vivem no mesmo arquivo.
+ */
+import Eyebrow from '../Eyebrow.astro';
+import RevealText from '../RevealText.astro';
+
+const requisitos = [
+  {
+    icone: '/images/icones/formacao.svg',
+    titulo: 'Formação Acadêmica',
+    texto:
+      'Cursando ensino superior nas modalidades bacharelado, licenciatura ou tecnólogo, nas áreas de Logística, Manutenção ou Engenharia, com ',
+    destaque: 'conclusão entre janeiro/2021 e dez/2026.',
+  },
+  {
+    icone: '/images/icones/modelo-trabalho.svg',
+    titulo: 'Modelo de Trabalho',
+    texto:
+      'Ter disponibilidade para trabalhar presencialmente durante o período do programa.',
+  },
+  {
+    icone: '/images/icones/localizacao.svg',
+    titulo: 'Localização',
+    texto: 'Disponibilidade para atuar nas localizações:',
+    vagas: ['Engenharia - CE', 'Logística - AL e MA', 'Manutenção - MT e BA'],
+  },
+];
+
+const beneficios = [
+  { icone: '/images/icones/salario.svg', rotulo: 'Salário', titulo: 'R$ 7.500,00', sufixo: '/mês' },
+  { icone: '/images/icones/refeicao.svg', titulo: 'Vale-refeição', apoio: 'ou refeitório na unidade' },
+  { icone: '/images/icones/saude.svg', titulo: 'Plano de Saúde' },
+  { icone: '/images/icones/odonto.svg', titulo: 'Plano Odontológico' },
+  { icone: '/images/icones/transporte.svg', titulo: 'Vale-Transporte', apoio: 'ou fretado' },
+  { icone: '/images/icones/seguro-vida.svg', titulo: 'Seguro de Vida' },
+  { icone: '/images/icones/resultados.svg', titulo: 'Participação nos\nResultados Solar' },
+];
+
+const extras = [
+  'Wellhub (Gympass)',
+  'Desconto nos produtos',
+  'Kit Natalino',
+  'Programa de Saúde Emocional',
+  'Telemedicina',
+  'Auxílio-mudança',
+];
+---
+
+<section id="pre-requisitos" class="px-3 lg:px-0">
+  <div
+    class="mx-auto flex max-w-[1440px] flex-col items-center gap-16 rounded-t-[40px] bg-surface-alt px-6 pb-24 pt-16 lg:px-28 lg:pb-35 lg:pt-20"
+  >
+    <div class="flex flex-col items-center gap-4 text-center">
+      <Eyebrow data-reveal>Pré-requisitos</Eyebrow>
+      <RevealText as="h2" class="h2" text="Sua sede de crescer começa aqui" />
+      <p class="lead" data-reveal>
+        Veja os requisitos e vagas para participar do programa
+      </p>
+    </div>
+
+    <div class="flex w-full flex-col items-start gap-12 lg:flex-row lg:justify-center">
+      <img
+        src="/images/requisitos/mesa.webp"
+        width="514"
+        height="351"
+        alt="Cinco jovens sentados à mesa de um refeitório brindando com garrafas de Coca-Cola"
+        loading="lazy"
+        class="w-full rounded-card object-cover lg:w-[514px] lg:shrink-0"
+        data-reveal
+      />
+
+      <div class="flex w-full flex-col gap-4" data-reveal-stagger>
+        {
+          requisitos.map((r) => (
+            <article class="card flex items-start gap-5 py-[33px] pl-[33px] pr-[33px] shadow-solid-lg lg:pr-[65px]">
+              <span class="flex size-13 shrink-0 items-center justify-center rounded-btn bg-brand">
+                <img src={r.icone} alt="" aria-hidden="true" width="24" height="24" class="size-6" loading="lazy" />
+              </span>
+
+              <div class="flex flex-col">
+                <h3 class="text-2xl font-bold leading-[1.5]">{r.titulo}</h3>
+                <p class="body">
+                  {r.texto}
+                  {r.destaque && <strong class="font-bold">{r.destaque}</strong>}
+                </p>
+
+                {r.vagas && (
+                  <ul class="mt-4 flex flex-wrap gap-4">
+                    {r.vagas.map((v) => (
+                      <li class="rounded-lg border border-ink bg-surface px-3 py-2 text-base leading-[1.5] text-ink-70">
+                        {v}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="beneficios" class="-mt-10 px-3 lg:px-0">
+  <div
+    class="mx-auto flex max-w-[1440px] flex-col items-center gap-16 rounded-[40px] bg-brand px-6 py-16 lg:px-28 lg:py-20"
+  >
+    <div class="flex flex-col items-center gap-4 text-center">
+      <span
+        class="inline-flex h-[29px] items-center rounded-md bg-surface px-3.5 text-lg font-light uppercase leading-none text-brand"
+        data-reveal>benefícios</span
+      >
+      <RevealText
+        as="h2"
+        class="h2 text-surface"
+        text="Aqui, seu bem-estar vem junto com o seu crescimento"
+      />
+    </div>
+
+    <ul class="flex flex-wrap items-center justify-center gap-4" data-reveal-stagger>
+      {
+        beneficios.map((b) => (
+          <li class="flex items-center gap-4 rounded-icon bg-surface p-4">
+            <span class="flex shrink-0 items-center justify-center rounded-btn bg-ink p-3">
+              <img src={b.icone} alt="" aria-hidden="true" width="24" height="24" class="size-6" loading="lazy" />
+            </span>
+
+            <span class="flex flex-col gap-1">
+              {b.rotulo && <span class="text-base text-ink-70">{b.rotulo}</span>}
+              <span class="flex items-center gap-1 whitespace-pre-line text-xl font-bold leading-normal text-ink">
+                {b.titulo}
+                {b.sufixo && <span class="font-light text-ink-70">{b.sufixo}</span>}
+              </span>
+              {b.apoio && <span class="text-base text-ink-70">{b.apoio}</span>}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="flex max-w-[742px] flex-wrap items-center justify-center gap-4" data-reveal>
+      <p class="text-xl text-surface">E mais:</p>
+      {
+        extras.map((e) => (
+          <span class="rounded-md bg-ink/20 px-3.5 py-1.5 text-xl text-surface">{e}</span>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  import { revealWords, revealOnScroll, revealStagger } from '../../lib/motion';
+  revealWords('#pre-requisitos [data-reveal-words]');
+  revealOnScroll('#pre-requisitos [data-reveal]', { atraso: 0.15 });
+  revealStagger('#pre-requisitos [data-reveal-stagger]');
+
+  revealWords('#beneficios [data-reveal-words]');
+  revealOnScroll('#beneficios [data-reveal]', { atraso: 0.15 });
+  revealStagger('#beneficios [data-reveal-stagger]');
+</script>
