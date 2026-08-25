@@ -13,13 +13,23 @@ import { CTA_URL } from '../../data/site';
   <div
     class="relative mx-auto h-[819px] max-w-[1360px] overflow-hidden rounded-[32px] bg-surface-alt lg:h-[570px]"
   >
-    <!-- Curvas de nível da garrafa. Vetor: escala sem perder nitidez. -->
-    <img
-      src="/images/hero/stripes.svg"
-      alt=""
-      aria-hidden="true"
-      class="pointer-events-none absolute inset-0 size-full object-cover"
-    />
+    <!--
+      Curvas de nível da garrafa. No desktop é vetor (escala sem perder
+      nitidez); no mobile vai rasterizado: são 67 paths e decodificá-los
+      custava ~2s de LCP em CPU lenta.
+    -->
+    <picture>
+      <source media="(min-width: 1024px)" srcset="/images/hero/stripes.svg" />
+      <img
+        src="/images/hero/stripes-mobile.webp"
+        alt=""
+        aria-hidden="true"
+        width="351"
+        height="819"
+        fetchpriority="high"
+        class="pointer-events-none absolute inset-0 size-full object-cover"
+      />
+    </picture>
 
     <!--
       Anel vermelho: círculo de 838 com furo de 263 (desktop). Feito com
@@ -43,6 +53,8 @@ import { CTA_URL } from '../../data/site';
     >
       <img
         src="/images/hero/pessoas.webp"
+        srcset="/images/hero/pessoas-760.webp 760w, /images/hero/pessoas.webp 1449w"
+        sizes="(min-width: 1024px) 964px, 526px"
         width="1449"
         height="1086"
         alt="Dois jovens trainees da Solar Coca-Cola sorrindo, um deles segurando uma garrafa de Coca-Cola"

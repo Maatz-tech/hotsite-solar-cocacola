@@ -75,6 +75,22 @@ Altura total contra o Figma: **desktop +1,5%** (7487 vs 7378) e **mobile +6,0%**
 (11634 vs 10976). A diferença é a substituição da fonte — Nunito é mais larga
 que a VAG Rounded e quebra linha antes. Deve fechar quando os `.woff2` chegarem.
 
+### Medições (25/08/2026, build de produção)
+
+| | Desktop | Mobile |
+|---|---|---|
+| Performance | **100** | **90–95** (oscila entre execuções) |
+| Acessibilidade | 96 | 96 |
+| Boas práticas | 100 | 100 |
+| SEO | 100 | 100 |
+| LCP | 0,7 s | 2,9–3,5 s |
+| CLS | 0,01 | 0,001 |
+
+Os 96 de acessibilidade são a única violação do axe: contraste do vermelho da
+marca (ver Pendências). Auditoria de usabilidade: 0 elementos sem foco visível,
+0 acordeões abertos no load, 0 erros de console, página inteira visível sem JS
+e com `prefers-reduced-motion`.
+
 ---
 
 ## Assets
@@ -142,6 +158,17 @@ que a VAG Rounded e quebra linha antes. Deve fechar quando os `.woff2` chegarem.
       dizer". Definir qual vale. *Designer.*
 - [ ] **Mobile do Figma é 375px**, e o review roda em 390px. Confirmar que a
       seção estica sem quebrar. *Interno.*
+- [ ] **Contraste do vermelho da marca** — branco sobre `#FF0000` dá 4,0:1 e o
+      vermelho sobre branco também. WCAG AA pede 4,5:1 para texto de 18px
+      bold (que não conta como "texto grande"). Vale para todo botão primário e
+      para os textos vermelhos. **Não mudei nada**: é a cor da marca, veio do
+      Figma, e escurecer é decisão de design. Opções: escurecer o vermelho do
+      texto para `#D40000` (4,8:1) mantendo o fundo, ou subir o texto dos
+      botões para 20px bold. *Designer/Cliente.*
+- [ ] **Título dos depoimentos diverge entre breakpoints** — desktop diz
+      "Talentos que passaram pelo programa", mobile diz "O que nossas pessoas
+      Solares têm a dizer". Está o do desktop nos dois. Confirmar qual vale.
+      *Cliente/Designer.*
 - [ ] **Respostas do FAQ** — bloqueia a seção 11. As 5 perguntas estão no
       Figma, as respostas não existem (nós `FAQ Answer` são placeholder). O
       acordeão está pronto: é só preencher `resposta` em `src/data/faq.ts`.

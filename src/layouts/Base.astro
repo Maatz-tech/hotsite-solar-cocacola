@@ -48,9 +48,35 @@ const jsonLd = {
          em global.css e remover este <link>. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Carrega sem bloquear a pintura: com font-display:swap o texto aparece
+         na fallback e troca sozinho quando a fonte chega. -->
     <link
-      rel="stylesheet"
+      rel="preload"
+      as="style"
       href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;700&display=swap"
+      onload="this.rel='stylesheet'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;700&display=swap"
+      />
+    </noscript>
+
+    <!-- Pré-carrega o LCP de cada breakpoint (o `media` evita baixar os dois). -->
+    <link
+      rel="preload"
+      as="image"
+      href="/images/hero/stripes-mobile.webp"
+      media="(max-width: 1023px)"
+      fetchpriority="high"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/hero/stripes.svg"
+      media="(min-width: 1024px)"
+      fetchpriority="high"
     />
 
     <!-- Open Graph -->
