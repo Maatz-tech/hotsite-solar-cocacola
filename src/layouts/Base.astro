@@ -11,7 +11,7 @@ interface Props {
 
 const {
   title,
-  description = '<Descrição padrão do site — 140 a 160 caracteres.>',
+  description = 'Programa de Trainee 2026 da Solar Coca-Cola para Supply Chain. Uma trilha de aprendizagem com desafios práticos e mentoria das principais lideranças.',
   ogImage = '/og.jpg',
 } = Astro.props;
 
@@ -41,12 +41,14 @@ const jsonLd = {
          a página para quem está sem JS. Ver playbook/05-animacao.md -->
     <script is:inline>document.documentElement.classList.add('js');</script>
 
-    <!-- Fonte do projeto — trocar família e pesos (≤ 4 pesos) -->
+    <!-- Nunito = substituta do Google Fonts para a VAG Rounded Std (licenciada,
+         ainda não entregue). Quando os .woff2 chegarem, declarar os @font-face
+         em global.css e remover este <link>. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;700&display=swap"
     />
 
     <!-- Open Graph -->

@@ -1,0 +1,6 @@
+# Solar Coca-Cola — Trainee 2026 · será indexado no lançamento.
+User-agent: *
+Allow: /
+
+# PENDENTE: apontar para o domínio final quando definido.
+# Sitemap: https://<dominio>/sitemap-index.xml
