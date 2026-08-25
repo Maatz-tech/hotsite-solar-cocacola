@@ -8,7 +8,7 @@ import { CTA_URL } from '../../data/site';
 
 <section id="diferenciais" class="px-3 lg:px-0">
   <div
-    class="mx-auto flex max-w-[1440px] flex-col items-center gap-16 rounded-[40px] bg-surface-alt px-6 py-16 lg:px-28 lg:py-25"
+    class="mx-auto flex max-w-[1440px] flex-col items-center gap-16 rounded-3xl lg:rounded-[40px] bg-surface-alt px-6 py-16 lg:px-28 lg:py-25"
   >
     <!-- Sem eyebrow: no Figma a pílula desta seção está hidden (4023:506). -->
     <SectionHeader
@@ -17,27 +17,44 @@ import { CTA_URL } from '../../data/site';
       align="center"
     />
 
-    <div class="grid w-full gap-8 lg:grid-cols-2" data-reveal-stagger>
-      <BenefitCard icone="/images/beneficios/impacto-nacional.svg" titulo="Impacto Nacional">
+    <!--
+      Mobile: carrossel com scroll-snap (Figma 4031:2526 — cards de 327px lado
+      a lado com indicadores). Desktop: grade 2×2.
+    -->
+    <div
+      id="trilho-diferenciais"
+      class="-mx-6 flex w-[calc(100%+48px)] snap-x snap-mandatory gap-4 overflow-x-auto px-6 [scrollbar-width:none] lg:mx-0 lg:grid lg:w-full lg:grid-cols-2 lg:gap-8 lg:overflow-visible lg:px-0 [&::-webkit-scrollbar]:hidden"
+      data-reveal-stagger
+    >
+      <BenefitCard class="w-[327px] shrink-0 snap-start lg:w-auto lg:shrink" icone="/images/beneficios/impacto-nacional.svg" titulo="Impacto Nacional">
         Entregamos sorrisos no Norte, Nordeste e parte do Centro-Oeste,
         alcançando 70% do território brasileiro.
       </BenefitCard>
 
-      <BenefitCard icone="/images/beneficios/escala-global.svg" titulo="Escala Global">
+      <BenefitCard class="w-[327px] shrink-0 snap-start lg:w-auto lg:shrink" icone="/images/beneficios/escala-global.svg" titulo="Escala Global">
         Somos um dos 15 maiores fabricantes do Sistema Coca-Cola no mundo e a 2ª
         maior fabricante do Brasil, impactando milhões de brasileiros.
       </BenefitCard>
 
-      <BenefitCard icone="/images/beneficios/gptw.svg" titulo="Ambiente Reconhecido">
+      <BenefitCard class="w-[327px] shrink-0 snap-start lg:w-auto lg:shrink" icone="/images/beneficios/gptw.svg" titulo="Ambiente Reconhecido">
         Somos certificados pela <strong class="font-bold">Great Place to Work (GPTW)</strong>
         como uma das melhores empresas para se trabalhar no Brasil.
       </BenefitCard>
 
-      <BenefitCard icone="/images/beneficios/cultura.svg" titulo="Nossa Cultura" caixa>
+      <BenefitCard class="w-[327px] shrink-0 snap-start lg:w-auto lg:shrink" icone="/images/beneficios/cultura.svg" titulo="Nossa Cultura" caixa>
         Um ambiente de trabalho seguro e colaborativo, onde a individualidade e a
         autenticidade das nossas pessoas Solares são o combustível para ir além.
       </BenefitCard>
     </div>
+
+    <!-- Indicadores do carrossel: só existem enquanto ele existe (mobile). -->
+    <ul
+      id="pontos-diferenciais"
+      class="-mt-8 flex items-center gap-2 lg:hidden"
+      aria-hidden="true"
+    >
+      {[0, 1, 2, 3].map(() => <li class="size-2.5 rounded-full bg-ink-20 transition-colors" />)}
+    </ul>
 
     <div data-reveal>
       <Button href={CTA_URL}>Inscreva-se agora!</Button>
@@ -47,6 +64,28 @@ import { CTA_URL } from '../../data/site';
 
 <script>
   import { revealWords, revealOnScroll, revealStagger } from '../../lib/motion';
+
+  // Ponto ativo = card mais próximo do início do trilho. Só roda no mobile,
+  // onde o trilho realmente rola.
+  const trilho = document.getElementById('trilho-diferenciais');
+  const pontos = document.getElementById('pontos-diferenciais');
+
+  if (trilho && pontos) {
+    const bolinhas = Array.from(pontos.children) as HTMLElement[];
+    const marcar = () => {
+      const cards = Array.from(trilho.children) as HTMLElement[];
+      const alvo = trilho.scrollLeft + trilho.clientWidth / 2;
+      let ativo = 0;
+      let menor = Infinity;
+      cards.forEach((c, i) => {
+        const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - alvo);
+        if (d < menor) { menor = d; ativo = i; }
+      });
+      bolinhas.forEach((b, i) => b.classList.toggle('bg-brand', i === ativo));
+    };
+    trilho.addEventListener('scroll', marcar, { passive: true });
+    marcar();
+  }
   revealWords('#diferenciais [data-reveal-words]');
   revealOnScroll('#diferenciais [data-reveal]', { atraso: 0.15 });
   revealStagger('#diferenciais [data-reveal-stagger]');

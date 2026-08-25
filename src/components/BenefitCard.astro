@@ -15,15 +15,15 @@ const { icone, titulo, caixa = false, class: className = '' } = Astro.props;
 ---
 
 <article
-  class:list={['card flex items-center gap-10 p-8 max-lg:gap-6', className]}
+  class:list={['card flex items-center gap-10 p-8 max-lg:flex-col max-lg:items-start max-lg:gap-6', className]}
 >
   {
     caixa ? (
-      <span class="flex size-20 shrink-0 items-center justify-center overflow-hidden rounded-icon bg-brand p-4">
-        <img src={icone} alt="" aria-hidden="true" width="30" height="50" class="h-[50px] w-auto" loading="lazy" />
+      <span class="flex size-20 shrink-0 items-center justify-center overflow-hidden rounded-icon bg-brand p-4 max-lg:size-12 max-lg:rounded-[9.6px] max-lg:p-[9.6px]">
+        <img src={icone} alt="" aria-hidden="true" width="30" height="50" class="h-[50px] w-auto max-lg:h-[30px]" loading="lazy" />
       </span>
     ) : (
-      <img src={icone} alt="" aria-hidden="true" width="80" height="80" class="size-20 shrink-0" loading="lazy" />
+      <img src={icone} alt="" aria-hidden="true" width="80" height="80" class="size-20 shrink-0 max-lg:size-12" loading="lazy" />
     )
   }
 

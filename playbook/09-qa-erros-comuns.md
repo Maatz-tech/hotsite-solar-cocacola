@@ -214,4 +214,71 @@ improvisado, não.
 
 ---
 
-> Próximo ID livre: **QA-015**
+## QA-015 — Lazy image não aparece no screenshot (rolar num laço síncrono não resolve)
+
+**Categoria:** Build
+**Sintoma:** logo do rodapé, decoração do fim da página ou qualquer imagem com
+`loading="lazy"` sai em branco no print, mesmo com `networkidle` e mesmo estando
+certa no browser.
+**Causa:** o browser só avalia o `IntersectionObserver` do lazy-load **entre
+tarefas**. Um `for (let y = 0; y < h; y += innerHeight) window.scrollTo(0, y)`
+roda inteiro numa tarefa só: a posição final é a única que o browser vê, e se
+ela for o topo, nenhuma imagem de baixo chega a carregar.
+**Correção:** ceder o controle a cada passo da rolagem e só então esperar as
+imagens decodificarem:
+
+```js
+const pausa = () => new Promise((r) => setTimeout(r, 80));
+for (let y = 0; y < document.body.scrollHeight; y += window.innerHeight) {
+  window.scrollTo(0, y);
+  await pausa();
+}
+window.scrollTo(0, 0);
+await pausa();
+```
+
+E correr o `decode()` contra um timeout — `img.decode()` de uma imagem que nunca
+carrega não resolve nunca e trava o script.
+**Como detectar:** `naturalWidth === 0` no elemento, mas a URL responde 200 no
+`curl`.
+
+---
+
+## QA-016 — Screenshot de elemento fotografa antes da pintura
+
+**Categoria:** Build
+**Sintoma:** `locator.screenshot()` de uma seção sai sem as imagens, enquanto o
+screenshot de página inteira sai correto.
+**Causa:** o screenshot de elemento rola a página por conta própria para
+enquadrar o alvo e, com `scroll-behavior: smooth` no `html`, dispara junto com
+uma animação de rolagem — às vezes fotografa no meio.
+**Correção:** tirar a página inteira e recortar pela `boundingBox()` do
+elemento. É determinístico e não depende de rolagem.
+
+```js
+const caixa = await page.locator(selector).first().boundingBox();
+await page.screenshot({ path: out, fullPage: true, clip: caixa });
+```
+
+**Como detectar:** o mesmo elemento sai certo em `fullPage` e errado em
+`locator.screenshot()`.
+
+---
+
+## QA-017 — Export do Figma achata o alpha e some com o que está atrás
+
+**Categoria:** Design intake
+**Sintoma:** uma foto recortada (pessoa sem fundo) tapa a forma que deveria
+aparecer por trás dela — anel, círculo, textura.
+**Causa:** `download_assets` exporta o **nó renderizado no contexto da página**,
+não a imagem-fonte. Se houver qualquer preenchimento atrás, ele vem achatado
+junto e o PNG sai 100% opaco.
+**Correção:** usar o `rawImages` da resposta (a imagem original enviada ao
+Figma, com o recorte preservado) e reproduzir o enquadramento com o mesmo
+`width`/`left`/`top` em % que o `get_design_context` informa.
+**Como detectar:** `Image.open(png).getchannel('A').getextrema() == (255, 255)`
+num asset que deveria ter recorte.
+
+---
+
+> Próximo ID livre: **QA-018**

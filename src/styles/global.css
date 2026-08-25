@@ -124,16 +124,19 @@
     line-height: 1;
   }
 
-  .h1 {
+  /* Mobile tem escala própria no Figma: 32 no heading, 18 no apoio. */
+  .h1,
+  .h2 {
     font-weight: 700;
-    font-size: 48px;
+    font-size: 32px;
     line-height: 1.19;
   }
 
-  .h2 {
-    font-weight: 700;
-    font-size: 48px;
-    line-height: 1.19;
+  @media (width >= 64rem) {
+    .h1,
+    .h2 {
+      font-size: 48px;
+    }
   }
 
   .h3 {
@@ -144,9 +147,15 @@
 
   .lead {
     font-weight: 300;
-    font-size: 20px;
+    font-size: 18px;
     line-height: 1.5;
     color: var(--color-ink-70);
+  }
+
+  @media (width >= 64rem) {
+    .lead {
+      font-size: 20px;
+    }
   }
 
   .body {
@@ -347,6 +356,28 @@
 .seta-carrossel:disabled {
   opacity: 0.5;
   cursor: default;
+}
+
+/* Todo alvo clicável reage — inclusive o cabeçalho do acordeão e o logo.
+   Ver playbook/06-micro-interacoes.md */
+.faq-item summary:hover {
+  color: var(--color-brand);
+}
+.faq-item summary:hover svg {
+  transform: translateY(2px);
+}
+.faq-item[open] summary:hover svg {
+  transform: rotate(-180deg) translateY(2px);
+}
+
+.logo-link {
+  transition:
+    opacity 200ms ease,
+    transform 200ms ease;
+}
+.logo-link:hover {
+  opacity: 0.75;
+  transform: translateY(-1px);
 }
 
 .nav-link:hover {

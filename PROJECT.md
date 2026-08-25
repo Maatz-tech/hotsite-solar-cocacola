@@ -55,21 +55,25 @@ Ordem da página. Nodes desktop → mobile.
 
 | # | Seção | Desktop | Mobile | Status | Notas |
 |---|---|---|---|---|---|
-| 1 | Header | `4010:265` | `4029:2242` | ⬜ | Logo + 4 nav links + CTA. h=92 / 56 |
-| 2 | Hero | `4010:290` | `4029:2268` | ⬜ | Display 108px, "Trainee" |
-| 3 | Sobre a Solar | `4010:796` | `4031:2385` | ⬜ | "Uma empresa brasileira…" |
-| 4 | O programa | `4028:1884` | `4031:2456` | ⬜ | "Conectamos você a um futuro sustentável" |
-| 5 | Porque ser Solar | `4015:5` | `4031:2494` | ⬜ | Grid 2×2 de cards com ícone |
-| 6 | Quem procuramos | `4028:1819` | `4031:2641` | ⬜ | Perfil do time de Supply Chain |
-| 7 | Pré-requisitos | `4015:213` | `4031:2669` | ⬜ | Desktop vive dentro de `4028:1686` |
-| 8 | Benefícios | `4025:651` | `4031:2785` | ⬜ | Desktop vive dentro de `4028:1686` |
-| 9 | Etapas do processo | `4026:905` | `4031:3006` | ⬜ | Timeline Setembro → Outubro → … |
-| 10 | Depoimentos | `4016:377` | `4031:3255` | ⬜ | Cards: `4102:120` `4102:127` `4102:141` `4102:149` `4102:156` |
-| 11 | FAQ | `4016:326` | `4031:3326` | ⬜ | ⚠ texto placeholder de outro projeto no Figma |
-| 12 | Footer | `4016:482` | `4031:2952` | ⬜ | Logos + redes sociais |
-| 13 | Footer legal | `4016:507` | `4031:2992` | ⬜ | Cookies · Privacidade · "Desenvolvido por" |
+| 1 | Header | `4010:265` | `4029:2242` | ✅ | Logo + 4 nav links + CTA. h=92 / 56 |
+| 2 | Hero | `4010:290` | `4029:2268` | ✅ | Display 108px, "Trainee" |
+| 3 | Sobre a Solar | `4010:796` | `4031:2385` | ✅ | "Uma empresa brasileira…" |
+| 4 | O programa | `4028:1884` | `4031:2456` | ✅ | "Conectamos você a um futuro sustentável" |
+| 5 | Porque ser Solar | `4015:5` | `4031:2494` | ✅ | Grid 2×2 de cards com ícone |
+| 6 | Quem procuramos | `4028:1819` | `4031:2641` | ✅ | Perfil do time de Supply Chain |
+| 7 | Pré-requisitos | `4015:213` | `4031:2669` | ✅ | Desktop vive dentro de `4028:1686` |
+| 8 | Benefícios | `4025:651` | `4031:2785` | ✅ | Desktop vive dentro de `4028:1686` |
+| 9 | Etapas do processo | `4026:905` | `4031:3006` | ✅ | Timeline Setembro → Outubro → … |
+| 10 | Depoimentos | `4016:377` | `4031:3255` | 🟡 | Cards: `4102:120` `4102:127` `4102:141` `4102:149` `4102:156` |
+| 11 | FAQ | `4016:326` | `4031:3326` | 🟡 | ⚠ texto placeholder de outro projeto no Figma |
+| 12 | Footer | `4016:482` | `4031:2952` | ✅ | Logos + redes sociais |
+| 13 | Footer legal | `4016:507` | `4031:2992` | ✅ | Cookies · Privacidade · "Desenvolvido por" |
 
 Legenda: ⬜ não começou · 🟡 em andamento · ✅ pixel-perfect validado
+
+Altura total contra o Figma: **desktop +1,5%** (7487 vs 7378) e **mobile +6,0%**
+(11634 vs 10976). A diferença é a substituição da fonte — Nunito é mais larga
+que a VAG Rounded e quebra linha antes. Deve fechar quando os `.woff2` chegarem.
 
 ---
 
@@ -79,9 +83,14 @@ Legenda: ⬜ não começou · 🟡 em andamento · ✅ pixel-perfect validado
 |---|---|---|---|
 | Logo Solar horizontal | Figma `4010:399` | `public/images/brand/logo.svg` | SVG ✅ |
 | Logo Maatz | template | `public/images/brand/maatz.svg` | SVG ✅ |
-| Favicon | — | `public/favicon.svg` (placeholder) | ⬜ pendente |
-| Ícones dos cards | Figma, por seção | `public/images/` | SVG — extrair no loop |
-| Imagem do hero | Figma `4010:290` | `public/images/` | PNG — extrair no loop |
+| Favicon | logo horizontal, remontado empilhado | `public/favicon.svg` + PNG 96/180 | SVG ✅ |
+| Logo branco (rodapé) | recolorido de `logo.svg` | `public/images/brand/logo-branco.svg` | SVG ✅ |
+| Logo Eureca | Figma `4095:94` | `public/images/brand/eureca.webp` | WebP ✅ |
+| Ícones (10) | Figma, por seção | `public/images/icones/` | SVG ✅ |
+| Curvas do hero | Figma `4010:645` | `public/images/hero/stripes.svg` | SVG ✅ |
+| Foto do hero | `rawImages` de `4012:934` | `public/images/hero/pessoas.webp` | WebP ✅ |
+| Fotos de seção (7) | Figma, export 3× | `public/images/<seção>/` | WebP ✅ |
+| Fotos dos depoimentos (5) | Figma `4102:*`, export 3× | `public/images/depoimentos/` | WebP ✅ |
 | VAG Rounded Std | cliente | `public/fonts/*.woff2` | ⬜ pendente |
 
 ---
@@ -96,6 +105,16 @@ Legenda: ⬜ não começou · 🟡 em andamento · ✅ pixel-perfect validado
   YouTube `@SolarBrCocaCola`. Confirmar com o cliente.
 - 2026-08-25 — **Sombra sólida virou token** (`--shadow-solid`) em vez de valor
   solto: aparece em todo botão e card.
+- 2026-08-25 — **Foto do hero usa o `rawImages`**, não o export do nó: o export
+  achata o alpha e o anel vermelho sumia por trás das pessoas. Virou
+  [QA-017](playbook/09-qa-erros-comuns.md).
+- 2026-08-25 — **Anel vermelho feito com `border`** (círculo de 838 com furo de
+  263) em vez de dois elementos: assim o furo é transparente e as curvas de
+  nível aparecem através dele, como no Figma.
+- 2026-08-25 — **Assinatura do rodapé virou texto**, não o vetor do Figma —
+  mesmo desenho, e legível por leitor de tela e por busca.
+- 2026-08-25 — **Carrosséis com scroll-snap nativo** (depoimentos e, no mobile,
+  os diferenciais) em vez de biblioteca: funciona por toque, teclado e sem JS.
 
 ---
 
@@ -108,7 +127,12 @@ Legenda: ⬜ não começou · 🟡 em andamento · ✅ pixel-perfect validado
       em pelo menos 4 seções. *Cliente.*
 - [ ] **URLs de Aviso de Cookies e Política de Privacidade** — `LEGAL_LINKS`
       está `#`. *Cliente.*
-- [ ] **Favicon** — não existe ainda; hoje é o placeholder do template. *Cliente.*
+- [ ] **Favicon** — montei um a partir do logo horizontal (SOLAR + Coca-Cola
+      empilhados, fundo branco), igual à imagem que você mandou. Confirmar se é
+      esse mesmo o arquivo oficial. *Cliente.*
+- [ ] **Foto do hero em resolução maior** — a original no Figma tem 1449×1086,
+      o que dá só 1,5× no slot do desktop. Pedir a foto em pelo menos 2000px de
+      largura. *Cliente/Designer.*
 - [ ] **Confirmar as 3 redes sociais** lidas das annotations do Figma. *Cliente.*
 - [ ] **FAQ com texto de outro projeto** — o Figma tem "Não vendemos só a licença.
       Entregamos a proteção configurada…" na seção 11, além de `FAQ Question` /
@@ -118,3 +142,7 @@ Legenda: ⬜ não começou · 🟡 em andamento · ✅ pixel-perfect validado
       dizer". Definir qual vale. *Designer.*
 - [ ] **Mobile do Figma é 375px**, e o review roda em 390px. Confirmar que a
       seção estica sem quebrar. *Interno.*
+- [ ] **Respostas do FAQ** — bloqueia a seção 11. As 5 perguntas estão no
+      Figma, as respostas não existem (nós `FAQ Answer` são placeholder). O
+      acordeão está pronto: é só preencher `resposta` em `src/data/faq.ts`.
+      *Cliente.* **Bloqueante para a entrega.**

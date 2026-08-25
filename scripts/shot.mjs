@@ -29,14 +29,50 @@ await page.goto(url, { waitUntil: 'networkidle' });
 await page.evaluate(() => document.fonts.ready);
 // o dev toolbar do Astro injeta <header>/<footer> próprios — fora daqui
 await page.evaluate(() => document.querySelector('astro-dev-toolbar')?.remove());
+
+// Imagem com loading="lazy" fora da viewport não carrega sozinha. Rolar num
+// laço síncrono não resolve: o browser só avalia o IntersectionObserver entre
+// tarefas, então é preciso ceder o controle a cada passo.
+await page.evaluate(async () => {
+  const pausa = () => new Promise((r) => setTimeout(r, 80));
+  for (let y = 0; y < document.body.scrollHeight; y += window.innerHeight) {
+    window.scrollTo(0, y);
+    await pausa();
+  }
+  window.scrollTo(0, 0);
+  await pausa();
+
+  // decode() de uma imagem que nunca carrega não resolve nunca — corre contra
+  // um timeout para o screenshot não travar por causa de um asset quebrado.
+  await Promise.race([
+    Promise.all(
+      Array.from(document.images)
+        .filter((img) => !img.complete)
+        .map((img) => img.decode().catch(() => {}))
+    ),
+    new Promise((r) => setTimeout(r, 3000)),
+  ]);
+});
+
 // Header sticky se sobrepõe ao topo da seção no screenshot de elemento —
 // esconde para a comparação medir a seção, não a sobreposição.
 if (selector && !selector.includes('header')) {
   await page.addStyleTag({ content: 'header { visibility: hidden !important; }' });
 }
 
-const target = selector ? page.locator(selector) : page;
-await target.screenshot({ path: out, ...(selector ? {} : { fullPage: true }) });
+// Screenshot de elemento rola a página por conta própria e às vezes fotografa
+// antes das imagens pintarem. Tirar a página inteira e recortar pela caixa do
+// elemento é determinístico.
+if (selector) {
+  const caixa = await page.locator(selector).first().boundingBox();
+  if (!caixa) {
+    console.error(`erro: seletor '${selector}' não encontrado`);
+    process.exit(1);
+  }
+  await page.screenshot({ path: out, fullPage: true, clip: caixa });
+} else {
+  await page.screenshot({ path: out, fullPage: true });
+}
 
 await browser.close();
 console.log(`✓ ${out}`);
