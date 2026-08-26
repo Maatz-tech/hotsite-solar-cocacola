@@ -8,7 +8,14 @@ import { CTA_URL } from '../../data/site';
 ---
 
 <section id="talentos" class="relative px-6 py-16 lg:px-28 lg:py-25">
-  <Estrela class="absolute right-20 top-[62px] size-26 text-brand max-lg:right-4 max-lg:top-8 max-lg:size-16" />
+  <!--
+    O selo acompanha o container, não a borda da tela: a caixa abaixo tem a
+    largura do desenho (1440) e fica centrada, então em telas largas ele para
+    junto do conteúdo em vez de fugir para o canto.
+  -->
+  <div class="pointer-events-none absolute inset-0 mx-auto max-w-[1440px]">
+    <Estrela class="absolute right-20 top-[62px] size-26 text-brand max-lg:right-4 max-lg:top-8 max-lg:size-16" />
+  </div>
 
   <!-- No mobile a foto entra entre o título e o corpo (Figma 4031:2641). -->
   <div class="mx-auto grid max-w-lp gap-8 lg:grid-cols-[1fr_488px] lg:items-start lg:gap-x-20">

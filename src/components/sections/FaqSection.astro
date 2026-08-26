@@ -10,15 +10,18 @@ import { FAQ } from '../../data/faq';
 ---
 
 <section id="faq" class="relative overflow-hidden px-6 py-16 lg:px-28 lg:py-25">
-  <img
-    src="/images/faq/garrafa.svg"
-    alt=""
-    aria-hidden="true"
-    width="646"
-    height="739"
-    loading="lazy"
-    class="pointer-events-none absolute -right-15 -top-0.5 h-[739px] w-[646px] max-lg:hidden"
-  />
+  <!-- Mesma ancoragem do selo em Talentos: caixa de 1440 centrada. -->
+  <div class="pointer-events-none absolute inset-0 mx-auto max-w-[1440px] overflow-hidden max-lg:hidden">
+    <img
+      src="/images/faq/garrafa.svg"
+      alt=""
+      aria-hidden="true"
+      width="646"
+      height="739"
+      loading="lazy"
+      class="absolute -right-15 -top-0.5 h-[739px] w-[646px]"
+    />
+  </div>
 
   <div class="relative mx-auto max-w-lp">
     <RevealText as="h2" class="h2" text="Perguntas frequentes" />
