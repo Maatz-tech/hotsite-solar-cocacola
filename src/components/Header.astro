@@ -18,21 +18,24 @@ import { NAV_LINKS, CTA_URL, CTA_LABEL, SITE_NAME } from '../data/site';
       />
     </a>
 
-    <nav aria-label="Navegação principal" class="hidden lg:block">
-      <ul class="flex items-center gap-10 text-base font-bold">
-        {
-          NAV_LINKS.map((link) => (
-            <li>
-              <a href={link.href} class="nav-link whitespace-nowrap">
-                {link.label}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </nav>
+    <!-- Nav e CTA formam um bloco só à direita (Figma 4010:419, gap 64). -->
+    <div class="hidden items-center gap-16 lg:flex">
+      <nav aria-label="Navegação principal">
+        <ul class="flex items-center gap-10 text-base font-bold">
+          {
+            NAV_LINKS.map((link) => (
+              <li>
+                <a href={link.href} class="nav-link whitespace-nowrap">
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
 
-    <Button href={CTA_URL} class="hidden lg:inline-flex">{CTA_LABEL}</Button>
+      <Button href={CTA_URL}>{CTA_LABEL}</Button>
+    </div>
 
     <button
       type="button"

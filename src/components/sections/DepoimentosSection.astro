@@ -101,7 +101,7 @@ const decorativos = [
 
     <div
       id="trilho-depoimentos"
-      class="flex snap-x snap-mandatory gap-8 overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      class="trilho-arrastavel flex snap-x snap-mandatory gap-8 overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       tabindex="0"
       role="group"
       aria-roledescription="carrossel"
@@ -142,6 +142,7 @@ const decorativos = [
 
 <script>
   import { revealWords } from '../../lib/motion';
+  import { arrastavelComMouse } from '../../lib/carrossel';
   revealWords('#depoimentos [data-reveal-words]');
 
   const trilho = document.getElementById('trilho-depoimentos');
@@ -163,5 +164,9 @@ const decorativos = [
 
     trilho.addEventListener('scroll', sincronizar, { passive: true });
     sincronizar();
+
+    // No desktop as setas eram a única forma de trocar: o mouse não arrasta
+    // contêiner de scroll sozinho.
+    arrastavelComMouse(trilho);
   }
 </script>

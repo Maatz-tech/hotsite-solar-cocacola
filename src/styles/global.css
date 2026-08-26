@@ -279,6 +279,19 @@
     transition: transform 200ms ease;
   }
 
+  /* Trilho de carrossel: a mão indica que dá pra arrastar. Só no ponteiro
+     fino — no toque o swipe é nativo e cursor não existe. */
+  @media (hover: hover) and (pointer: fine) {
+    .trilho-arrastavel {
+      cursor: grab;
+    }
+
+    .trilho-arrastavel.arrastando {
+      cursor: grabbing;
+      user-select: none;
+    }
+  }
+
   /* Seta do carrossel — círculo vermelho, apaga quando não há para onde ir. */
   .seta-carrossel {
     display: flex;

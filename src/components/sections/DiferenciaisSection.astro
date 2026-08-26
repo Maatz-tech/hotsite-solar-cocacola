@@ -24,7 +24,7 @@ import { CTA_URL } from '../../data/site';
     -->
     <div
       id="trilho-diferenciais"
-      class="-mx-6 -my-2 flex w-[calc(100%+48px)] snap-x snap-mandatory gap-4 overflow-x-auto px-6 py-2 [scrollbar-width:none] lg:mx-0 lg:my-0 lg:grid lg:w-full lg:grid-cols-2 lg:gap-8 lg:overflow-visible lg:p-0 [&::-webkit-scrollbar]:hidden"
+      class="trilho-arrastavel -mx-6 -my-2 flex w-[calc(100%+48px)] snap-x snap-mandatory gap-4 overflow-x-auto px-6 py-2 [scrollbar-width:none] lg:mx-0 lg:my-0 lg:grid lg:w-full lg:grid-cols-2 lg:gap-8 lg:overflow-visible lg:p-0 [&::-webkit-scrollbar]:hidden"
       data-reveal-stagger
     >
       <BenefitCard class="w-[327px] shrink-0 snap-start lg:w-auto lg:shrink" icone="/images/beneficios/impacto-nacional.svg" titulo="Impacto Nacional">
@@ -65,6 +65,7 @@ import { CTA_URL } from '../../data/site';
 
 <script>
   import { revealWords, revealOnScroll, revealStagger } from '../../lib/motion';
+  import { arrastavelComMouse } from '../../lib/carrossel';
 
   // Ponto ativo = card mais próximo do início do trilho. Só roda no mobile,
   // onde o trilho realmente rola.
@@ -86,6 +87,7 @@ import { CTA_URL } from '../../data/site';
     };
     trilho.addEventListener('scroll', marcar, { passive: true });
     marcar();
+    arrastavelComMouse(trilho);
   }
   revealWords('#diferenciais [data-reveal-words]');
   revealOnScroll('#diferenciais [data-reveal]', { atraso: 0.15 });
