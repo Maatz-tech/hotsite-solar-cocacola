@@ -93,9 +93,10 @@ const extras = [
                 </p>
 
                 {r.vagas && (
-                  <ul class="mt-4 flex flex-wrap gap-4">
+                  <!-- No mobile os chips empilham (Figma 4031:2669). -->
+                  <ul class="mt-4 flex flex-col gap-4 lg:flex-row lg:flex-wrap">
                     {r.vagas.map((v) => (
-                      <li class="rounded-lg border border-ink bg-surface px-3 py-2 text-base leading-[1.5] text-ink-70">
+                      <li class="w-fit rounded-lg border border-ink bg-surface px-3 py-2 text-base leading-[1.5] text-ink-70">
                         {v}
                       </li>
                     ))}
@@ -115,7 +116,8 @@ const extras = [
   <div
     class="mx-auto flex max-w-[1440px] flex-col items-center gap-16 rounded-3xl lg:rounded-[40px] bg-brand px-6 py-16 lg:px-28 lg:py-20"
   >
-    <div class="flex flex-col items-center gap-4 text-center">
+    <!-- Mobile alinha à esquerda; desktop centraliza (Figma 4031:2785 vs 4025:651). -->
+    <div class="flex w-full flex-col items-start gap-4 text-left lg:items-center lg:text-center">
       <span
         class="inline-flex h-[29px] items-center rounded-md bg-surface px-3.5 text-lg font-light uppercase leading-none text-brand"
         data-reveal>benefícios</span
@@ -151,7 +153,11 @@ const extras = [
       }
     </ul>
 
-    <div class="flex max-w-[742px] flex-wrap items-center justify-center gap-4" data-reveal>
+    <!-- Mobile: lista vertical à esquerda (Figma 4031:2880). Desktop: em linha, centralizado. -->
+    <div
+      class="flex w-full max-w-[742px] flex-col items-start gap-4 lg:w-auto lg:flex-row lg:flex-wrap lg:items-center lg:justify-center"
+      data-reveal
+    >
       <p class="text-xl text-surface">E mais:</p>
       {
         extras.map((e) => (

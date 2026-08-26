@@ -57,11 +57,16 @@ const decorativos = [
       <div class="flex flex-col gap-6">
         <RevealText
           as="h2"
-          class="text-[40px] font-bold leading-[48px] text-black"
+          class="h2 text-center text-black lg:hidden"
+          text="O que nossas pessoas Solares têm a dizer"
+        />
+        <RevealText
+          as="h2"
+          class="text-[40px] font-bold leading-[48px] text-black max-lg:hidden"
           text="Talentos que passaram pelo programa"
         />
 
-        <div class="flex gap-3">
+        <div class="flex gap-3 max-lg:hidden">
           <button
             type="button"
             data-carrossel="anterior"
@@ -101,7 +106,7 @@ const decorativos = [
 
     <div
       id="trilho-depoimentos"
-      class="trilho-arrastavel flex snap-x snap-mandatory gap-8 overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      class="trilho-arrastavel flex snap-x snap-mandatory gap-8 overflow-x-auto scroll-pl-6 scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       tabindex="0"
       role="group"
       aria-roledescription="carrossel"
@@ -122,11 +127,11 @@ const decorativos = [
               height="400"
               alt={d.nome}
               loading="lazy"
-              class="h-[400px] w-[300px] shrink-0 rounded-btn border border-ink object-cover shadow-solid-lg max-lg:h-[320px] max-lg:w-full"
+              class="h-[400px] w-[300px] shrink-0 rounded-btn border border-ink object-cover object-top shadow-solid-lg max-lg:aspect-[279/227] max-lg:h-auto max-lg:w-full"
             />
 
             <div class="flex flex-1 flex-col justify-between gap-8 self-stretch">
-              <p class="text-lg leading-[1.5] text-ink-70 [&>strong]:font-bold [&>strong]:text-brand" set:html={d.citacao} />
+              <p class="text-lg leading-[1.5] text-ink-70 max-lg:text-base [&>strong]:font-bold [&>strong]:text-brand" set:html={d.citacao} />
 
               <div class="flex flex-col gap-1">
                 <p class="text-xl font-bold leading-[1.3]">{d.nome}</p>
@@ -137,6 +142,22 @@ const decorativos = [
         ))
       }
     </div>
+
+    <!-- Mobile: indicadores no lugar das setas (Figma 4031:3319). -->
+    <ul id="pontos-depoimentos" class="flex items-center justify-center gap-1 lg:hidden">
+      {
+        depoimentos.map((d, i) => (
+          <li>
+            <button
+              type="button"
+              class="ponto-carrossel block"
+              aria-current="false"
+              aria-label={`Ver depoimento de ${d.nome}`}
+            />
+          </li>
+        ))
+      }
+    </ul>
   </div>
 </section>
 
@@ -168,5 +189,33 @@ const decorativos = [
     // No desktop as setas eram a única forma de trocar: o mouse não arrasta
     // contêiner de scroll sozinho.
     arrastavelComMouse(trilho);
+  }
+
+  const pontos = document.getElementById('pontos-depoimentos');
+
+  if (trilho && pontos) {
+    const bolinhas = Array.from(pontos.querySelectorAll('button'));
+    const cards = () => Array.from(trilho.children) as HTMLElement[];
+
+    const marcar = () => {
+      const alvo = trilho.scrollLeft + trilho.clientWidth / 2;
+      let ativo = 0;
+      let menor = Infinity;
+      cards().forEach((c, i) => {
+        const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - alvo);
+        if (d < menor) { menor = d; ativo = i; }
+      });
+      bolinhas.forEach((b, i) => b.setAttribute('aria-current', String(i === ativo)));
+    };
+
+    bolinhas.forEach((b, i) =>
+      b.addEventListener('click', () => {
+        const card = cards()[i];
+        if (card) trilho.scrollTo({ left: card.offsetLeft - trilho.offsetLeft });
+      })
+    );
+
+    trilho.addEventListener('scroll', marcar, { passive: true });
+    marcar();
   }
 </script>

@@ -24,7 +24,7 @@ import { CTA_URL } from '../../data/site';
     -->
     <div
       id="trilho-diferenciais"
-      class="trilho-arrastavel -mx-6 -my-2 flex w-[calc(100%+48px)] snap-x snap-mandatory gap-4 overflow-x-auto px-6 py-2 [scrollbar-width:none] lg:mx-0 lg:my-0 lg:grid lg:w-full lg:grid-cols-2 lg:gap-8 lg:overflow-visible lg:p-0 [&::-webkit-scrollbar]:hidden"
+      class="trilho-arrastavel -mx-6 -my-2 flex w-[calc(100%+48px)] snap-x snap-mandatory gap-4 overflow-x-auto scroll-pl-6 px-6 py-2 [scrollbar-width:none] lg:mx-0 lg:my-0 lg:grid lg:w-full lg:grid-cols-2 lg:gap-8 lg:overflow-visible lg:p-0 [&::-webkit-scrollbar]:hidden"
       data-reveal-stagger
     >
       <BenefitCard class="w-[327px] shrink-0 snap-start lg:w-auto lg:shrink" icone="/images/beneficios/impacto-nacional.svg" titulo="Impacto Nacional">
@@ -49,12 +49,19 @@ import { CTA_URL } from '../../data/site';
     </div>
 
     <!-- Indicadores do carrossel: só existem enquanto ele existe (mobile). -->
-    <ul
-      id="pontos-diferenciais"
-      class="-mt-8 flex items-center gap-2 lg:hidden"
-      aria-hidden="true"
-    >
-      {[0, 1, 2, 3].map(() => <li class="size-2.5 rounded-full bg-ink-20 transition-colors" />)}
+    <ul id="pontos-diferenciais" class="-mt-8 flex items-center gap-2 lg:hidden">
+      {
+        [0, 1, 2, 3].map((i) => (
+          <li>
+            <button
+              type="button"
+              class="ponto-carrossel block"
+              aria-current="false"
+              aria-label={`Ir para o card ${i + 1} de 4`}
+            />
+          </li>
+        ))
+      }
     </ul>
 
     <div data-reveal>
@@ -73,18 +80,27 @@ import { CTA_URL } from '../../data/site';
   const pontos = document.getElementById('pontos-diferenciais');
 
   if (trilho && pontos) {
-    const bolinhas = Array.from(pontos.children) as HTMLElement[];
+    const bolinhas = Array.from(pontos.querySelectorAll('button'));
+    const cards = () => Array.from(trilho.children) as HTMLElement[];
+
     const marcar = () => {
-      const cards = Array.from(trilho.children) as HTMLElement[];
       const alvo = trilho.scrollLeft + trilho.clientWidth / 2;
       let ativo = 0;
       let menor = Infinity;
-      cards.forEach((c, i) => {
+      cards().forEach((c, i) => {
         const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - alvo);
         if (d < menor) { menor = d; ativo = i; }
       });
-      bolinhas.forEach((b, i) => b.classList.toggle('bg-brand', i === ativo));
+      bolinhas.forEach((b, i) => b.setAttribute('aria-current', String(i === ativo)));
     };
+
+    bolinhas.forEach((b, i) =>
+      b.addEventListener('click', () => {
+        const card = cards()[i];
+        if (card) trilho.scrollTo({ left: card.offsetLeft - trilho.offsetLeft });
+      })
+    );
+
     trilho.addEventListener('scroll', marcar, { passive: true });
     marcar();
     arrastavelComMouse(trilho);

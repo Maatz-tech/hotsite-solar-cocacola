@@ -3,7 +3,7 @@ import Button from './Button.astro';
 import { NAV_LINKS, CTA_URL, CTA_LABEL, SITE_NAME } from '../data/site';
 ---
 
-<header class="sticky top-0 z-50 bg-surface">
+<header id="site-header" class="sticky top-0 z-50 bg-surface">
   <div
     class="mx-auto flex h-14 max-w-[1440px] items-center justify-between px-6 lg:h-23 lg:px-28"
   >
@@ -78,6 +78,35 @@ import { NAV_LINKS, CTA_URL, CTA_LABEL, SITE_NAME } from '../data/site';
   </div>
 </header>
 
+<style>
+  /* O reveal mora no CSS para não piscar antes do script rodar. A transição
+     só existe com JS ativo — sem ele o header fica parado e visível. */
+  #site-header {
+    transition:
+      transform 300ms ease,
+      box-shadow 300ms ease;
+    will-change: transform;
+  }
+
+  #site-header.recolhido {
+    transform: translateY(-100%);
+  }
+
+  /* Revelado no meio da página, ele flutua sobre a seção: precisa de um
+     apoio visual, senão some no fundo claro. */
+  #site-header.flutuando {
+    box-shadow:
+      0 1px 0 var(--color-ink-08),
+      0 8px 24px rgb(40 40 40 / 0.06);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #site-header {
+      transition: none;
+    }
+  }
+</style>
+
 <script>
   const botao = document.getElementById('menu-toggle');
   const menu = document.getElementById('menu-mobile');
@@ -108,5 +137,54 @@ import { NAV_LINKS, CTA_URL, CTA_LABEL, SITE_NAME } from '../data/site';
     matchMedia('(min-width: 1024px)').addEventListener('change', (e) => {
       if (e.matches) definir(false);
     });
+  }
+
+  /**
+   * Header que recolhe ao descer e reaparece ao subir.
+   *
+   * Nunca recolhe: no topo da página, com o menu mobile aberto (o botão de
+   * fechar mora nele) e com `prefers-reduced-motion` — aí ele fica parado.
+   */
+  const cabecalho = document.getElementById('site-header');
+
+  if (cabecalho) {
+    const menosMovimento = matchMedia('(prefers-reduced-motion: reduce)');
+    const FOLGA = 4; // ignora tremidas de 1-2px do trackpad
+
+    let ultimo = window.scrollY;
+    let agendado = false;
+
+    const avaliar = () => {
+      agendado = false;
+      const y = window.scrollY;
+      const altura = cabecalho.offsetHeight;
+      const menuAberto = menu ? !menu.hidden : false;
+
+      if (y <= altura || menuAberto || menosMovimento.matches) {
+        cabecalho.classList.remove('recolhido');
+      } else if (y > ultimo + FOLGA) {
+        cabecalho.classList.add('recolhido');
+      } else if (y < ultimo - FOLGA) {
+        cabecalho.classList.remove('recolhido');
+      }
+
+      cabecalho.classList.toggle('flutuando', y > altura);
+      ultimo = y;
+    };
+
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (agendado) return;
+        agendado = true;
+        requestAnimationFrame(avaliar);
+      },
+      { passive: true }
+    );
+
+    // Abrir o menu com o header recolhido esconderia o próprio botão de fechar.
+    botao?.addEventListener('click', () => cabecalho.classList.remove('recolhido'));
+
+    avaliar();
   }
 </script>

@@ -14,7 +14,7 @@ import { CTA_URL } from '../../data/site';
     junto do conteúdo em vez de fugir para o canto.
   -->
   <div class="pointer-events-none absolute inset-0 mx-auto max-w-[1440px]">
-    <Estrela class="absolute right-20 top-[62px] size-26 text-brand max-lg:right-4 max-lg:top-8 max-lg:size-16" />
+    <Estrela class="absolute right-20 top-[62px] size-26 text-brand max-lg:hidden" />
   </div>
 
   <!-- No mobile a foto entra entre o título e o corpo (Figma 4031:2641). -->
@@ -24,6 +24,18 @@ import { CTA_URL } from '../../data/site';
       <RevealText as="h2" class="h2" text="Quem procuramos para o time de Supply Chain?" />
     </div>
 
+    <img
+      src="/images/talentos/selfie.webp"
+      srcset="/images/talentos/selfie-sm.webp 660w, /images/talentos/selfie.webp 1479w"
+      sizes="(min-width: 1024px) 488px, calc(100vw - 48px)"
+      width="488"
+      height="345"
+      alt="Grupo de cinco jovens da Solar Coca-Cola tirando uma selfie com garrafas de Coca-Cola"
+      loading="lazy"
+      class="w-full rounded-card border border-ink object-cover shadow-solid-lg lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:h-full"
+      data-reveal
+    />
+
     <div class="flex flex-col items-start gap-8 lg:col-start-1 lg:row-start-2">
       <p class="rich-text" data-reveal>
         Buscamos talentos com sede que impulsiona e que enxergam cada desafio
@@ -32,22 +44,11 @@ import { CTA_URL } from '../../data/site';
         construir uma trajetória de conquistas, o seu lugar é aqui!
       </p>
 
-      <div data-reveal>
-        <Button href={CTA_URL}>Quero ser Trainee Solar Coca-Cola!</Button>
+      <div class="w-full lg:w-auto" data-reveal>
+        <Button href={CTA_URL} class="w-full lg:w-auto">Quero ser Trainee Solar Coca-Cola!</Button>
       </div>
     </div>
 
-    <img
-      src="/images/talentos/selfie.webp"
-        srcset="/images/talentos/selfie-sm.webp 660w, /images/talentos/selfie.webp 1479w"
-        sizes="(min-width: 1024px) 488px, calc(100vw - 48px)"
-      width="488"
-      height="345"
-      alt="Grupo de cinco jovens da Solar Coca-Cola tirando uma selfie com garrafas de Coca-Cola"
-      loading="lazy"
-      class="w-full rounded-card border border-ink object-cover shadow-solid-lg max-lg:order-first lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:h-full"
-      data-reveal
-    />
   </div>
 </section>
 

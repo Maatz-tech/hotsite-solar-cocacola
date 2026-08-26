@@ -12,6 +12,7 @@
   --color-brand: #ff0000;        /* vermelho-solar/100 — botões, destaques */
   --color-brand-dark: #cc0000;   /* hover — derivado, não existe no Figma */
   --color-brand-soft: #ff3333;   /* vermelho-solar/80 */
+  --color-brand-weak: #f4c1c1;   /* ponto inativo do carrossel */
   --color-accent: #ff0000;       /* eyebrow — mesma cor da marca */
 
   /* --- Superfícies neutras --- */
@@ -277,6 +278,23 @@
     transform: scaleX(0);
     transform-origin: left center;
     transition: transform 200ms ease;
+  }
+
+  /* Indicador do carrossel. A cor mora aqui, e não em utilitária no elemento:
+     alternar duas classes de background deixa quem vence por ordem na folha,
+     não por ordem de aplicação — e o ativo nunca aparecia. */
+  .ponto-carrossel {
+    width: 10px;
+    height: 10px;
+    border-radius: var(--radius-pill);
+    background: var(--color-brand-weak);
+    transition:
+      background-color 200ms ease,
+      transform 200ms ease;
+  }
+
+  .ponto-carrossel[aria-current='true'] {
+    background: var(--color-brand);
   }
 
   /* Trilho de carrossel: a mão indica que dá pra arrastar. Só no ponteiro
