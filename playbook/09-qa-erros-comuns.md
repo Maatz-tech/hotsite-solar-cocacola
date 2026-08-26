@@ -349,4 +349,80 @@ com `(diâmetro externo - furo) / 2`. Se divergir, foi deduzido errado.
 
 ---
 
-> Próximo ID livre: **QA-022**
+## QA-022 — `position: fixed` dentro de elemento com `transform` não é fixo à viewport
+
+**Categoria:** CSS
+**Sintoma:** um drawer/modal com `fixed inset-0` aparece do tamanho do
+cabeçalho, ou colado nele, em vez de cobrir a tela.
+**Causa:** `transform`, `filter`, `perspective`, `backdrop-filter` e
+`will-change` dessas propriedades fazem o elemento virar **bloco contêiner dos
+descendentes `fixed`**. Um header que recolhe com `translateY` — ou que só
+declara `will-change: transform` — passa a ser a "viewport" de tudo que está
+dentro dele.
+**Correção:** tirar o overlay de dentro do elemento transformado. Em Astro um
+componente pode ter mais de um nó raiz, então o drawer vira irmão do `<header>`,
+não filho.
+**Como detectar:** `getBoundingClientRect()` do overlay não bate com
+`innerWidth`/`innerHeight`.
+
+---
+
+## QA-023 — `overflow-x: auto` recorta também na vertical
+
+**Categoria:** CSS
+**Sintoma:** a borda de baixo e a sombra dos cards de um carrossel somem.
+**Causa:** quando um eixo do `overflow` é diferente de `visible`, o outro deixa
+de ser `visible` também. O trilho recorta na vertical mesmo você só tendo pedido
+rolagem horizontal, e o card encostado na borda perde borda e sombra.
+**Correção:** dar folga vertical ao trilho e devolvê-la com margem negativa, para
+o espaçamento não mudar: `py-2 -my-2`.
+**Como detectar:** comparar `trilho.getBoundingClientRect().bottom` com o
+`bottom` do card — se a diferença for menor que o deslocamento da sombra, ela
+está sendo cortada.
+
+---
+
+## QA-024 — Estado ativo alternando duas utilitárias de mesma propriedade
+
+**Categoria:** CSS
+**Sintoma:** o indicador ativo do carrossel nunca muda de cor, mesmo com o
+JavaScript aplicando a classe certa.
+**Causa:** `classList.toggle('bg-brand')` num elemento que já tem `bg-ink-20`
+deixa as duas na folha, com a mesma especificidade. Quem vence é a que aparece
+**depois no CSS**, não a que foi aplicada por último no DOM.
+**Correção:** a cor mora numa regra própria e o JS alterna só um estado
+semântico — `aria-current="true"`, que também é o que o leitor de tela precisa:
+
+```css
+.ponto-carrossel { background: var(--color-brand-weak); }
+.ponto-carrossel[aria-current='true'] { background: var(--color-brand); }
+```
+
+**Como detectar:** no devtools a classe está aplicada e riscada.
+
+---
+
+## QA-025 — Decoração absoluta em seção full-width foge para o canto da tela
+
+**Categoria:** Design intake
+**Sintoma:** o selo/ornamento do canto direito acompanha o conteúdo em 1440 e
+gruda na borda da janela em telas maiores.
+**Causa:** o `absolute right-X` é relativo à `<section>`, que não tem largura
+máxima. O desenho do Figma tem 1440; a seção tem a largura da janela.
+**Correção:** ancorar numa caixa da largura do desenho, centrada:
+
+```html
+<div class="pointer-events-none absolute inset-0 mx-auto max-w-[1440px]">
+  <img class="absolute right-20 top-16" … />
+</div>
+```
+
+Se no Figma a decoração é cortada pela borda do quadro, pôr `overflow-hidden`
+nessa caixa também — senão ela aparece inteira em tela larga e vira outro
+desenho.
+**Como detectar:** medir a distância da decoração até a borda em 1440, 1920 e
+2560. Se não cresce junto com a margem do container, está solta.
+
+---
+
+> Próximo ID livre: **QA-026**

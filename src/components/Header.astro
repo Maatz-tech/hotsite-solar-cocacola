@@ -59,26 +59,105 @@ import { NAV_LINKS, CTA_URL, CTA_LABEL, SITE_NAME } from '../data/site';
     </button>
   </div>
 
-  <!-- Menu mobile: fecha com Esc, com clique no link e ao voltar pro desktop -->
-  <div id="menu-mobile" hidden class="border-t border-ink-20 bg-surface lg:hidden">
-    <nav aria-label="Navegação principal (mobile)" class="px-6 py-6">
-      <ul class="flex flex-col gap-1">
+</header>
+
+<!--
+Drawer mobile. Painel fixo com fundo escurecido, foco preso enquanto aberto e
+rolagem da página travada.
+
+Fica FORA do <header> de propósito: o header tem `will-change: transform` e
+recebe `transform` ao recolher, e um elemento com transform vira o bloco
+contêiner dos descendentes `fixed` — lá dentro, `inset-0` passava a valer a
+caixa do header (375×56) em vez da viewport.
+-->
+<div id="menu-mobile" hidden class="fixed inset-0 z-50 lg:hidden">
+  <div data-fundo class="absolute inset-0 bg-ink/50"></div>
+
+  <div
+    data-painel
+    role="dialog"
+    aria-modal="true"
+    aria-label="Menu de navegação"
+    class="absolute right-0 top-0 flex h-full w-[300px] max-w-[85vw] flex-col bg-surface"
+  >
+    <div class="flex h-14 items-center justify-between px-6">
+      <img
+        src="/images/brand/logo.svg"
+        alt={SITE_NAME}
+        width="268"
+        height="28"
+        class="h-[22px] w-auto"
+      />
+
+      <button
+        type="button"
+        data-fechar
+        class="-mr-2 flex size-11 items-center justify-center"
+        aria-label="Fechar menu"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+          class="size-6"
+        >
+          <path d="M6 6l12 12M18 6L6 18"></path>
+        </svg>
+      </button>
+    </div>
+
+    <nav aria-label="Navegação principal (mobile)" class="flex-1 overflow-y-auto px-6 py-4">
+      <ul class="flex flex-col">
         {
           NAV_LINKS.map((link) => (
             <li>
-              <a href={link.href} class="nav-link block py-3 text-lg font-bold">
+              <a href={link.href} class="nav-link block py-4 text-xl font-bold">
                 {link.label}
               </a>
             </li>
           ))
         }
       </ul>
-      <Button href={CTA_URL} class="mt-4 w-full">{CTA_LABEL}</Button>
     </nav>
+
+    <div class="border-t border-ink-20 p-6">
+      <Button href={CTA_URL} class="w-full">{CTA_LABEL}</Button>
+    </div>
   </div>
-</header>
+</div>
+
 
 <style>
+  /* Drawer: o fundo escurece e o painel entra pela direita. Estado inicial no
+     CSS para não piscar antes do script rodar. */
+  #menu-mobile [data-fundo] {
+    opacity: 0;
+    transition: opacity 250ms ease;
+  }
+
+  #menu-mobile.aberto [data-fundo] {
+    opacity: 1;
+  }
+
+  #menu-mobile [data-painel] {
+    transform: translateX(100%);
+    transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  #menu-mobile.aberto [data-painel] {
+    transform: translateX(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #menu-mobile [data-fundo],
+    #menu-mobile [data-painel] {
+      transition: none;
+    }
+  }
+
   /* O reveal mora no CSS para não piscar antes do script rodar. A transição
      só existe com JS ativo — sem ele o header fica parado e visível. */
   #site-header {
@@ -112,30 +191,80 @@ import { NAV_LINKS, CTA_URL, CTA_LABEL, SITE_NAME } from '../data/site';
   const menu = document.getElementById('menu-mobile');
 
   if (botao && menu) {
+    const painel = menu.querySelector<HTMLElement>('[data-painel]')!;
+    const menosMovimento = matchMedia('(prefers-reduced-motion: reduce)');
+    const FOCAVEIS = 'a[href], button:not([disabled])';
+
+    let fechando: number | undefined;
+
     const definir = (aberto: boolean) => {
-      menu.hidden = !aberto;
+      clearTimeout(fechando);
       botao.setAttribute('aria-expanded', String(aberto));
-      botao.setAttribute('aria-label', aberto ? 'Fechar menu' : 'Abrir menu');
+
+      if (aberto) {
+        menu.hidden = false;
+        // Trava a rolagem da página sem deixar o layout pular quando existe
+        // barra de rolagem visível.
+        const barra = window.innerWidth - document.documentElement.clientWidth;
+        document.body.style.overflow = 'hidden';
+        if (barra > 0) document.body.style.paddingRight = `${barra}px`;
+        // Espera um frame: sem isso a transição não roda, o painel já nasce aberto.
+        requestAnimationFrame(() => menu.classList.add('aberto'));
+        painel.querySelector<HTMLElement>(FOCAVEIS)?.focus();
+      } else {
+        menu.classList.remove('aberto');
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+        const espera = menosMovimento.matches ? 0 : 300;
+        fechando = window.setTimeout(() => {
+          menu.hidden = true;
+        }, espera);
+      }
     };
 
-    botao.addEventListener('click', () =>
-      definir(botao.getAttribute('aria-expanded') !== 'true')
-    );
+    const estaAberto = () => botao.getAttribute('aria-expanded') === 'true';
 
-    menu.addEventListener('click', (e) => {
+    botao.addEventListener('click', () => definir(!estaAberto()));
+    menu.querySelector('[data-fechar]')?.addEventListener('click', () => {
+      definir(false);
+      botao.focus();
+    });
+    menu.querySelector('[data-fundo]')?.addEventListener('click', () => definir(false));
+
+    // Clicar num link navega e fecha.
+    painel.addEventListener('click', (e) => {
       if ((e.target as HTMLElement).closest('a')) definir(false);
     });
 
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !menu.hidden) {
+      if (!estaAberto()) return;
+
+      if (e.key === 'Escape') {
         definir(false);
         botao.focus();
+        return;
+      }
+
+      // Prende o Tab no painel: sem isso o foco escapa para a página atrás,
+      // que está visualmente coberta.
+      if (e.key === 'Tab') {
+        const alvos = Array.from(painel.querySelectorAll<HTMLElement>(FOCAVEIS));
+        if (!alvos.length) return;
+        const primeiro = alvos[0];
+        const ultimo = alvos[alvos.length - 1];
+        if (e.shiftKey && document.activeElement === primeiro) {
+          e.preventDefault();
+          ultimo.focus();
+        } else if (!e.shiftKey && document.activeElement === ultimo) {
+          e.preventDefault();
+          primeiro.focus();
+        }
       }
     });
 
-    // Voltar pro desktop com o menu aberto deixaria `hidden` inconsistente
+    // Voltar pro desktop com o menu aberto deixaria a rolagem travada.
     matchMedia('(min-width: 1024px)').addEventListener('change', (e) => {
-      if (e.matches) definir(false);
+      if (e.matches && estaAberto()) definir(false);
     });
   }
 
