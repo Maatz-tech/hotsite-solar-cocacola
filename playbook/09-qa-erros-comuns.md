@@ -425,4 +425,25 @@ desenho.
 
 ---
 
-> Próximo ID livre: **QA-026**
+## QA-026 — Borda dupla: o export do Figma já traz borda e sombra desenhadas
+
+**Categoria:** Design intake
+**Sintoma:** a foto aparece com duas bordas, ou com uma sombra deslocada da
+outra. Some se você remove a borda do CSS, mas aí ela deixa de escalar junto
+com o card.
+**Causa:** `download_assets` exporta o **nó renderizado**. Se o nó é o frame que
+carrega `border` e `drop-shadow` — e no Figma costuma ser, porque a imagem é
+preenchimento desse frame — os dois vêm desenhados dentro do PNG. Aplicar
+`border` e `shadow` no CSS por cima duplica.
+**Correção:** recortar a moldura assada e deixar a do CSS, que é a do design
+system e acompanha o token. Para borda de 1px e sombra `-5px 5px` num export
+em 3×: cortar 18px à esquerda (sombra 5 + borda 1), 3px em cima e à direita,
+18px embaixo.
+**Como detectar:** comparar o tamanho do export com o do nó. Um nó de 300×400
+que exporta 306×406 em 1× tem 6px de moldura embutida. Ou olhar a cor do pixel
+da borda: `Image.open(f).getpixel((0, altura//2))` devolvendo a cor da borda
+em vez de transparente entrega o problema.
+
+---
+
+> Próximo ID livre: **QA-027**
