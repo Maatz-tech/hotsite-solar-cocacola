@@ -13,9 +13,8 @@ export const SITE_NAME = 'Solar Coca-Cola';
 // PENDENTE: domínio final não definido — trocar antes da entrega.
 export const SITE_URL = 'https://exemplo.com.br';
 
-/** Destino do CTA principal. */
-// PENDENTE: URL do formulário de inscrição não informada.
-export const CTA_URL = '#';
+/** Destino do CTA principal — formulário de inscrição (Eureca). */
+export const CTA_URL = 'https://go.eureca.me/N1DfGX';
 export const CTA_LABEL = 'Inscreva-se agora';
 
 export const NAV_LINKS = [

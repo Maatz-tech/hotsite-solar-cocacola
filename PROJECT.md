@@ -141,11 +141,12 @@ e com `prefers-reduced-motion`.
 
 ## Pendências / bloqueios
 
+> **Resolvida em 26/08** — destino dos CTAs: `https://go.eureca.me/N1DfGX`
+> (Eureca). Aplicado em `CTA_URL`, que alimenta os 7 CTAs da página.
+
 - [ ] **Domínio final** — trava canonical, OG, sitemap e `robots.txt`. *Cliente.*
 - [ ] **VAG Rounded Std (.woff2)** — Light e Bold. Até chegar, o site renderiza
       em Nunito e não fecha pixel-perfect. *Cliente.*
-- [ ] **URL do formulário de inscrição** — `CTA_URL` está `#`, e o CTA aparece
-      em pelo menos 4 seções. *Cliente.*
 - [ ] **URLs de Aviso de Cookies e Política de Privacidade** — `LEGAL_LINKS`
       está `#`. *Cliente.*
 - [ ] **Favicon** — montei um a partir do logo horizontal (SOLAR + Coca-Cola
