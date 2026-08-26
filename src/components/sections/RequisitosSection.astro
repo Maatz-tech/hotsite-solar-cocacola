@@ -67,7 +67,7 @@ const extras = [
       <img
         src="/images/requisitos/mesa.webp"
         srcset="/images/requisitos/mesa-sm.webp 660w, /images/requisitos/mesa.webp 1542w"
-        sizes="(min-width: 1024px) 514px, 100vw"
+        sizes="(min-width: 1024px) 514px, calc(100vw - 72px)"
         width="514"
         height="351"
         alt="Cinco jovens sentados à mesa de um refeitório brindando com garrafas de Coca-Cola"
@@ -109,7 +109,8 @@ const extras = [
   </div>
 </section>
 
-<section id="beneficios" class="-mt-10 px-3 lg:px-0">
+<!-- No mobile a seção sangra de borda a borda (Figma 4031:2785, x=0 w=375). -->
+<section id="beneficios" class="-mt-10 lg:px-0">
   <div
     class="mx-auto flex max-w-[1440px] flex-col items-center gap-16 rounded-3xl lg:rounded-[40px] bg-brand px-6 py-16 lg:px-28 lg:py-20"
   >
@@ -125,10 +126,13 @@ const extras = [
       />
     </div>
 
-    <ul class="flex flex-wrap items-center justify-center gap-4" data-reveal-stagger>
+    <ul
+      class="flex w-full flex-col gap-4 lg:w-auto lg:flex-row lg:flex-wrap lg:items-center lg:justify-center"
+      data-reveal-stagger
+    >
       {
         beneficios.map((b) => (
-          <li class="flex items-center gap-4 rounded-icon bg-surface p-4">
+          <li class="flex h-20 items-center gap-4 rounded-icon bg-surface p-4 lg:h-auto lg:w-auto">
             <span class="flex shrink-0 items-center justify-center rounded-btn bg-ink p-3">
               <img src={b.icone} alt="" aria-hidden="true" width="24" height="24" class="size-6" loading="lazy" />
             </span>

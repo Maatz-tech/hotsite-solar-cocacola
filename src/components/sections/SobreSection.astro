@@ -42,7 +42,7 @@ const fotos = [
             <img
               src={foto.src}
               srcset={`${foto.src.replace('.webp', '-sm.webp')} 320w, ${foto.src} 696w`}
-              sizes="(min-width: 1024px) 232px, 45vw"
+              sizes="(min-width: 1024px) 232px, calc(50vw - 36px)"
               alt={foto.alt}
               width="232"
               height="357"
@@ -56,7 +56,7 @@ const fotos = [
       <img
         src="/images/sobre/card-icones.webp"
         srcset="/images/sobre/card-icones-sm.webp 660w, /images/sobre/card-icones.webp 1464w"
-        sizes="(min-width: 1024px) 488px, 100vw"
+        sizes="(min-width: 1024px) 488px, calc(100vw - 48px)"
         alt=""
         aria-hidden="true"
         width="488"

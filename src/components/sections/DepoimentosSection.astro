@@ -116,7 +116,7 @@ const decorativos = [
             <img
               src={d.foto}
               srcset={`${d.foto.replace('.webp', '-sm.webp')} 620w, ${d.foto} 918w`}
-              sizes="(min-width: 1024px) 300px, 100vw"
+              sizes="(min-width: 1024px) 300px, calc(100vw - 120px)"
               width="300"
               height="400"
               alt={d.nome}

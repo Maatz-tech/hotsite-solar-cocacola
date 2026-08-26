@@ -32,13 +32,14 @@ import { CTA_URL } from '../../data/site';
     </picture>
 
     <!--
-      Anel vermelho: círculo de 838 com furo de 263 (desktop). Feito com
-      `border` em vez de dois elementos — assim o furo é transparente e as
-      curvas de nível aparecem através dele, como no Figma.
+      Anel vermelho. No Figma é um círculo com TRAÇO, não dois círculos
+      sobrepostos: `stroke-width` 120 sobre r=359 no desktop (4012:936) e 64
+      sobre r=197 no mobile (4029:2377). Reproduzido com `border`, que deixa o
+      furo transparente e as curvas de nível aparecerem através dele.
     -->
     <div
       aria-hidden="true"
-      class="pointer-events-none absolute left-1/2 top-[607px] size-[458px] -translate-x-1/2 rounded-full border-[157.5px] border-brand lg:left-auto lg:right-[406px] lg:top-[163px] lg:size-[838px] lg:translate-x-1/2 lg:border-[287.5px]"
+      class="pointer-events-none absolute left-1/2 top-[607px] size-[458px] -translate-x-1/2 rounded-full border-[64px] border-brand lg:left-auto lg:right-[406px] lg:top-[163px] lg:size-[838px] lg:translate-x-1/2 lg:border-[120px]"
     >
     </div>
 
@@ -59,7 +60,6 @@ import { CTA_URL } from '../../data/site';
         height="1086"
         alt="Dois jovens trainees da Solar Coca-Cola sorrindo, um deles segurando uma garrafa de Coca-Cola"
         loading="eager"
-        fetchpriority="high"
         class="absolute left-[-28.22%] top-0 h-auto w-[156.44%] max-w-none"
       />
     </div>

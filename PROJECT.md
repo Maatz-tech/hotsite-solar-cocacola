@@ -124,9 +124,14 @@ e com `prefers-reduced-motion`.
 - 2026-08-25 — **Foto do hero usa o `rawImages`**, não o export do nó: o export
   achata o alpha e o anel vermelho sumia por trás das pessoas. Virou
   [QA-017](playbook/09-qa-erros-comuns.md).
-- 2026-08-25 — **Anel vermelho feito com `border`** (círculo de 838 com furo de
-  263) em vez de dois elementos: assim o furo é transparente e as curvas de
-  nível aparecem através dele, como no Figma.
+- 2026-08-25 — **Anel vermelho feito com `border`** em vez de dois elementos:
+  assim o furo é transparente e as curvas de nível aparecem através dele.
+- 2026-08-26 — **Corrigida a espessura do anel** (review de design). Eu tinha
+  lido a `Ellipse 24` (263px, mesmo centro) como o furo; ela não é. No Figma o
+  anel é um círculo com **traço**: `stroke-width` 120 sobre r=359 no desktop
+  (`4012:936`) e 64 sobre r=197 no mobile (`4029:2377`). O furo real tem ~600px
+  no desktop, não 263. Sempre conferir `stroke-width` no SVG do nó antes de
+  deduzir geometria de anel a partir de dois círculos concêntricos.
 - 2026-08-25 — **Assinatura do rodapé virou texto**, não o vetor do Figma —
   mesmo desenho, e legível por leitor de tela e por busca.
 - 2026-08-25 — **Carrosséis com scroll-snap nativo** (depoimentos e, no mobile,

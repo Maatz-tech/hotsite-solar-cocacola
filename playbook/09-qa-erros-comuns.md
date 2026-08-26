@@ -281,4 +281,72 @@ num asset que deveria ter recorte.
 
 ---
 
-> Próximo ID livre: **QA-018**
+## QA-018 — Hover grudado depois do toque no celular
+
+**Categoria:** Micro-interação
+**Sintoma:** no celular, o botão fica com a cor de hover (e o `translate` do
+`:active`) **depois** do toque, como se estivesse pressionado para sempre, até
+o usuário tocar em outro lugar.
+**Causa:** regras `:hover` sem media query. Em touch o browser aplica `:hover`
+no toque e só solta no próximo toque fora do elemento.
+**Correção:** envelopar todo bloco de hover em
+`@media (hover: hover) and (pointer: fine) { … }`. `:active` e `:focus-visible`
+ficam fora — esses valem nos dois.
+**Como detectar:** Playwright com `hasTouch: true`, `touchscreen.tap()` no
+botão e comparar `getComputedStyle` antes e depois; se o `background-color`
+mudou e não voltou, é isto.
+
+---
+
+## QA-019 — Carrossel com `overflow-x` sem foco nem rótulo
+
+**Categoria:** Acessibilidade
+**Sintoma:** axe acusa `scrollable-region-focusable`; o trilho só rola por
+toque ou mouse, e o leitor de tela anuncia o texto solto dos cards.
+**Causa:** um `div` com `overflow-x: auto` é uma região rolável, mas sem
+`tabindex="0"` não recebe foco (o Chrome novo até dá, o Safari e o Firefox
+não) e sem `role`/`aria-label` não tem nome.
+**Correção:** no trilho: `tabindex="0"`, `role="group"`,
+`aria-roledescription="carrossel"`, `aria-label="…"` — e o mesmo tratamento em
+**todos** os trilhos da página, não só no que tem setas.
+**Como detectar:** `axe-core` na viewport mobile, regra
+`scrollable-region-focusable`; ou tabular a página e ver se o trilho aparece na
+ordem.
+
+---
+
+## QA-020 — Lighthouse mede o site errado quando a porta fixa está ocupada
+
+**Categoria:** Build
+**Sintoma:** a nota do Lighthouse não bate com a página, ou o relatório cita
+elementos que não existem no projeto.
+**Causa:** `scripts/lighthouse.mjs` sobe o preview numa **porta fixa (4322)** e
+só espera que ela responda `ok`. Se outro projeto já estiver servindo ali — o
+que acontece o tempo todo com várias sessões abertas — o `spawn` do preview
+falha em silêncio e o Lighthouse mede o site do vizinho.
+**Correção:** antes de medir, confirmar que quem responde na porta é o preview
+que o próprio script subiu — por exemplo, buscando uma string conhecida do
+projeto no HTML, ou sorteando uma porta livre em vez de fixar 4322.
+**Como detectar:** parar o preview e ver se a porta continua respondendo. Se
+continuar, não era ele.
+
+---
+
+## QA-021 — Anel deduzido de dois círculos concêntricos em vez do `stroke-width`
+
+**Categoria:** Design intake
+**Sintoma:** um anel/donut sai com a espessura errada — perna grossa demais e
+furo pequeno demais — mesmo com o diâmetro externo batendo pixel a pixel.
+**Causa:** o `get_metadata` lista dois `<ellipse>` concêntricos e é tentador ler
+o menor como o furo. Ele costuma ser outro elemento. No Figma o anel é **um
+círculo com traço**, e o metadata não mostra `stroke-width`.
+**Correção:** exportar o nó da elipse como SVG (`download_assets` com
+`defaultFormat: "svg"`) e ler `r` e `stroke-width` direto:
+`raio externo = r + stroke/2`, `raio do furo = r - stroke/2`. Em CSS,
+`border: <stroke>px` numa caixa de `2 × raio externo` com `box-sizing: border-box`.
+**Como detectar:** medir a espessura da perna do anel na referência e comparar
+com `(diâmetro externo - furo) / 2`. Se divergir, foi deduzido errado.
+
+---
+
+> Próximo ID livre: **QA-022**
