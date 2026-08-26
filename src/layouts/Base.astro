@@ -43,25 +43,22 @@ const jsonLd = {
          a página para quem está sem JS. Ver playbook/05-animacao.md -->
     <script is:inline>document.documentElement.classList.add('js');</script>
 
-    <!-- Nunito = substituta do Google Fonts para a VAG Rounded Std (licenciada,
-         ainda não entregue). Quando os .woff2 chegarem, declarar os @font-face
-         em global.css e remover este <link>. -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Carrega sem bloquear a pintura: com font-display:swap o texto aparece
-         na fallback e troca sozinho quando a fonte chega. -->
+    <!-- A fonte é servida daqui mesmo: sem preconnect nem CSS de terceiro no
+         caminho crítico. Só os dois pesos que o design usa. -->
     <link
       rel="preload"
-      as="style"
-      href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;700&display=swap"
-      onload="this.rel='stylesheet'"
+      as="font"
+      type="font/woff2"
+      href="/fonts/vag-rounded-light.woff2"
+      crossorigin
     />
-    <noscript>
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;700&display=swap"
-      />
-    </noscript>
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/fonts/vag-rounded-bold.woff2"
+      crossorigin
+    />
 
     <!-- Pré-carrega o LCP de cada breakpoint (o `media` evita baixar os dois). -->
     <link

@@ -29,3 +29,7 @@ docs/local/*.png
 # relatórios de review: os .md ficam versionados, os artefatos pesados não
 docs/review/*.png
 docs/review/*.json
+
+# fontes de origem (os .otf da marca) — o que vai para produção são os
+# .woff2 em public/fonts/, gerados a partir daqui
+VAG-ROUNDED/

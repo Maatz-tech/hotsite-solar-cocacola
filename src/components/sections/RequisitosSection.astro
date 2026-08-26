@@ -94,7 +94,10 @@ const extras = [
 
                 {r.vagas && (
                   <!-- No mobile os chips empilham (Figma 4031:2669). -->
-                  <ul class="mt-4 flex flex-col gap-4 lg:flex-row lg:flex-wrap">
+                  <!-- No Figma (4141:61) a linha de chips tem 492 e extrapola a coluna de
+                       texto: o padding direito de 65px do card vale para o parágrafo,
+                       não para ela. -->
+                  <ul class="mt-4 flex flex-col gap-4 lg:-mr-8 lg:flex-row lg:flex-wrap">
                     {r.vagas.map((v) => (
                       <li class="w-fit rounded-lg border border-ink bg-surface px-3 py-2 text-base leading-[1.5] text-ink-70">
                         {v}
@@ -140,13 +143,13 @@ const extras = [
               <img src={b.icone} alt="" aria-hidden="true" width="24" height="24" class="size-6" loading="lazy" />
             </span>
 
-            <span class="flex flex-col gap-1">
-              {b.rotulo && <span class="text-base text-ink-70">{b.rotulo}</span>}
-              <span class="flex items-center gap-1 whitespace-pre-line text-xl font-bold leading-normal text-ink">
+            <span class="flex flex-col gap-2">
+              {b.rotulo && <span class="text-base leading-[1.19] text-ink-70">{b.rotulo}</span>}
+              <span class="flex items-center gap-1 whitespace-pre-line text-xl font-bold leading-[1.2] text-ink">
                 {b.titulo}
                 {b.sufixo && <span class="font-light text-ink-70">{b.sufixo}</span>}
               </span>
-              {b.apoio && <span class="text-base text-ink-70">{b.apoio}</span>}
+              {b.apoio && <span class="text-base leading-[1.19] text-ink-70">{b.apoio}</span>}
             </span>
           </li>
         ))
