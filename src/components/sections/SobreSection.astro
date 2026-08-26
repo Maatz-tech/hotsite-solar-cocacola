@@ -1,4 +1,5 @@
 ---
+import { asset } from '../../lib/url';
 /**
  * Sobre a Solar — Figma desktop 4010:796 · mobile 4031:2385.
  *
@@ -40,8 +41,8 @@ const fotos = [
         {
           fotos.map((foto) => (
             <img
-              src={foto.src}
-              srcset={`${foto.src.replace('.webp', '-sm.webp')} 320w, ${foto.src} 696w`}
+              src={asset(foto.src)}
+              srcset={`${asset(foto.src.replace('.webp', '-sm.webp'))} 400w, ${asset(foto.src)} 500w`}
               sizes="(min-width: 1024px) 232px, calc(50vw - 36px)"
               alt={foto.alt}
               width="232"
@@ -54,8 +55,8 @@ const fotos = [
       </div>
 
       <img
-        src="/images/sobre/card-icones.webp"
-        srcset="/images/sobre/card-icones-sm.webp 660w, /images/sobre/card-icones.webp 1464w"
+        src={asset('/images/sobre/card-icones.webp')}
+        srcset={`${asset("/images/sobre/card-icones-sm.webp")} 800w, ${asset("/images/sobre/card-icones.webp")} 1000w`}
         sizes="(min-width: 1024px) 488px, calc(100vw - 48px)"
         alt=""
         aria-hidden="true"

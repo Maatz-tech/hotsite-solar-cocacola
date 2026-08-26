@@ -1,4 +1,5 @@
 ---
+import { asset } from '../../lib/url';
 /**
  * Etapas do processo seletivo — Figma desktop 4026:905 · mobile 4031:3006.
  * Cinco colunas no desktop, empilhadas no mobile. A linha vertical é o
@@ -64,7 +65,7 @@ const meses = [
               {m.chamada && (
                 <p class="flex items-start gap-2 px-3 text-base text-brand">
                   <img
-                    src="/images/icones/seta-curva.svg"
+                    src={asset('/images/icones/seta-curva.svg')}
                     alt=""
                     aria-hidden="true"
                     width="20"

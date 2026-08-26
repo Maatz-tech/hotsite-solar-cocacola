@@ -1,4 +1,5 @@
 ---
+import { asset } from '../../lib/url';
 /** Quem procuramos — Figma desktop 4028:1819 · mobile 4031:2641. */
 import Button from '../Button.astro';
 import Eyebrow from '../Eyebrow.astro';
@@ -25,8 +26,8 @@ import { CTA_URL } from '../../data/site';
     </div>
 
     <img
-      src="/images/talentos/selfie.webp"
-      srcset="/images/talentos/selfie-sm.webp 660w, /images/talentos/selfie.webp 1479w"
+      src={asset('/images/talentos/selfie.webp')}
+      srcset={`${asset("/images/talentos/selfie-sm.webp")} 800w, ${asset("/images/talentos/selfie.webp")} 1000w`}
       sizes="(min-width: 1024px) 488px, calc(100vw - 48px)"
       width="488"
       height="345"

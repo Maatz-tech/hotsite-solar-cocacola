@@ -1,5 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
+import { SITE_NAME, SITE_URL, CTA_URL } from '../data/site';
+import {
+  DATA_PUBLICACAO,
+  PRAZO_INSCRICAO,
+  SALARIO_MENSAL,
+  PRACAS,
+  DESCRICAO_VAGA,
+} from '../data/vaga';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import HeroSection from '../components/sections/HeroSection.astro';
@@ -11,9 +19,53 @@ import RequisitosSection from '../components/sections/RequisitosSection.astro';
 import EtapasSection from '../components/sections/EtapasSection.astro';
 import DepoimentosSection from '../components/sections/DepoimentosSection.astro';
 import FaqSection from '../components/sections/FaqSection.astro';
+
+/**
+ * JobPosting — é o que faz a vaga aparecer no Google for Jobs, que é onde
+ * candidato procura. Os dados são os mesmos da página, em src/data/vaga.ts.
+ */
+const vaga = {
+  '@context': 'https://schema.org',
+  '@type': 'JobPosting',
+  title: 'Trainee 2026 — Supply Chain',
+  description: DESCRICAO_VAGA,
+  datePosted: DATA_PUBLICACAO,
+  validThrough: PRAZO_INSCRICAO,
+  employmentType: 'FULL_TIME',
+  directApply: true,
+  applicationContact: { '@type': 'ContactPoint', url: CTA_URL },
+  hiringOrganization: {
+    '@type': 'Organization',
+    name: SITE_NAME,
+    sameAs: SITE_URL,
+    logo: new URL('/images/brand/logo.svg', SITE_URL).href,
+  },
+  jobLocation: PRACAS.map((p) => ({
+    '@type': 'Place',
+    address: {
+      '@type': 'PostalAddress',
+      addressRegion: p.uf,
+      addressCountry: 'BR',
+    },
+  })),
+  baseSalary: {
+    '@type': 'MonetaryAmount',
+    currency: 'BRL',
+    value: {
+      '@type': 'QuantitativeValue',
+      value: SALARIO_MENSAL,
+      unitText: 'MONTH',
+    },
+  },
+  industry: 'Bens de consumo',
+  occupationalCategory: 'Supply Chain',
+};
 ---
 
-<Base title="Trainee 2026 Supply Chain | Solar Coca-Cola">
+<Base
+  title="Trainee 2026 Supply Chain | Solar Coca-Cola — Inscrições abertas"
+  dadosEstruturados={[vaga]}
+>
   <Header />
 
   <main id="main">

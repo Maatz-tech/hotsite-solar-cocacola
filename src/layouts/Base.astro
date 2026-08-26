@@ -1,16 +1,25 @@
 ---
 import '../styles/global.css';
 import { SITE_URL, SITE_NAME } from '../data/site';
+import { asset } from '../lib/url';
+
+// `?url` devolve o caminho final do arquivo processado pelo Vite — com hash e
+// já com o `base` aplicado, que é o que o preload precisa apontar.
+import fonteLight from '../assets/fonts/vag-rounded-light.woff2?url';
+import fonteBold from '../assets/fonts/vag-rounded-bold.woff2?url';
 
 interface Props {
   title: string;
   description?: string;
   /** Caminho da imagem OG (1200×630). Relativo a /public. */
   ogImage?: string;
+  /** Schemas extras, além do Organization que toda página emite. */
+  dadosEstruturados?: Record<string, unknown>[];
 }
 
 const {
   title,
+  dadosEstruturados = [],
   description = 'Programa de Trainee 2026 da Solar Coca-Cola para Supply Chain. Uma trilha de aprendizagem com desafios práticos e mentoria das principais lideranças.',
   ogImage = '/og.jpg',
 } = Astro.props;
@@ -18,12 +27,16 @@ const {
 const canonical = new URL(Astro.url.pathname, SITE_URL).href;
 const ogImageUrl = new URL(ogImage, SITE_URL).href;
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: SITE_NAME,
-  url: SITE_URL,
-};
+const schemas = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: SITE_NAME,
+    url: SITE_URL,
+    logo: new URL('/images/brand/logo.svg', SITE_URL).href,
+  },
+  ...dadosEstruturados,
+];
 ---
 
 <!doctype html>
@@ -33,9 +46,9 @@ const jsonLd = {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href={asset('/favicon.svg')} />
+    <link rel="icon" type="image/png" sizes="96x96" href={asset('/favicon-96.png')} />
+    <link rel="apple-touch-icon" href={asset('/apple-touch-icon.png')} />
     <title>{title}</title>
 
     <!-- Marca <html> como "com JS" ANTES do primeiro paint: é o que
@@ -49,14 +62,14 @@ const jsonLd = {
       rel="preload"
       as="font"
       type="font/woff2"
-      href="/fonts/vag-rounded-light.woff2"
+      href={fonteLight}
       crossorigin
     />
     <link
       rel="preload"
       as="font"
       type="font/woff2"
-      href="/fonts/vag-rounded-bold.woff2"
+      href={fonteBold}
       crossorigin
     />
 
@@ -64,14 +77,14 @@ const jsonLd = {
     <link
       rel="preload"
       as="image"
-      href="/images/hero/stripes-mobile.webp"
+      href={asset('/images/hero/stripes-mobile.webp')}
       media="(max-width: 1023px)"
       fetchpriority="high"
     />
     <link
       rel="preload"
       as="image"
-      href="/images/hero/stripes.svg"
+      href={asset('/images/hero/stripes.svg')}
       media="(min-width: 1024px)"
       fetchpriority="high"
     />
@@ -91,7 +104,11 @@ const jsonLd = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
 
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
+    {
+      schemas.map((schema) => (
+        <script type="application/ld+json" set:html={JSON.stringify(schema)} is:inline />
+      ))
+    }
   </head>
   <body class="min-h-screen">
     <a

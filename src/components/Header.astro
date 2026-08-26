@@ -1,4 +1,5 @@
 ---
+import { asset } from '../lib/url';
 import Button from './Button.astro';
 import { NAV_LINKS, CTA_URL, CTA_LABEL, SITE_NAME } from '../data/site';
 ---
@@ -9,7 +10,7 @@ import { NAV_LINKS, CTA_URL, CTA_LABEL, SITE_NAME } from '../data/site';
   >
     <a href="#top" class="logo-link shrink-0" aria-label={`${SITE_NAME} — topo da página`}>
       <img
-        src="/images/brand/logo.svg"
+        src={asset('/images/brand/logo.svg')}
         alt={SITE_NAME}
         width="268"
         height="28"
@@ -82,7 +83,7 @@ caixa do header (375×56) em vez da viewport.
   >
     <div class="flex h-14 items-center justify-between px-6">
       <img
-        src="/images/brand/logo.svg"
+        src={asset('/images/brand/logo.svg')}
         alt={SITE_NAME}
         width="268"
         height="28"

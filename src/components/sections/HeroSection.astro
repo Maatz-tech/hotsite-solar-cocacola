@@ -1,4 +1,5 @@
 ---
+import { asset } from '../../lib/url';
 /**
  * Hero — Figma desktop 4010:290 · mobile 4029:2268.
  *
@@ -19,9 +20,9 @@ import { CTA_URL } from '../../data/site';
       custava ~2s de LCP em CPU lenta.
     -->
     <picture>
-      <source media="(min-width: 1024px)" srcset="/images/hero/stripes.svg" />
+      <source media="(min-width: 1024px)" srcset={`${asset("/images/hero/stripes.svg")}`} />
       <img
-        src="/images/hero/stripes-mobile.webp"
+        src={asset('/images/hero/stripes-mobile.webp')}
         alt=""
         aria-hidden="true"
         width="351"
@@ -53,8 +54,8 @@ import { CTA_URL } from '../../data/site';
       class="pointer-events-none absolute bottom-[-11px] left-1/2 h-[329px] w-[336px] -translate-x-1/2 overflow-hidden lg:bottom-0 lg:left-auto lg:right-[98px] lg:top-[-33px] lg:h-[603px] lg:w-[616px] lg:translate-x-0"
     >
       <img
-        src="/images/hero/pessoas.webp"
-        srcset="/images/hero/pessoas-760.webp 760w, /images/hero/pessoas.webp 1449w"
+        src={asset('/images/hero/pessoas.webp')}
+        srcset={`${asset("/images/hero/pessoas-760.webp")} 760w, ${asset("/images/hero/pessoas.webp")} 1449w`}
         sizes="(min-width: 1024px) 964px, 526px"
         width="1449"
         height="1086"
@@ -74,7 +75,7 @@ import { CTA_URL } from '../../data/site';
             data-reveal
           >
             <img
-              src="/images/hero/setas.webp"
+              src={asset('/images/hero/setas.webp')}
               alt=""
               aria-hidden="true"
               width="52"
@@ -95,7 +96,7 @@ import { CTA_URL } from '../../data/site';
         <h1 class="flex flex-col gap-8">
           <span class="display block leading-[0.908] text-brand max-lg:text-[80px] max-lg:leading-[0.925]">Trainee</span>
           <img
-            src="/images/brand/logo.svg"
+            src={asset('/images/brand/logo.svg')}
             alt="Solar Coca-Cola"
             width="363"
             height="38"

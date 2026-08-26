@@ -1,4 +1,5 @@
 ---
+import { asset } from '../../lib/url';
 /**
  * Depoimentos — Figma desktop 4016:377 · mobile 4031:3255.
  * Cards em 4102:120 · 127 · 141 · 149 · 156.
@@ -10,22 +11,16 @@ import RevealText from '../RevealText.astro';
 
 const depoimentos = [
   {
-    foto: '/images/depoimentos/carlos.webp',
-    nome: 'Carlos Antonio Formenton Barp',
-    cargo: 'Coordenador Financeiro',
-    citacao: `“Ser trainee na Solar é viver um aprendizado acelerado, com desafios reais, autonomia e contato com pessoas que te fazem crescer. É a oportunidade de conhecer o negócio de ponta a ponta e construir uma visão estratégica da companhia. Aprendi a enxergar a empresa de forma integrada, entendendo como diferentes áreas se conectam para gerar resultados. Mais do que processos, <strong>o programa me ensinou a liderar, influenciar e aprender continuamente</strong>.”`,
-  },
-  {
-    foto: '/images/depoimentos/augusto.webp',
-    nome: 'Augusto da Rocha Simas Junior',
-    cargo: 'Especialista de Marketing',
-    citacao: `“É se desafiar constantemente, liderando projetos e vivendo mudanças, pressão e responsabilidades que exigem maturidade. Tudo isso amparado por uma forte trilha de desenvolvimento, treinamentos, mentorias e líderes inspiradores. Aprendi a entregar resultados em ambientes de alta complexidade e velocidade, liderando a mim mesmo e multiplicando a cultura da empresa.<strong> No fim, ser Trainee é transformar potencial em resultado</strong>.”`,
-  },
-  {
     foto: '/images/depoimentos/beatriz.webp',
     nome: 'Beatriz Ribeiro Pianco da Silva',
     cargo: 'Especialista de Marketing',
     citacao: `“Vim de fora do mercado de bens de consumo e encontrei um ambiente acolhedor, onde aprendi na prática com times dispostos a ensinar. Ter curiosidade e resiliência para entender que não precisamos ter todas as respostas foi fundamental. <strong>O que mais marcou minha experiência foi estar cercada de pessoas colaborativas, dispostas a compartilhar conhecimento</strong>. Estar conectada com as pessoas certas me fez aprender com os outros e me colocou em prontidão para ensinar os que virão.”`,
+  },
+  {
+    foto: '/images/depoimentos/carlos.webp',
+    nome: 'Carlos Antonio Formenton Barp',
+    cargo: 'Coordenador Financeiro',
+    citacao: `“Ser trainee na Solar é viver um aprendizado acelerado, com desafios reais, autonomia e contato com pessoas que te fazem crescer. É a oportunidade de conhecer o negócio de ponta a ponta e construir uma visão estratégica da companhia. Aprendi a enxergar a empresa de forma integrada, entendendo como diferentes áreas se conectam para gerar resultados. Mais do que processos, <strong>o programa me ensinou a liderar, influenciar e aprender continuamente</strong>.”`,
   },
   {
     foto: '/images/depoimentos/keila.webp',
@@ -38,6 +33,12 @@ const depoimentos = [
     nome: 'Luiz Felipe Ribas Motta',
     cargo: 'Coordenador de Estoque',
     citacao: `Ser trainee na Solar é acelerar o desenvolvimento profissional por meio de projetos estratégicos, mentorias e treinamentos de alto nível. <strong>O programa fortaleceu minha capacidade de liderar iniciativas, enfrentar desafios complexos e gerar valor para o negócio</strong> por meio de dados, transformação digital e melhoria contínua.`,
+  },
+  {
+    foto: '/images/depoimentos/augusto.webp',
+    nome: 'Augusto da Rocha Simas Junior',
+    cargo: 'Especialista de Marketing',
+    citacao: `“É se desafiar constantemente, liderando projetos e vivendo mudanças, pressão e responsabilidades que exigem maturidade. Tudo isso amparado por uma forte trilha de desenvolvimento, treinamentos, mentorias e líderes inspiradores. Aprendi a entregar resultados em ambientes de alta complexidade e velocidade, liderando a mim mesmo e multiplicando a cultura da empresa.<strong> No fim, ser Trainee é transformar potencial em resultado</strong>.”`,
   },
 ];
 
@@ -98,7 +99,7 @@ const decorativos = [
       >
         {
           decorativos.map((d) => (
-            <img src={d.src} alt="" width={d.w} height={d.h} style={`height:${d.h}px`} class="w-auto" loading="lazy" />
+            <img src={asset(d.src)} alt="" width={d.w} height={d.h} style={`height:${d.h}px`} class="w-auto" loading="lazy" />
           ))
         }
       </div>
@@ -120,8 +121,8 @@ const decorativos = [
             aria-label={`${i + 1} de ${depoimentos.length}`}
           >
             <img
-              src={d.foto}
-              srcset={`${d.foto.replace('.webp', '-sm.webp')} 620w, ${d.foto} 918w`}
+              src={asset(d.foto)}
+              srcset={`${asset(d.foto.replace('.webp', '-sm.webp'))} 620w, ${asset(d.foto)} 918w`}
               sizes="(min-width: 1024px) 300px, calc(100vw - 120px)"
               width="300"
               height="400"

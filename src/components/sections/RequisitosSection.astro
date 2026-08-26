@@ -1,4 +1,5 @@
 ---
+import { asset } from '../../lib/url';
 /**
  * Pré-requisitos + Benefícios — Figma 4028:1686 (desktop 4015:213 e 4025:651;
  * mobile 4031:2669 e 4031:2785).
@@ -66,8 +67,8 @@ const extras = [
 
     <div class="flex w-full flex-col items-start gap-12 lg:flex-row lg:justify-center">
       <img
-        src="/images/requisitos/mesa.webp"
-        srcset="/images/requisitos/mesa-sm.webp 660w, /images/requisitos/mesa.webp 1542w"
+        src={asset('/images/requisitos/mesa.webp')}
+        srcset={`${asset("/images/requisitos/mesa-sm.webp")} 800w, ${asset("/images/requisitos/mesa.webp")} 1050w`}
         sizes="(min-width: 1024px) 514px, calc(100vw - 72px)"
         width="514"
         height="351"
@@ -82,7 +83,7 @@ const extras = [
           requisitos.map((r) => (
             <article class="card flex items-start gap-5 p-6 shadow-solid-lg max-lg:flex-col lg:py-[33px] lg:pl-[33px] lg:pr-[65px]">
               <span class="flex size-13 shrink-0 items-center justify-center rounded-btn bg-brand">
-                <img src={r.icone} alt="" aria-hidden="true" width="24" height="24" class="size-6" loading="lazy" />
+                <img src={asset(r.icone)} alt="" aria-hidden="true" width="24" height="24" class="size-6" loading="lazy" />
               </span>
 
               <div class="flex flex-col">
@@ -140,7 +141,7 @@ const extras = [
         beneficios.map((b) => (
           <li class="flex h-20 items-center gap-4 rounded-icon bg-surface p-4 lg:h-auto lg:w-auto">
             <span class="flex shrink-0 items-center justify-center rounded-btn bg-ink p-3">
-              <img src={b.icone} alt="" aria-hidden="true" width="24" height="24" class="size-6" loading="lazy" />
+              <img src={asset(b.icone)} alt="" aria-hidden="true" width="24" height="24" class="size-6" loading="lazy" />
             </span>
 
             <span class="flex flex-col gap-2">

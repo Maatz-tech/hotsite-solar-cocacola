@@ -1,4 +1,5 @@
 ---
+import { asset } from '../../lib/url';
 /**
  * Perguntas frequentes — Figma desktop 4016:326 · mobile 4031:3326.
  *
@@ -13,7 +14,7 @@ import { FAQ } from '../../data/faq';
   <!-- Mesma ancoragem do selo em Talentos: caixa de 1440 centrada. -->
   <div class="pointer-events-none absolute inset-0 mx-auto max-w-[1440px] overflow-hidden max-lg:hidden">
     <img
-      src="/images/faq/garrafa.svg"
+      src={asset('/images/faq/garrafa.svg')}
       alt=""
       aria-hidden="true"
       width="646"
