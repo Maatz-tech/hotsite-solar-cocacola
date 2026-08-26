@@ -11,8 +11,13 @@ import { FAQ } from '../../data/faq';
 ---
 
 <section id="faq" class="relative overflow-hidden px-6 py-16 lg:px-28 lg:py-25">
-  <!-- Mesma ancoragem do selo em Talentos: caixa de 1440 centrada. -->
-  <div class="pointer-events-none absolute inset-0 mx-auto max-w-[1440px] overflow-hidden max-lg:hidden">
+  <!--
+    Mesma ancoragem do selo em Talentos: caixa de 1440 centrada, para a
+    decoração acompanhar o container em telas largas. Sem `overflow-hidden`
+    aqui de propósito: ela transborda a caixa e só é aparada pela seção, que
+    corta na borda da janela e evita rolagem horizontal.
+  -->
+  <div class="pointer-events-none absolute inset-0 mx-auto max-w-[1440px] max-lg:hidden">
     <img
       src={asset('/images/faq/garrafa.svg')}
       alt=""
