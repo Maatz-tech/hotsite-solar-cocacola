@@ -56,14 +56,14 @@ const decorativos = [
   >
     <div class="flex flex-col justify-between gap-10">
       <div class="flex flex-col gap-6">
+        <!--
+          Um título só nos dois breakpoints, a pedido do cliente: o Figma
+          mobile trazia "O que nossas pessoas Solares têm a dizer". O tamanho
+          segue responsivo (32 no mobile, 40 no desktop).
+        -->
         <RevealText
           as="h2"
-          class="h2 text-center text-black lg:hidden"
-          text="O que nossas pessoas Solares têm a dizer"
-        />
-        <RevealText
-          as="h2"
-          class="text-[40px] font-bold leading-[48px] text-black max-lg:hidden"
+          class="text-[32px] font-bold leading-[1.19] text-black max-lg:text-center lg:text-[40px] lg:leading-[48px]"
           text="Talentos que passaram pelo programa"
         />
 

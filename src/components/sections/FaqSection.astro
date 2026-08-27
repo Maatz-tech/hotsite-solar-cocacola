@@ -54,14 +54,9 @@ import { FAQ } from '../../data/faq';
               </svg>
             </summary>
 
-            {item.resposta ? (
-              <p class="body mt-4">{item.resposta}</p>
-            ) : (
-              /* Resposta ainda não recebida — ver src/data/faq.ts */
-              <p class="body mt-4 italic" data-pendente>
-                Resposta pendente de conteúdo do cliente.
-              </p>
-            )}
+            <div class="mt-4 flex flex-col gap-2">
+              {item.resposta.map((paragrafo) => <p class="body">{paragrafo}</p>)}
+            </div>
           </details>
         ))
       }

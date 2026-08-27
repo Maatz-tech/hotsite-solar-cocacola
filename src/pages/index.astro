@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import { SITE_NAME, SITE_URL, CTA_URL } from '../data/site';
+import { FAQ } from '../data/faq';
 import {
   DATA_PUBLICACAO,
   PRAZO_INSCRICAO,
@@ -60,11 +61,22 @@ const vaga = {
   industry: 'Bens de consumo',
   occupationalCategory: 'Supply Chain',
 };
+
+/** Marca as perguntas do FAQ para buscadores e assistentes. */
+const perguntas = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: FAQ.map((item) => ({
+    '@type': 'Question',
+    name: item.pergunta,
+    acceptedAnswer: { '@type': 'Answer', text: item.resposta.join(' ') },
+  })),
+};
 ---
 
 <Base
   title="Trainee 2026 Supply Chain | Solar Coca-Cola — Inscrições abertas"
-  dadosEstruturados={[vaga]}
+  dadosEstruturados={[vaga, perguntas]}
 >
   <Header />
 

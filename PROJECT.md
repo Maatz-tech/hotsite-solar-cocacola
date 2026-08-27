@@ -141,6 +141,10 @@ e com `prefers-reduced-motion`.
 
 ## Pendências / bloqueios
 
+> **Resolvida em 26/08** — respostas do FAQ recebidas do cliente. A 4ª
+> pergunta mudou de "Quando vou receber" para "Como vou receber": a página
+> segue o texto do cliente, não o do Figma.
+>
 > **Resolvida em 26/08** — destino dos CTAs: `https://go.eureca.me/N1DfGX`
 > (Eureca). Aplicado em `CTA_URL`, que alimenta os 7 CTAs da página.
 
@@ -156,9 +160,6 @@ e com `prefers-reduced-motion`.
       o que dá só 1,5× no slot do desktop. Pedir a foto em pelo menos 2000px de
       largura. *Cliente/Designer.*
 - [ ] **Confirmar as 3 redes sociais** lidas das annotations do Figma. *Cliente.*
-- [ ] **FAQ com texto de outro projeto** — o Figma tem "Não vendemos só a licença.
-      Entregamos a proteção configurada…" na seção 11, além de `FAQ Question` /
-      `FAQ Answer` genéricos. Falta o conteúdo real. *Designer/Cliente.*
 - [ ] **Título da seção 10 diverge entre breakpoints** — desktop diz "Talentos que
       passaram pelo programa", mobile diz "O que nossas pessoas Solares têm a
       dizer". Definir qual vale. *Designer.*

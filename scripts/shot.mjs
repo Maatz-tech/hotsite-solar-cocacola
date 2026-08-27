@@ -64,7 +64,19 @@ if (selector && !selector.includes('header')) {
 // antes das imagens pintarem. Tirar a página inteira e recortar pela caixa do
 // elemento é determinístico.
 if (selector) {
-  const caixa = await page.locator(selector).first().boundingBox();
+  // boundingBox() devolve coordenadas da VIEWPORT; o clip de fullPage usa
+  // coordenadas do DOCUMENTO. Com a página rolada, os dois divergem e o
+  // recorte sai da região errada.
+  const caixa = await page.locator(selector).first().evaluate((el) => {
+    const r = el.getBoundingClientRect();
+    return {
+      x: r.x + window.scrollX,
+      y: r.y + window.scrollY,
+      width: r.width,
+      height: r.height,
+    };
+  }).catch(() => null);
+
   if (!caixa) {
     console.error(`erro: seletor '${selector}' não encontrado`);
     process.exit(1);
