@@ -11,7 +11,7 @@ import { asset } from '../lib/url';
 import Instagram from './icons/Instagram.astro';
 import LinkedIn from './icons/LinkedIn.astro';
 import YouTube from './icons/YouTube.astro';
-import { SOCIAL_LINKS, LEGAL_LINKS, SITE_NAME } from '../data/site';
+import { SOCIAL_LINKS, LEGAL_LINKS, MAATZ_URL, SITE_NAME } from '../data/site';
 
 const ICONS = { Instagram, LinkedIn, YouTube };
 ---
@@ -84,7 +84,22 @@ const ICONS = { Instagram, LinkedIn, YouTube };
 
       <p class="flex items-center gap-2 text-surface">
         Desenvolvido por
-        <img src={asset('/images/brand/maatz-branco.svg')} width="72" height="18" alt="Maatz" loading="lazy" class="h-[18px] w-auto" />
+        <a
+          href={MAATZ_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="alvo-44 -m-2 flex p-2 transition-opacity hover:opacity-70"
+          aria-label="Maatz (abre em nova aba)"
+        >
+          <img
+            src={asset('/images/brand/maatz-branco.svg')}
+            width="72"
+            height="18"
+            alt="Maatz"
+            loading="lazy"
+            class="h-[18px] w-auto"
+          />
+        </a>
       </p>
     </div>
   </div>

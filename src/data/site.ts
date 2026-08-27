@@ -31,8 +31,10 @@ export const SOCIAL_LINKS = [
   { label: 'YouTube', href: 'https://www.youtube.com/@SolarBrCocaCola', icon: 'YouTube' },
 ] as const;
 
+/** Assinatura da agência no rodapé. O utm_source identifica de qual site veio. */
+export const MAATZ_URL =
+  'https://maatz.com.br?utm_source=trainee-solar-coca-cola&utm_medium=footer&utm_campaign=portfolio';
+
 export const LEGAL_LINKS = [
-  // PENDENTE: URLs das políticas não informadas.
-  { label: 'Aviso de Cookies', href: '#' },
-  { label: 'Política de Privacidade', href: '#' },
+  { label: 'Política de Privacidade', href: 'https://eureca.me/politica-de-privacidade/' },
 ] as const;

@@ -99,6 +99,7 @@ e com `prefers-reduced-motion`.
 |---|---|---|---|
 | Logo Solar horizontal | Figma `4010:399` | `public/images/brand/logo.svg` | SVG ✅ |
 | Logo Maatz | template | `public/images/brand/maatz.svg` | SVG ✅ |
+| Open Graph | Figma `4168:117` (Bia), export 2× | `public/og.jpg` | JPG ✅ |
 | Favicon | logo horizontal, remontado empilhado | `public/favicon.svg` + PNG 96/180 | SVG ✅ |
 | Logo branco (rodapé) | recolorido de `logo.svg` | `public/images/brand/logo-branco.svg` | SVG ✅ |
 | Logo Eureca | Figma `4095:94` | `public/images/brand/eureca.webp` | WebP ✅ |
@@ -141,6 +142,14 @@ e com `prefers-reduced-motion`.
 
 ## Pendências / bloqueios
 
+> **Resolvida em 27/08** — Open Graph desenhada pela Bia (Figma `4168:117`),
+> exportada em 2× e reduzida para 1200×630. A versão que eu tinha montado
+> saiu junto com o gerador.
+>
+> **Resolvida em 27/08** — rodapé: só Política de Privacidade
+> (`eureca.me/politica-de-privacidade/`), "Aviso de Cookies" removido, e a
+> assinatura da Maatz linkada com UTM.
+>
 > **Resolvida em 26/08** — respostas do FAQ recebidas do cliente. A 4ª
 > pergunta mudou de "Quando vou receber" para "Como vou receber": a página
 > segue o texto do cliente, não o do Figma.
@@ -151,8 +160,6 @@ e com `prefers-reduced-motion`.
 - [ ] **Domínio final** — trava canonical, OG, sitemap e `robots.txt`. *Cliente.*
 - [ ] **VAG Rounded Std (.woff2)** — Light e Bold. Até chegar, o site renderiza
       em Nunito e não fecha pixel-perfect. *Cliente.*
-- [ ] **URLs de Aviso de Cookies e Política de Privacidade** — `LEGAL_LINKS`
-      está `#`. *Cliente.*
 - [ ] **Favicon** — montei um a partir do logo horizontal (SOLAR + Coca-Cola
       empilhados, fundo branco), igual à imagem que você mandou. Confirmar se é
       esse mesmo o arquivo oficial. *Cliente.*
