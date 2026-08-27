@@ -42,7 +42,7 @@ const meses = [
                 e.link ? (
                   <a
                     href={CTA_URL}
-                    class="btn btn-primary flex h-11 items-center rounded-btn px-4 text-lg font-bold"
+                    class="btn btn-primary flex min-h-11 items-center justify-start whitespace-normal rounded-btn px-4 py-2.5 text-left text-lg font-bold leading-6"
                   >
                     {e.texto}
                   </a>
@@ -51,7 +51,7 @@ const meses = [
                   <span class="flex items-center gap-4">
                     <span
                       class:list={[
-                        'flex h-11 items-center rounded-btn px-4 text-lg font-bold text-surface',
+                        'flex min-h-11 items-center rounded-btn px-4 py-2.5 text-lg font-bold leading-6 text-surface',
                         e.destaque ? 'bg-brand' : 'bg-ink',
                       ]}
                     >
