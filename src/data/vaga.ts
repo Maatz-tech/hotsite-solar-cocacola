@@ -19,6 +19,9 @@ export const PRAZO_INSCRICAO = '2026-09-28T23:59:59-03:00';
 
 export const SALARIO_MENSAL = 7500;
 
+/** Duração do programa, em meses. */
+export const DURACAO_MESES = 18;
+
 /** Uma entrada por praça anunciada na seção de pré-requisitos. */
 export const PRACAS = [
   { area: 'Engenharia', uf: 'CE' },
@@ -32,6 +35,6 @@ export const DESCRICAO_VAGA = `Programa de Trainee 2026 da Solar Coca-Cola para 
 
 Uma trilha de aprendizagem robusta, com desafios práticos e mentoria direta das principais lideranças da empresa para impulsionar as carreiras dos novos trainees rumo a posições de destaque.
 
-Pré-requisitos: cursando ensino superior nas modalidades bacharelado, licenciatura ou tecnólogo, nas áreas de Logística, Manutenção ou Engenharia, com conclusão entre janeiro/2021 e dezembro/2026. É necessária disponibilidade para trabalhar presencialmente durante o período do programa.
+Pré-requisitos: cursando ensino superior nas modalidades bacharelado, licenciatura ou tecnólogo, nas áreas de Logística, Manutenção ou Engenharia, com conclusão entre janeiro/2021 e dezembro/2026. É necessária disponibilidade para trabalhar presencialmente durante os 18 meses do programa.
 
 Benefícios: salário de R$ 7.500,00 por mês, vale-refeição ou refeitório na unidade, plano de saúde, plano odontológico, vale-transporte ou fretado, seguro de vida, participação nos resultados, Wellhub (Gympass), desconto nos produtos, kit natalino, programa de saúde emocional, telemedicina e auxílio-mudança.`;
