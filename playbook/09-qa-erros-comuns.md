@@ -474,4 +474,23 @@ ou um pixel escuro isolado antes de começar a foto entrega o problema:
 
 ---
 
-> Próximo ID livre: **QA-028**
+## QA-028 — Referência do Figma volta reduzida e a comparação vira lixo
+
+**Categoria:** Build
+**Sintoma:** o review de design acusa desvio em *todas* as seções, com o projeto
+sempre "maior" que o Figma por uma proporção parecida. Ou várias seções mobile
+com exatamente **1024px** de altura de referência.
+**Causa:** `get_screenshot` tem `maxDimension` padrão de **1024** e reduz sem
+avisar. Uma seção desktop de 1440 de largura volta a 71%; uma seção mobile alta
+é achatada para 1024. O comparativo passa a ser entre escalas diferentes, e todo
+número que sair dele está errado.
+**Correção:** passar `maxDimension` com o maior lado do nó em toda chamada, e
+conferir contra `original_width`/`original_height` da resposta. Melhor ainda:
+puxar a página inteira uma vez e **recortar as seções pelos offsets do
+`get_metadata`** — sai em resolução nativa e gasta uma chamada só.
+**Como detectar:** a razão altura-da-referência ÷ altura-do-nó é a mesma em
+todas as seções (0,71 para desktop de 1440), ou a altura bate em 1024 redondo.
+
+---
+
+> Próximo ID livre: **QA-029**

@@ -67,18 +67,36 @@ for (const vp of quais) {
     deviceScaleFactor: 2,
     isMobile: vp === 'mobile',
     hasTouch: vp === 'mobile',
+    // Sem isto o reveal fica no meio do caminho e o título sai invisível —
+    // ocupando espaço, sem pintar. Com reduced-motion o motion.ts revela tudo
+    // de imediato (o fallback que revela). Mesma correção do shot.mjs.
+    reducedMotion: 'reduce',
   });
   await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
   await page.evaluate(() => document.fonts.ready);
   await page.evaluate(() => document.querySelector('astro-dev-toolbar')?.remove());
+  // O header sticky se sobrepõe ao topo da seção no screenshot de elemento.
+  if (!seletor.includes('header')) {
+    await page.addStyleTag({ content: 'header { visibility: hidden !important; }' });
+  }
   // rola a página inteira para disparar os reveals antes de fotografar
   await page.evaluate(async () => {
-    const h = document.body.scrollHeight;
-    for (let y = 0; y < h; y += 400) {
+    const pausa = () => new Promise((r) => setTimeout(r, 80));
+    for (let y = 0; y < document.body.scrollHeight; y += window.innerHeight) {
       window.scrollTo(0, y);
-      await new Promise((r) => setTimeout(r, 60));
+      await pausa();
     }
     window.scrollTo(0, 0);
+    await pausa();
+    // imagem lazy só decodifica depois de entrar na viewport
+    await Promise.race([
+      Promise.all(
+        Array.from(document.images)
+          .filter((img) => !img.complete)
+          .map((img) => img.decode().catch(() => {}))
+      ),
+      new Promise((r) => setTimeout(r, 3000)),
+    ]);
   });
   await page.waitForTimeout(900);
 

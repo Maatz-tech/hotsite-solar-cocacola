@@ -1,197 +1,190 @@
-# Revisão de design — `/` (página inteira)
+# Revisão de design — 04/09/2026
 
-Base: `docs/review/coleta.json` (26/08/2026). 12 seções × 2 viewports, 24
-comparativos. Referências do Figma baixadas depois da edição do arquivo, logo
-**atuais**. Medições feitas nos PNGs individuais, normalizados para o espaço CSS
-(desktop 1440; mobile: Figma 375, projeto 390).
+Rota `/`, página inteira, desktop (1440) e mobile (390 local × 375 Figma).
+Base: `docs/review/coleta.json` (24 comparativos), referências nativas em
+`docs/reference/`, `docs/review/deltas-figma-04-09.md`.
 
-## Antes de ler a lista
+Nenhum arquivo de código foi alterado.
 
-**A fonte é substituta.** Tudo que é quebra de linha diferente e altura
-acumulada por causa disso não está listado como desvio. Especificamente, estas
-diferenças de altura foram verificadas e **não são erro de implementação**:
+---
 
-| Seção | Δ altura | Causa |
+## 0. Confirmação do levantamento de 04/09
+
+| Item | Confere? | Evidência |
 |---|---|---|
-| Pré-requisitos desktop | +65px | os 3 chips de localização cabem em 1 linha na VAG e quebram em 2 na Nunito. Cards 1 e 2: 175 vs 173 e 151 vs 149 — batem |
-| Sobre desktop | +16px | quebra de linha do corpo |
-| Diferenciais desktop | +16px | quebra do subtítulo |
-| Etapas mobile | +41px | quebra de linha |
-| Footer desktop | +68px | **artefato de medição**: a referência do Figma (`4016:482`) cobre só o bloco vermelho; o rodapé legal é o nó `4016:507`. O bloco vermelho mede 253px nos dois |
+| A1 "Nossos valores" ausente | ✅ | não há `#valores` na página; `docs/reference/valores-*.png` sem par local |
+| A2 carrossel EVP ausente | ✅ | `docs/reference/carrossel-*.png` sem par local |
+| A3 hero desktop −40 | ✅ | anel vermelho e foto deslocam **exatos −40px** (Figma y 204→656, site 164→593); nada além do bloco de conteúdo diverge |
+| A4 "Porque" → "Por que" | ✅ | vale nos **dois** breakpoints |
+| A5 Sobre −62 / −46 | ✅ | banner vermelho 207px idêntico nos dois; só o texto e o "S" maiúsculo diferem |
+| A6 Programa −56 / −94 | ✅ | 3º parágrafo antigo no site |
+| A7 Talentos mobile −68 | ✅ | texto antigo, 4 linhas vs 3 |
 
-Também não entram como desvio: o header fixo sobreposto no topo de algumas
-capturas locais, e os textos com `data-reveal` que não tinham revelado no
-instante do print (pré-requisitos mobile, depoimentos mobile, último card de
-benefícios mobile). São artefatos de captura — a seção correspondente foi
-avaliada pelo que dá para medir.
-
----
-
-## Hero (`#top`) — desktop ⚠ / mobile ⚠
-
-| # | Desvio | Atual | Figma | Onde |
-|---|---|---|---|---|
-| 1 | **Espessura do anel vermelho (desktop)** | `border` 287,5px → furo 263px | ~119px → furo ~600px | `HeroSection.astro:41` |
-| 2 | **Espessura do anel vermelho (mobile)** | `border` 157,5px → furo 143px | ~58px → furo ~342px | `HeroSection.astro:41` |
-| 3 | Fundo do card (mobile) | `#ffffff` | `#f1f1f1` | `stripes-mobile.webp` exportado com fundo branco, cobre o `bg-surface-alt` |
-| 4 | Folga vertical do card (desktop) | 2px topo / 3px base | 26px / 28px | `HeroSection.astro:12,14` — seção 570px vs 619px |
-| 5 | Folga vertical do card (mobile) | 0 | ~5px topo / ~6px base | card `h-[819px]` ocupa a seção inteira; no Figma o card tem 803px |
-| 6 | Rótulo do CTA | "Inscreva-se" | "Inscreva-se agora!" | `HeroSection.astro:114` |
-| 7 | Posição do chip de data (mobile) | abaixo do CTA | acima do "Trainee", logo sob o badge | `HeroSection.astro:116-123` |
-| 8 | Texto do chip (mobile) | "Até 28 de setembro" | "Inscrições até 28 de setembro" | idem |
-| 9 | Estilo do chip (mobile) | `font-bold`, texto `#282828`, `shadow-solid` | peso regular, texto vermelho `#ff0000`, sem sombra | idem |
-| 10 | Gap badge ↔ chip (desktop) | 33px (`gap-8`) | 23px | `HeroSection.astro:71` |
-
-Sobre 1 e 2 — a raiz é a mesma nos dois breakpoints: o diâmetro externo está
-certo (838 / 458, medido: bordas externas coincidem pixel a pixel), o **furo é
-que está pequeno demais**. Ajustando círculos ao contorno medido na referência,
-o furo do Figma é ~0,72 do diâmetro externo nos dois viewports; o código usa
-0,31. Medição de controle da espessura da perna do anel a 563px do topo do card
-(desktop): 195px no projeto, 119px no Figma. No mobile, a 740px: 70px vs 34px.
-
-O que bate e não precisa de atenção: largura e posição do card (40..1399 nos
-dois), posição do badge, tamanho do "Trainee" (`108px` está correto — a
-diferença aparente é métrica da Nunito), foto e enquadramento.
-
-## Header — desktop ⚠ / mobile ✅
-
-| # | Desvio | Atual | Figma | Onde |
-|---|---|---|---|---|
-| 11 | Bloco de navegação deslocado | começa em x=554, folga nav→CTA de 172px | começa em x=695, folga de 61px | `Header.astro:8,21` |
-| 12 | Largura do botão CTA | 216px | 209px | `Header.astro` |
-
-Logo (113..281) e altura (92 vs 93) coincidem. Mobile idêntico.
-
-## Sobre a Solar — desktop ✅ / mobile ✅
-
-Sem desvio mensurável. Alturas 829 vs 813 e 1389 vs 1391, dentro do esperado
-para a substituição de fonte.
-
-## O programa — desktop ✅ / mobile ⚠
-
-| # | Desvio | Atual | Figma | Onde |
-|---|---|---|---|---|
-| 13 | Ordem no mobile | foto → eyebrow → título → texto | eyebrow → título → foto → texto | `ProgramaSection.astro:51` (`max-lg:order-first`) |
-
-Desktop bate (586 vs 584).
-
-## Porque ser Solar (diferenciais) — desktop ⚠ / mobile ⚠
-
-| # | Desvio | Atual | Figma | Onde |
-|---|---|---|---|---|
-| 14 | Cor dos dots do carrossel (mobile) | todos `#d4d4d4`, sem estado ativo | ativo `#ff0000`, inativos `#f4c1c1` | `DiferenciaisSection.astro:56` (`bg-ink-20`) |
-| 15 | Bloco de texto do card 15px mais baixo (desktop) | título a 51px do topo do card | 36px | conteúdo centralizado verticalmente; no Figma ancora no topo |
-
-O resto do grid bate com precisão: colunas 109..703 e 733..1328, gap 30px,
-altura do card 182px nas duas linhas, gap entre linhas 33 vs 31, ícone 79×76 na
-mesma posição.
-
-## Quem procuramos (talentos) — desktop ✅ / mobile ⚠
-
-| # | Desvio | Atual | Figma | Onde |
-|---|---|---|---|---|
-| 16 | Ordem no mobile | foto → eyebrow → título → texto | eyebrow → título → foto → texto | `TalentosSection.astro:41` (`max-lg:order-first`) |
-| 17 | Starburst vermelha no mobile | presente, sobre o canto da foto | não existe no mobile do Figma | `TalentosSection.astro` |
-
-Desktop bate (548 vs 546).
-
-## Pré-requisitos — desktop ✅ / mobile ✅
-
-Sem desvio. Cards, gaps (17px) e coluna da imagem coincidem; a diferença de
-altura é a quebra dos chips (ver tabela do topo). Mobile 1625 vs 1620.
-
-## Benefícios — desktop ⚠ / mobile ⛔
-
-| # | Desvio | Atual | Figma | Onde |
-|---|---|---|---|---|
-| 18 | **Cards do mobile com largura de conteúdo e centralizados** | 236–280px, centralizados, alturas 77–89px | 7 cards de **323px**, largura do container, alinhados à esquerda, altura uniforme 77px | `RequisitosSection.astro:128` (`flex-wrap items-center justify-center`) |
-| 19 | **Seção não sangra no mobile** | margem lateral de 12px, cantos arredondados | full-bleed, 0..375 | `RequisitosSection.astro:112` (`px-3 lg:px-0`) |
-| 20 | Bloco "E mais" no mobile | "E mais:" na mesma linha do 1º chip, chips centralizados | "E mais:" em linha própria, chips à esquerda | `RequisitosSection.astro:149` |
-| 21 | Altura do card no desktop | 89px (padding vertical 21px) | 80px (padding 17px) | `BenefitCard.astro` |
-
-O layout desktop está certo (full-bleed nos dois, linha 1 iniciando em 246 vs
-248, gap entre linhas 19 vs 18). O que aconteceu no mobile é o layout de chips
-do desktop valendo para os dois breakpoints.
-
-## Etapas do processo — desktop ✅ / mobile ✅
-
-Colunas, réguas de mês, chips e alturas coincidem (514 vs 513). Único ponto:
-o Figma escreve "1 . Inscrições online" com espaço antes do ponto; o código usa
-"1." — considerei o Figma o desalinhado aqui, não mexer sem confirmar.
-
-## Depoimentos — desktop ✅ / mobile ⚠
-
-| # | Desvio | Atual | Figma | Onde |
-|---|---|---|---|---|
-| 22 | Controle do carrossel no mobile | setas (topo), nenhum dot | dots vermelhos no rodapé do card, sem setas | `DepoimentosSection.astro:67,78,114` |
-| 23 | Primeiro depoimento no mobile | Carlos Antonio Formenton Barp | Augusto da Rocha Simas Junior | `src/data/depoimentos.ts` |
-
-Desktop é o mais fiel da página: 681px nos dois, card e foto na mesma posição,
-setas com o mesmo tratamento (a anterior a 50% de opacidade). Confirmo a
-pendência já registrada do título divergente entre breakpoints.
-
-## FAQ — desktop ⚠ / mobile ⚠
-
-| # | Desvio | Atual | Figma | Onde |
-|---|---|---|---|---|
-| 24 | Decoração da garrafa deslocada (desktop) | centro em x≈1152 | x≈1343 (sangra pela direita) | `FaqSection.astro` |
-| 25 | Altura do item do acordeão (mobile) | 103px | 91px | `FaqSection.astro` |
-| 26 | Altura do item do acordeão (desktop) | 75px | 72px | idem |
-| 27 | Folga título → 1º item (desktop) | 77px | 69px | idem |
-
-A garrafa em si tem o mesmo tamanho (≈110×330); é o grupo inteiro que está
-~190px à esquerda. Largura e gaps dos itens batem (112..911 no desktop, gap 17px
-nos dois viewports). O primeiro item aberto na referência e a ausência de
-respostas são a pendência já registrada, não desvio de implementação.
-
-## Footer — desktop ✅ / mobile ⚠
-
-| # | Desvio | Atual | Figma | Onde |
-|---|---|---|---|---|
-| 28 | Altura do bloco vermelho no mobile | 372px (padding ~+24 topo, ~+23 base) | 318px | `Footer.astro` |
-| 29 | Logo Eureca no mobile | 162×29 | 128×23 | `Footer.astro` — está usando a medida do desktop |
-
-Desktop bate: bloco vermelho 253px, logo Eureca 162×29 vs 161×28, ícones
-sociais 38px na mesma posição.
+**Três coisas o levantamento não pegou** — estão em §1 e §2 (achados 1, 2 e 3).
+**Duas atribuições do levantamento estão erradas** — ver §4.
 
 ---
 
-## Resumo
+## 1. Bloqueador
+
+### B1 · Diferenciais — o 4º card foi trocado no Figma
+**desktop + mobile** · `src/components/sections/DiferenciaisSection.astro:47-50`
+
+| | Site | Figma |
+|---|---|---|
+| Título | Nossa Cultura | **Proposta de valor ao Colaborador** |
+| Texto | "Um ambiente de trabalho seguro e colaborativo, onde a individualidade e a autenticidade das nossas pessoas Solares são o combustível para ir além." | "**Propósito, Desenvolvimento e Performance**: as três pilares que traduzem nossa marca empregadora e impulsionam a experiência das nossas pessoas Solares." |
+| Ícone | pessoa (`cultura.svg`) na caixa vermelha 80px | garrafa + copo (o mesmo trio do banner do Sobre) na caixa vermelha 80px |
+
+É a mesma família do carrossel EVP (A2) — Propósito / Desenvolvimento /
+Performance. Provavelmente entra junto. Não está no levantamento.
+
+### B2 · Ícone "Impacto Nacional" perdeu o recorte regional
+**desktop + mobile** · `public/images/beneficios/impacto-nacional.svg`
+
+O Figma usa um mapa do Brasil **bicolor**: Norte, Nordeste e parte do
+Centro-Oeste em `#FF0000`, o resto em `#D4D4D4`, com divisas de estado. É a
+ilustração literal dos "70% do território" que o próprio card diz.
+O site usa um Brasil **sólido vermelho, sem divisas** — a informação some.
+
+Medida do vermelho no mobile: Figma 45 × 27px (só a área vermelha, dentro da
+caixa de 48); site 48 × 47px (mapa inteiro vermelho).
+
+---
+
+## 2. Importante
+
+### I1 · Diferenciais — dois textos de card mudaram e ninguém levantou
+**desktop + mobile** · `DiferenciaisSection.astro:29-37`
+
+| Card | Site | Figma |
+|---|---|---|
+| Impacto Nacional | "**Entregamos** sorrisos no Norte…" | "**Distribuímos** sorrisos no Norte…" |
+| Escala Global | "Somos um dos **15** maiores fabricantes… e a 2ª maior **fabricante** do Brasil, impactando **milhões** de brasileiros." | "Somos um dos maiores fabricantes… e a 2ª maior **engarrafadora** do Brasil, impactando **mais de 80 milhões** de brasileiros." |
+
+Efeito colateral no mobile: "Distribuímos" cabe em 3 linhas, "Entregamos" quebra
+em 4 (+24px no card).
+
+### I2 · `gap-16` (64px) no empilhamento mobile — Figma usa 40–48px
+**mobile** · atinge 4 seções
+
+O gap entre o bloco de cabeçalho e o conteúdo, e entre blocos de conteúdo, é
+`gap-16` sem override mobile. No Figma o mobile é mais apertado.
+
+| Seção | Onde | Site | Figma | Arquivo |
+|---|---|---|---|---|
+| Benefícios | título → lista de cards | 64 | ~45 | `RequisitosSection.astro:122` |
+| Benefícios | lista → "E mais:" | 64 | ~45 | idem |
+| FAQ | título → 1º item | 74 | 50 | `FaqSection.astro:13` (gap interno) |
+| Etapas | título → timeline | +26 acumulado | — | `EtapasSection.astro:31` |
+| Diferenciais | indicadores → CTA | 103 | 77 | `DiferenciaisSection.astro:12` |
+
+Sozinho responde por ~+90px de altura no mobile.
+
+### I3 · Footer mobile — padding vertical e logo Eureca
+**mobile** · `src/components/Footer.astro:21,24-31`
+
+| # | Desvio | Site | Figma |
+|---|---|---|---|
+| a | padding-y do bloco vermelho (`py-16`) | 64 | **40** |
+| b | altura do logo Eureca (`h-[30px]`) | 30 | **23** |
+
+Os dois somam **+55px** — é o `+56` inteiro da seção. Tudo o mais bate:
+gap eureca→SOLAR 40/41, logo SOLAR 26/27, assinatura 2 linhas, ícones sociais
+39/40, e a **faixa legal fecha 1:1** (link a 26/28px do topo, Maatz a 61/61,
+altura 104/105).
+
+### I4 · Chips "E mais" com 20px onde o Figma usa 18px
+**mobile + desktop** · `RequisitosSection.astro:167`
+
+`text-xl` (20px/28) + `py-1.5` → pílula de **40px**. Figma: **34px**.
+Larguras medidas dão razão de fonte 1,09–1,10 sobre 6 chips diferentes,
+consistente com 18px. Gap entre chips (16px) e cor (`#D40808`) batem.
+6 chips × 6px = **+36px** no mobile.
+
+### I5 · Botão CTA mobile 4–6px mais alto
+**mobile** · `src/styles/global.css:254-258` (`.btn-md`, height 44)
+
+Medido em Diferenciais mobile: caixa+sombra 47px no site, **41px** no Figma
+(botão ~38–40). Largura bate (210 vs 208) e o rótulo "Inscreva-se agora!" já
+está atualizado.
+
+### I6 · FAQ — item fechado 5px mais alto
+**mobile** · `src/components/sections/FaqSection.astro`
+
+Item: **96px** no site, **91px** no Figma. Pergunta em 2 linhas nos dois; gap
+entre itens 16/17 ✓. 5 itens → +20px.
+
+---
+
+## 3. Polimento
+
+| # | Desvio | Site | Figma | Onde |
+|---|---|---|---|---|
+| P1 | Etapas desktop: "Clique para se inscrever" quebra em 2 linhas | 2 linhas | 1 linha | `EtapasSection.astro` — coluna do mês estreita demais |
+| P2 | Diferenciais mobile: gap título → lead | 27 | 33 | `SectionHeader.astro` |
+| P3 | Benefícios mobile: gap eyebrow → título | 16 (`gap-4`) | ~12 | `RequisitosSection.astro:125` |
+| P4 | Hero mobile: assinatura com ponto final | "transforma." / "impulsiona." | sem ponto | `HeroSection.astro` — cai junto com A3 |
+| P5 | Diferenciais mobile: card fixo em 327px num viewport de 390 | 345 medido | 345 em 375 | `DiferenciaisSection.astro:31` — o "peek" fica maior que o desenhado |
+
+---
+
+## 4. Divergências intencionais — duas atribuições estão erradas
+
+| Alegação (deltas §B) | Veredito |
+|---|---|
+| "FAQ +68 mobile porque temos as respostas reais" | ❌ **Errado.** Os 5 itens estão **fechados** nos dois lados. O +45 é spacing puro: +24 no gap do título (I2) e +5 por item (I6). As respostas não ocupam altura nenhuma no estado de repouso. |
+| "Etapas +41 mobile por causa da correção dos chips" | ❌ **Errado.** Nesta seção os 7 chips estão em **1 linha** no site, iguais ao Figma. O +42 é o gap título → timeline (+26) mais deriva de ±5 por mês. A correção de chip que quebra em duas linhas é a de **Pré-requisitos** (`vagas`), e essa seção fecha em +7. |
+| "Depoimentos +117 mobile: citação real mais longa" | ✅ Correto. O site mostra a Beatriz (5 linhas + destaque), o Figma mostra o Luiz Felipe (4 linhas). Título unificado ✓. |
+| Rodapé sem "Aviso de Cookies" | ✅ Correto, e não afeta altura — a faixa legal bate 1:1. |
+| Vermelho `#FF0000` mantido | ✅ Confirmado no pixel: `#FF0000`, `#F1F1F1`, `#282828`, `#FFFFFF` e `#D40808` idênticos ao Figma em todas as seções amostradas. **Zero desvio de cor na página.** |
+| FAQ desktop: 1º item aberto no Figma | Não implementar. Estado de acordeão aberto no load contraria a decisão de UX registrada; e o Figma não tem resposta escrita. |
+
+### Fotos dos depoimentos (item 6 do pedido)
+**Confirmado nos dois breakpoints.** Recortei o quadro do canto superior
+esquerdo em `depoimentos-desktop` e `depoimentos-mobile`: moldura **única**,
+1px `#282828`, radius e sombra sólida corretos. **A borda dupla no arco sumiu.**
+
+---
+
+## 5. Seções que fecharam sem desvio
 
 | Seção | Desktop | Mobile |
 |---|---|---|
-| Header | ⚠ nav 140px fora do lugar | ✅ |
-| Hero | ⛔ anel, folga vertical, CTA | ⛔ anel, fundo branco, ordem do chip |
-| Sobre | ✅ | ✅ |
-| O programa | ✅ | ⚠ ordem |
-| Diferenciais | ⚠ texto do card 15px baixo | ⚠ cor dos dots |
-| Talentos | ✅ | ⚠ ordem + starburst |
-| Pré-requisitos | ✅ | ✅ |
-| Benefícios | ⚠ card +9px | ⛔ largura dos cards, sangria |
-| Etapas | ✅ | ✅ |
-| Depoimentos | ✅ | ⚠ setas vs dots |
-| FAQ | ⚠ garrafa 190px | ⚠ item +12px |
-| Footer | ✅ | ⚠ +54px, logo +27% |
+| Header | ✅ 0px | ✅ 0px |
+| Hero (top) | ✅ só A3 (−40) | ✅ 0px, só A3 |
+| Sobre | ✅ só A5 (−62) | ✅ só A5 (−46) |
+| Programa | ✅ só A6 (−56) | ✅ só A6 (−94) |
+| Diferenciais | ⚠ layout ✅ (+4), conteúdo ❌ (B1, B2, I1) | ⚠ +58 |
+| Talentos | ✅ +1, só A7 | ✅ −68, só A7 |
+| Pré-requisitos | ✅ +2 | ✅ +7 |
+| Benefícios | ✅ +11 | ⚠ +89 |
+| Etapas | ✅ +3 (só P1) | ⚠ +42 |
+| Depoimentos | ✅ +1 | ✅ +131, conteúdo |
+| FAQ | ✅ +10 | ⚠ +45 |
+| Footer | ✅ +1 | ⚠ +56 |
 
-**Veredito — desktop:** reprovado por 1 bloqueador (anel do hero). Fora ele, o
-desktop está muito próximo do Figma: 6 das 12 seções fecham dentro de 3px, e as
-falhas restantes são de posicionamento pontual, não de estrutura.
+**Veredito · desktop:** aprovado no layout. Todos os deltas ≤ 11px, cores
+exatas. Pendem só os conteúdos (B1, B2, I1) e os itens A do levantamento.
 
-**Veredito — mobile:** reprovado por 2 bloqueadores (anel do hero e o layout dos
-cards de benefícios). O mobile concentra quase tudo: 9 das 12 seções têm algum
-desvio, e o padrão é claro — decisões do desktop (ordem de blocos, layout de
-chips, tamanho de logo, sangria) vazando para o breakpoint pequeno.
+**Veredito · mobile:** reprovado. 4 seções acima da tolerância, e a causa é
+quase toda uma só (I2 + I4 + I3). Resolvendo I2, I3, I4, I5 e I6 o mobile cai
+para dentro de ±10px em tudo.
 
-### Classificação
+---
 
-**Bloqueador (2):** #1/#2 anel do hero · #18/#19 cards de benefícios no mobile.
+## 6. Problemas da coleta (não são desvios do site)
 
-**Importante (13):** #3 fundo branco do hero mobile · #4 folga do hero desktop ·
-#6 rótulo do CTA · #7/#8/#9 chip de data no mobile · #11 nav do header · #13
-ordem do programa mobile · #14 cor dos dots · #16/#17 ordem e starburst de
-talentos · #20 bloco "E mais" · #22 controles do carrossel mobile · #24 garrafa
-do FAQ · #25 item do FAQ mobile · #28/#29 rodapé mobile.
+Estes atrapalharam a auditoria e devem ser corrigidos no `capture-runner`:
 
-**Polimento (7):** #5 folga do hero mobile · #10 gap badge/chip · #12 largura do
-CTA do header · #15 texto do card de diferenciais · #21 altura do card de
-benefícios · #23 ordem dos depoimentos · #26/#27 acordeão desktop.
+1. **Header sticky sobreposto** no meio das capturas mobile de `beneficios`,
+   `depoimentos`, `etapas`, `pre-requisitos`, `sobre`, `talentos`. Some com a
+   faixa de conteúdo debaixo dela.
+2. **Reveal-on-scroll não disparado**: em `beneficios-mobile`,
+   `pre-requisitos-mobile` e `etapas-mobile` o eyebrow e o `<h2>` saíram
+   **invisíveis** (ocupam espaço, não pintam); em `sobre-mobile` o CTA final
+   sumiu. Não é bug do site (a página é visível sem JS e com
+   `prefers-reduced-motion`), mas impediu auditar a tipografia desses títulos.
+   Capturar com `prefers-reduced-motion: reduce` resolve os dois problemas.
+3. **375 × 390**: referência em 375, site em 390. Comparação de quebra de linha
+   é aproximada; medidas verticais de padding/gap seguem válidas.

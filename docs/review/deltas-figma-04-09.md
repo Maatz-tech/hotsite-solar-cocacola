@@ -104,6 +104,27 @@ Substitui *"Buscamos talentos autênticos, dinâmicos e que queiram ser futuras
 (era "que enxergam cada desafio como um aprendizado e uma oportunidade de
 crescimento")
 
+### A8. Diferenciais — o 4º card foi trocado
+`4015:5` / `4031:2494` · achado pelo review de 04/09, escapou da primeira varredura
+
+O card **"Nossa Cultura"** virou **"Proposta de valor ao Colaborador"**, com o
+texto dos três pilares (Propósito, Desenvolvimento e Performance) e o ícone de
+garrafa+copo. É a mesma família do carrossel EVP (A2) — provavelmente entram
+juntos. `DiferenciaisSection.astro:47-50`.
+
+### A9. Ícone "Impacto Nacional" perdeu o recorte regional
+`public/images/beneficios/impacto-nacional.svg`
+
+No Figma o mapa do Brasil é **bicolor**: Norte, Nordeste e parte do Centro-Oeste
+em `#FF0000`, o resto em `#D4D4D4`, com divisas de estado. O site usa um Brasil
+sólido vermelho. O card diz "alcançando 70% do território brasileiro" e o ícone
+era a ilustração literal disso — do jeito que está, a informação some.
+Precisa reexportar o SVG.
+
+### A10. Mais dois textos de card
+"Distribuímos" → **"Entregamos"**; e em Escala Global, "2ª maior
+**engarrafadora** … mais de 80 milhões" → "2ª maior **fabricante** … milhões".
+
 ---
 
 ## B. Diferenças que **não** são mudança da designer
@@ -112,11 +133,22 @@ Registrado para ninguém "corrigir" de volta:
 
 | O quê | Diferença | Por quê |
 |---|---|---|
-| FAQ mais alto que o Figma | +68px mobile | Temos as respostas reais; o Figma segue sem elas |
-| Etapas mais alto | +41px mobile | Correção dos chips que quebravam fora da pílula |
-| Depoimentos mais alto | +117px mobile | Citação em 16px ocupa mais linhas que na arte |
+| Depoimentos mais alto | +131px mobile | Citação em 16px ocupa mais linhas que na arte |
 | Rodapé sem "Aviso de Cookies" | — | Removido a pedido do Lucas em 27/08 |
 | Título dos depoimentos | — | Unificado a pedido; o Figma mobile ainda tem outro |
+
+### Duas atribuições minhas estavam erradas
+
+O review de 04/09 derrubou duas explicações que eu tinha dado aqui. Registro
+porque elas mandariam alguém para o lado errado:
+
+- **"FAQ mais alto porque temos as respostas reais"** — não. Os 5 itens estão
+  **fechados** nos dois lados, e resposta fechada não ocupa altura. O +45 é
+  spacing: +24 no gap do título e +5 por item.
+- **"Etapas mais alto pela correção dos chips"** — não. Ali os 7 chips estão em
+  **uma linha**, iguais ao Figma. O +42 é o gap título→timeline (+26) mais
+  deriva de ±5 por mês. A correção de chip em duas linhas foi em
+  **Pré-requisitos**, e essa seção fecha em +7.
 
 ---
 
