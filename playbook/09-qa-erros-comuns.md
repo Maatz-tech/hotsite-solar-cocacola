@@ -446,4 +446,32 @@ em vez de transparente entrega o problema.
 
 ---
 
-> Próximo ID livre: **QA-027**
+## QA-027 — Recorte retangular não tira canto arredondado do export
+
+**Categoria:** Design intake
+**Sintoma:** depois de recortar a moldura assada (QA-026), a foto ainda mostra
+cunhas claras nos cantos, e por cima delas a borda do CSS — parece "borda
+dupla só nos cantos".
+**Causa:** duas coisas que o recorte não resolve. A borda do nó também percorre
+o **arco** do canto, e nenhum recorte retangular remove uma curva. E o raio do
+Figma vem como transparência: ao salvar em WebP/JPEG sem alfa, o canto vira
+**branco sólido** dentro da imagem.
+**Correção:** parar de usar o export do nó. Pegar a `rawImages` — a foto
+original, retangular, sem moldura — e reproduzir o enquadramento com os
+percentuais que o `get_design_context` informa (`w`, `h`, `left`, `top` sobre o
+slot). Borda, raio e sombra ficam só no CSS, com os tokens.
+
+```python
+larg = pw/100 * SLOT_W;  esq  = -pl/100 * SLOT_W
+alt  = ph/100 * SLOT_H;  topo = -pt/100 * SLOT_H
+k = fonte.width / larg          # do espaço do slot para pixels da fonte
+caixa = (esq*k, topo*k, (esq+SLOT_W)*k, (topo+SLOT_H)*k)
+```
+
+**Como detectar:** ler a diagonal do canto do arquivo. Branco puro (255,255,255)
+ou um pixel escuro isolado antes de começar a foto entrega o problema:
+`Image.open(f).convert('RGB').getpixel((3,3))`.
+
+---
+
+> Próximo ID livre: **QA-028**
