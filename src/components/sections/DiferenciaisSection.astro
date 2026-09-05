@@ -27,14 +27,15 @@ import { CTA_URL } from '../../data/site';
       class="trilho-arrastavel -mx-6 -my-2 flex w-[calc(100%+48px)] snap-x snap-mandatory gap-4 overflow-x-auto scroll-pl-6 px-6 py-2 [scrollbar-width:none] lg:mx-0 lg:my-0 lg:grid lg:w-full lg:grid-cols-2 lg:gap-8 lg:overflow-visible lg:p-0 [&::-webkit-scrollbar]:hidden"
       data-reveal-stagger
     >
-      <BenefitCard class="w-[327px] shrink-0 snap-start lg:w-auto lg:shrink" icone="/images/beneficios/impacto-nacional.svg" titulo="Impacto Nacional">
-        Entregamos sorrisos no Norte, Nordeste e parte do Centro-Oeste,
+      <BenefitCard class="w-[327px] shrink-0 snap-start lg:w-auto lg:shrink" icone="/images/beneficios/impacto-nacional.webp" titulo="Impacto Nacional">
+        Distribuímos sorrisos no Norte, Nordeste e parte do Centro-Oeste,
         alcançando 70% do território brasileiro.
       </BenefitCard>
 
       <BenefitCard class="w-[327px] shrink-0 snap-start lg:w-auto lg:shrink" icone="/images/beneficios/escala-global.svg" titulo="Escala Global">
-        Somos um dos 15 maiores fabricantes do Sistema Coca-Cola no mundo e a 2ª
-        maior fabricante do Brasil, impactando milhões de brasileiros.
+        Somos um dos maiores fabricantes do Sistema Coca-Cola no mundo e a 2ª
+        maior engarrafadora do Brasil, impactando mais de 80 milhões de
+        brasileiros.
       </BenefitCard>
 
       <BenefitCard class="w-[327px] shrink-0 snap-start lg:w-auto lg:shrink" icone="/images/beneficios/gptw.svg" titulo="Ambiente Reconhecido">
@@ -42,14 +43,36 @@ import { CTA_URL } from '../../data/site';
         como uma das melhores empresas para se trabalhar no Brasil.
       </BenefitCard>
 
-      <BenefitCard class="w-[327px] shrink-0 snap-start lg:w-auto lg:shrink" icone="/images/beneficios/cultura.svg" titulo="Nossa Cultura" caixa>
+      <!--
+        O Figma diverge entre breakpoints neste card: desktop já trocou para
+        "Proposta de valor ao Colaborador" (4015:169), mobile ainda mostra a
+        versão antiga "Nossa Cultura" (4031:2554). Implementado fiel a cada
+        um até a designer sincronizar — ver Pendências no PROJECT.md.
+      -->
+      <BenefitCard
+        class="w-[327px] shrink-0 snap-start max-lg:hidden lg:w-auto lg:shrink"
+        icone="/images/beneficios/proposta-valor.svg"
+        titulo="Proposta de valor ao Colaborador"
+        caixa
+      >
+        <strong class="font-bold">Propósito, Desenvolvimento e Performance:</strong>
+        os três pilares que traduzem nossa marca empregadora e impulsionam a
+        experiência das nossas pessoas Solares.
+      </BenefitCard>
+
+      <BenefitCard
+        class="w-[327px] shrink-0 snap-start lg:hidden"
+        icone="/images/beneficios/cultura.svg"
+        titulo="Nossa Cultura"
+        caixa
+      >
         Um ambiente de trabalho seguro e colaborativo, onde a individualidade e a
         autenticidade das nossas pessoas Solares são o combustível para ir além.
       </BenefitCard>
     </div>
 
     <!-- Indicadores do carrossel: só existem enquanto ele existe (mobile). -->
-    <ul id="pontos-diferenciais" class="-mt-8 flex items-center gap-2 lg:hidden">
+    <ul id="pontos-diferenciais" class="-mt-[19px] flex items-center gap-2 lg:hidden">
       {
         [0, 1, 2, 3].map((i) => (
           <li>
@@ -81,7 +104,10 @@ import { CTA_URL } from '../../data/site';
 
   if (trilho && pontos) {
     const bolinhas = Array.from(pontos.querySelectorAll('button'));
-    const cards = () => Array.from(trilho.children) as HTMLElement[];
+    // filtra os que estão display:none (o 4º card tem duas versões, uma por
+    // breakpoint) — offsetParent é null quando o elemento não está renderizado.
+    const cards = () =>
+      (Array.from(trilho.children) as HTMLElement[]).filter((c) => c.offsetParent !== null);
 
     const marcar = () => {
       const alvo = trilho.scrollLeft + trilho.clientWidth / 2;
