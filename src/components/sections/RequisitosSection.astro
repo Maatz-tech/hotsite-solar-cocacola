@@ -55,7 +55,7 @@ const extras = [
 <!-- Sem margem lateral: no mobile só o hero tem (Figma). -->
 <section id="pre-requisitos">
   <div
-    class="mx-auto flex max-w-[1440px] flex-col items-center gap-16 rounded-t-3xl lg:rounded-t-[40px] bg-surface-alt px-6 pb-24 pt-16 lg:px-28 lg:pb-35 lg:pt-20"
+    class="mx-auto flex max-w-[1440px] flex-col items-center gap-10 lg:gap-16 rounded-t-3xl lg:rounded-t-[40px] bg-surface-alt px-6 pb-24 pt-16 lg:px-28 lg:pb-35 lg:pt-20"
   >
     <div class="flex flex-col items-center gap-4 text-center">
       <Eyebrow data-reveal>Pré-requisitos</Eyebrow>
@@ -118,7 +118,7 @@ const extras = [
 <!-- No mobile a seção sangra de borda a borda (Figma 4031:2785, x=0 w=375). -->
 <section id="beneficios" class="-mt-10 lg:px-0">
   <div
-    class="mx-auto flex max-w-[1440px] flex-col items-center gap-16 rounded-3xl lg:rounded-[40px] bg-brand px-6 py-16 lg:px-28 lg:py-20"
+    class="mx-auto flex max-w-[1440px] flex-col items-center gap-10 lg:gap-16 rounded-3xl lg:rounded-[40px] bg-brand px-6 py-16 lg:px-28 lg:py-20"
   >
     <!-- Mobile alinha à esquerda; desktop centraliza (Figma 4031:2785 vs 4025:651). -->
     <div class="flex w-full flex-col items-start gap-4 text-left lg:items-center lg:text-center">
@@ -165,7 +165,7 @@ const extras = [
       <p class="text-xl text-surface">E mais:</p>
       {
         extras.map((e) => (
-          <span class="rounded-md bg-ink/20 px-3.5 py-1.5 text-xl text-surface">{e}</span>
+          <span class="rounded-md bg-ink/20 px-3.5 py-1.5 text-lg text-surface lg:text-xl">{e}</span>
         ))
       }
     </div>
