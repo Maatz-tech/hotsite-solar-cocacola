@@ -17,7 +17,6 @@ const valores = [
     titulo: 'Paixão',
     texto:
       'Somos apaixonados pelo que fazemos. Porque levar alegria e sorrisos para as pessoas nos inspira. Temos sede de vencer, servir e superar desafios.',
-    aberto: true,
   },
   {
     titulo: 'Valorização das pessoas',
@@ -75,7 +74,7 @@ const valores = [
     <div class="relative grid gap-8 lg:grid-cols-[1fr_595px] lg:items-start lg:gap-x-20">
       <RevealText
         as="h2"
-        class="text-2xl font-bold text-surface lg:col-start-2 lg:row-start-1 lg:text-[48px]"
+        class="text-[32px] font-bold text-surface lg:col-start-2 lg:row-start-1 lg:text-[48px]"
         text="Nossos valores"
       />
 
@@ -118,8 +117,7 @@ const valores = [
           valores.map((v) => (
             <details
               name="valores"
-              open={v.aberto}
-              class="valor-item group rounded-3xl border-b-4 border-transparent p-6"
+              class="valor-item rounded-3xl border-b-4 border-transparent p-6"
             >
               <summary class="flex list-none items-start justify-between gap-4 text-xl font-bold text-surface lg:text-2xl">
                 {v.titulo}
@@ -131,7 +129,7 @@ const valores = [
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   aria-hidden="true"
-                  class="size-6 shrink-0 transition-transform duration-200 group-open:rotate-180"
+                  class="size-6 shrink-0"
                 >
                   <path d="m6 9 6 6 6-6" />
                 </svg>
@@ -148,8 +146,9 @@ const valores = [
 </section>
 
 <script>
-  import { revealWords, revealOnScroll, revealStagger } from '../../lib/motion';
+  import { revealWords, revealOnScroll, revealStagger, acordeaoAnimado } from '../../lib/motion';
   revealWords('#valores [data-reveal-words]');
   revealOnScroll('#valores [data-reveal]', { atraso: 0.15 });
   revealStagger('#valores [data-reveal-stagger]');
+  acordeaoAnimado('#valores .valor-item');
 </script>

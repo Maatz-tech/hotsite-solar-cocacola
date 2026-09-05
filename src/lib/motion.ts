@@ -238,6 +238,107 @@ export async function drawLine(selector: string, opts: Opts = {}) {
   }
 }
 
+/**
+ * Acordeão de <details> que anima abrir E fechar. `grid-template-rows` no
+ * CSS só anima a primeira abertura: browsers modernos aplicam
+ * `content-visibility: hidden` internamente quando o <details> fecha, o que
+ * corta a transição na hora e faz o conteúdo já nascer escondido na
+ * reabertura seguinte — não tem folha de estilo de autor que sobrescreva
+ * isso. A saída é animar a ALTURA do próprio <details> via Web Animations
+ * API e só soltar o atributo `open` quando a animação termina — a técnica
+ * documentada pelo Chrome para exatamente esse elemento.
+ *
+ * O atributo `open`, por isso, fica "atrasado" até o fim do fechamento (senão
+ * o conteúdo some antes da altura terminar de encolher). Se a borda, o fundo
+ * e a seta do cabeçalho dependessem dele (via `[open]`/`group-open`), ficariam
+ * presos no visual de "aberto" durante todo o encolhimento e trocariam de uma
+ * vez só no fim — o "tilt"/glitch reportado. Por isso o visual usa a classe
+ * `.acordeao-aberto`, trocada no INÍCIO de cada animação (junto com a altura),
+ * não no fim: cada CSS puro que dependa do estado do acordeão deve usá-la no
+ * lugar de `[open]`/`group-open`.
+ */
+export function acordeaoAnimado(selector: string) {
+  const itens = document.querySelectorAll<HTMLDetailsElement>(selector);
+
+  for (const details of itens) {
+    const summary = details.querySelector('summary');
+    if (!summary) continue;
+
+    let animacao: Animation | null = null;
+    let fechando = false;
+    let abrindo = false;
+
+    summary.addEventListener('click', (evento) => {
+      evento.preventDefault();
+
+      if (prefersReducedMotion()) {
+        details.open = !details.open;
+        details.classList.toggle('acordeao-aberto', details.open);
+        return;
+      }
+
+      details.style.overflow = 'hidden';
+      if (fechando || !details.open) abrir();
+      else if (abrindo || details.open) fechar();
+    });
+
+    // Altura do <details> fechado: `summary.offsetHeight` sozinho ignora o
+    // padding do próprio <details> (o `p-6` está nele, não num wrapper
+    // interno) — usar só a altura do summary como alvo fazia a caixa pular
+    // pro tamanho certo de repente no fim da animação, em vez de chegar lá.
+    function alturaFechada(): number {
+      const estilo = getComputedStyle(details);
+      const paddingVertical =
+        parseFloat(estilo.paddingTop) + parseFloat(estilo.paddingBottom);
+      const borda = parseFloat(estilo.borderBottomWidth);
+      return summary!.offsetHeight + paddingVertical + borda;
+    }
+
+    function fechar() {
+      fechando = true;
+      details.classList.remove('acordeao-aberto');
+      const alturaInicial = `${details.offsetHeight}px`;
+      const alturaFinal = `${alturaFechada()}px`;
+      animacao?.cancel();
+      animacao = details.animate(
+        { height: [alturaInicial, alturaFinal] },
+        { duration: 300, easing: 'ease-out' }
+      );
+      animacao.onfinish = () => aoTerminar(false);
+      animacao.oncancel = () => (fechando = false);
+    }
+
+    function abrir() {
+      details.style.height = `${details.offsetHeight}px`;
+      details.open = true;
+      details.classList.add('acordeao-aberto');
+      requestAnimationFrame(expandir);
+    }
+
+    function expandir() {
+      abrindo = true;
+      const alturaInicial = `${details.offsetHeight}px`;
+      const alturaFinal = `${details.scrollHeight}px`;
+      animacao?.cancel();
+      animacao = details.animate(
+        { height: [alturaInicial, alturaFinal] },
+        { duration: 300, easing: 'ease-out' }
+      );
+      animacao.onfinish = () => aoTerminar(true);
+      animacao.oncancel = () => (abrindo = false);
+    }
+
+    function aoTerminar(aberto: boolean) {
+      details.open = aberto;
+      animacao = null;
+      fechando = false;
+      abrindo = false;
+      details.style.height = '';
+      details.style.overflow = '';
+    }
+  }
+}
+
 /** Parallax leve ligado ao scroll — foto grande de fundo. */
 export async function parallax(selector: string, distancia = 40) {
   const alvos = document.querySelectorAll<HTMLElement>(selector);

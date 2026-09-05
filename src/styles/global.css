@@ -378,20 +378,6 @@
     display: none;
   }
 
-  /* [open] é reativo ao estado real do <details> — ao contrário de uma
-     classe presa no HTML, segue qualquer item que o usuário abrir, não só
-     o que nasce aberto. */
-  .valor-item[open] {
-    border-bottom-color: var(--color-surface);
-    background: #393939;
-  }
-
-  @media (width >= 64rem) {
-    .valor-item[open] {
-      background: #535353;
-    }
-  }
-
   /* --- Pill / chip --- */
   .pill {
     display: inline-flex;
@@ -441,24 +427,72 @@
 
 /* Todo alvo clicável reage — inclusive o cabeçalho do acordeão e o logo.
    Ver playbook/06-micro-interacoes.md */
+.faq-item {
+  transition: background-color 200ms ease;
+}
+.faq-item:hover {
+  background: #e4e4e4;
+}
 .faq-item summary:hover {
   color: var(--color-brand);
+}
+.faq-item summary svg {
+  transition: transform 200ms ease;
 }
 .faq-item summary:hover svg {
   transform: translateY(2px);
 }
-.faq-item[open] summary:hover svg {
-  transform: rotate(-180deg) translateY(2px);
+/* A seta segue `.acordeao-aberto`, não `[open]`/`group-open`: o JS troca essa
+   classe no INÍCIO de cada animação (abertura e fechamento), enquanto `open`
+   só muda no FIM do fechamento (pra não sumir o conteúdo antes da altura
+   terminar de encolher — ver acordeaoAnimado em lib/motion.ts). Se a seta
+   dependesse de `[open]`, ficaria apontando "aberto" durante todo o
+   encolhimento e giraria de repente só no fim. */
+.faq-item.acordeao-aberto summary svg {
+  transform: rotate(180deg);
+}
+.faq-item.acordeao-aberto summary:hover svg {
+  transform: rotate(180deg) translateY(2px);
 }
 
+.valor-item {
+  transition:
+    background-color 200ms ease,
+    border-bottom-color 200ms ease;
+}
+.valor-item:not(.acordeao-aberto):hover {
+  background: #5f5f5f;
+}
+
+/* Mesmo raciocínio da seta do FAQ acima, aplicado à borda inferior e ao
+   fundo do item ativo: precisam trocar junto com a altura, não depois dela.
+   FORA do @layer: o elemento carrega a utilitária `border-transparent` (cor
+   de borda nos 4 lados) e em Tailwind v4 uma utilitária sempre vence
+   `@layer components` — dentro do layer essa borda nunca ficava branca.
+   Ver playbook/09-qa-erros-comuns.md#qa-001 */
+.valor-item.acordeao-aberto {
+  border-bottom-color: var(--color-surface);
+  background: #393939;
+}
+@media (width >= 64rem) {
+  .valor-item.acordeao-aberto {
+    background: #535353;
+  }
+}
 .valor-item summary:hover {
   color: var(--color-brand);
+}
+.valor-item summary svg {
+  transition: transform 200ms ease;
 }
 .valor-item summary:hover svg {
   transform: translateY(2px);
 }
-.valor-item[open] summary:hover svg {
-  transform: rotate(-180deg) translateY(2px);
+.valor-item.acordeao-aberto summary svg {
+  transform: rotate(180deg);
+}
+.valor-item.acordeao-aberto summary:hover svg {
+  transform: rotate(180deg) translateY(2px);
 }
 
 .logo-link {

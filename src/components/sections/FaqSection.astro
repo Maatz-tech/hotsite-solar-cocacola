@@ -30,12 +30,12 @@ import { FAQ } from '../../data/faq';
   </div>
 
   <div class="relative mx-auto max-w-lp">
-    <RevealText as="h2" class="h2" text="Perguntas frequentes" />
+    <RevealText as="h2" class="h2 lg:text-[40px]" text="Perguntas frequentes" />
 
     <div class="mt-10 flex w-full max-w-[800px] flex-col gap-4 lg:mt-16" data-reveal-stagger>
       {
         FAQ.map((item) => (
-          <details name="faq" class="faq-item group rounded-3xl bg-surface-alt p-6">
+          <details name="faq" class="faq-item rounded-3xl bg-surface-alt p-6">
             <!-- leading-6 casa a linha do texto com os 24px do ícone: o item fecha em
                  72px, como no Figma (4016:336). -->
             <summary class="flex list-none items-start justify-between gap-4 text-lg leading-6">
@@ -48,7 +48,7 @@ import { FAQ } from '../../data/faq';
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 aria-hidden="true"
-                class="size-6 shrink-0 text-brand transition-transform duration-200 group-open:rotate-180"
+                class="size-6 shrink-0 text-brand"
               >
                 <path d="m6 9 6 6 6-6" />
               </svg>
@@ -65,7 +65,8 @@ import { FAQ } from '../../data/faq';
 </section>
 
 <script>
-  import { revealWords, revealStagger } from '../../lib/motion';
+  import { revealWords, revealStagger, acordeaoAnimado } from '../../lib/motion';
   revealWords('#faq [data-reveal-words]');
   revealStagger('#faq [data-reveal-stagger]');
+  acordeaoAnimado('#faq .faq-item');
 </script>
