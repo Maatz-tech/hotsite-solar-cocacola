@@ -1,0 +1,155 @@
+---
+import { asset } from '../../lib/url';
+/**
+ * Nossos valores — Figma desktop 4215:646 · mobile 4215:891.
+ *
+ * Bloco escuro entre Etapas e Depoimentos. Mesma técnica de grid do
+ * ProgramaSection (photo com row-span pra ficar ao lado do bloco de texto
+ * no desktop e entre título e corpo no mobile), com um acordeão em vez de
+ * parágrafo corrido.
+ *
+ * Textos fornecidos pelo cliente em 04/09/2026.
+ */
+import RevealText from '../RevealText.astro';
+
+const valores = [
+  {
+    titulo: 'Paixão',
+    texto:
+      'Somos apaixonados pelo que fazemos. Porque levar alegria e sorrisos para as pessoas nos inspira. Temos sede de vencer, servir e superar desafios.',
+    aberto: true,
+  },
+  {
+    titulo: 'Valorização das pessoas',
+    texto:
+      'Cultivamos nossas relações com respeito em um ambiente colaborativo, seguro e inclusivo. Inspiramos pelo exemplo. Desenvolvemos, reconhecemos e celebramos conquistas.',
+  },
+  {
+    titulo: 'Sentimento de dono',
+    texto:
+      'A Solar é de cada um de nós. Buscamos excelência em tudo o que fazemos. Nosso inconformismo constrói o longo prazo e nos motiva a superar resultados de forma sustentável.',
+  },
+  {
+    titulo: 'Protagonismo',
+    texto:
+      'Somos protagonistas da nossa história. Aprendemos a cada dia, inovando e empreendendo para construir um mundo melhor.',
+  },
+  {
+    titulo: 'Ética',
+    texto:
+      'A Ética nos acompanha em tudo. É fazer o certo e agir com integridade, justiça e responsabilidade todos os dias, dentro e fora do ambiente de trabalho.',
+  },
+  {
+    titulo: 'Simplicidade',
+    texto:
+      'A Simplicidade está em nosso jeito de ser e fazer todas as coisas, sempre com humildade e qualidade. Buscamos formas mais simples, ágeis e eficientes de fazer acontecer.',
+  },
+];
+---
+
+<section id="valores">
+  <div
+    class="relative mx-auto max-w-[1440px] overflow-hidden rounded-3xl bg-ink px-6 py-16 lg:rounded-[40px] lg:px-28 lg:py-25"
+  >
+    <!-- Duas texturas decorativas do Figma, compostas sobre #282828 (mesma
+         técnica da textura do hero: assar a cor evita carregar alpha à toa). -->
+    <img
+      src={asset('/images/valores/swirl-bottom.webp')}
+      alt=""
+      aria-hidden="true"
+      width="1008"
+      height="782"
+      loading="lazy"
+      class="pointer-events-none absolute -bottom-24 -left-11 w-[380px] max-lg:hidden lg:w-[504px]"
+    />
+    <img
+      src={asset('/images/valores/swirl-top.webp')}
+      alt=""
+      aria-hidden="true"
+      width="612"
+      height="612"
+      loading="lazy"
+      class="pointer-events-none absolute -top-[0.2px] right-0 w-[200px] lg:w-[306px]"
+    />
+
+    <div class="relative grid gap-8 lg:grid-cols-[1fr_595px] lg:items-start lg:gap-x-20">
+      <RevealText
+        as="h2"
+        class="text-2xl font-bold text-surface lg:col-start-2 lg:row-start-1 lg:text-[48px]"
+        text="Nossos valores"
+      />
+
+      <!-- Foto + garrafa sangrando no canto (Figma: bottle rotacionada 15.61°,
+           ancorada no canto inferior direito da foto). -->
+      <div
+        class="relative aspect-[1092/776] w-full lg:aspect-auto lg:col-start-1 lg:row-start-1 lg:row-span-2 lg:h-[383px]"
+        data-reveal
+      >
+        <img
+          src={asset('/images/valores/foto.webp')}
+          srcset={`${asset('/images/valores/foto-sm.webp')} 800w, ${asset('/images/valores/foto.webp')} 1100w`}
+          sizes="(min-width: 1024px) 541px, calc(100vw - 48px)"
+          width="1100"
+          height="781"
+          alt="Colaboradores da Solar Coca-Cola comemorando juntos, sorrindo"
+          loading="lazy"
+          class="size-full rounded-card border border-surface object-cover shadow-[-5px_5px_0_var(--color-surface)]"
+        />
+
+        <div
+          aria-hidden="true"
+          class="pointer-events-none absolute -bottom-6 -right-5 flex h-[102px] w-[53px] items-center justify-center lg:-bottom-13 lg:-right-12 lg:h-[224px] lg:w-[115px]"
+        >
+          <img
+            src={asset('/images/icones/garrafa-valores.svg')}
+            alt=""
+            width="59"
+            height="216"
+            class="h-[98px] w-[27px] rotate-[15.61deg] lg:h-[216px] lg:w-[59px]"
+          />
+        </div>
+      </div>
+
+      <div
+        class="flex flex-col gap-4 lg:col-start-2 lg:row-start-2"
+        data-reveal-stagger
+      >
+        {
+          valores.map((v) => (
+            <details
+              name="valores"
+              open={v.aberto}
+              class="valor-item group rounded-3xl border-b-4 border-transparent p-6"
+            >
+              <summary class="flex list-none items-start justify-between gap-4 text-xl font-bold text-surface lg:text-2xl">
+                {v.titulo}
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  class="size-6 shrink-0 transition-transform duration-200 group-open:rotate-180"
+                >
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </summary>
+              <p class="mt-4 text-base font-light leading-[1.5] text-surface">
+                {v.texto}
+              </p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { revealWords, revealOnScroll, revealStagger } from '../../lib/motion';
+  revealWords('#valores [data-reveal-words]');
+  revealOnScroll('#valores [data-reveal]', { atraso: 0.15 });
+  revealStagger('#valores [data-reveal-stagger]');
+</script>

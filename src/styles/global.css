@@ -360,6 +360,38 @@
     display: none;
   }
 
+  /* Acordeão de "Nossos valores": mesmo mecanismo do FAQ, mas com um item
+     aberto por padrão e um estado visual de "ativo" (borda inferior branca).
+     A cor de fundo do item aberto diverge entre breakpoints no próprio
+     Figma: #393939 no mobile, #535353 (igual aos fechados) no desktop. */
+  .valor-item {
+    background: #535353;
+    cursor: pointer;
+  }
+
+  .valor-item summary {
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .valor-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  /* [open] é reativo ao estado real do <details> — ao contrário de uma
+     classe presa no HTML, segue qualquer item que o usuário abrir, não só
+     o que nasce aberto. */
+  .valor-item[open] {
+    border-bottom-color: var(--color-surface);
+    background: #393939;
+  }
+
+  @media (width >= 64rem) {
+    .valor-item[open] {
+      background: #535353;
+    }
+  }
+
   /* --- Pill / chip --- */
   .pill {
     display: inline-flex;
@@ -416,6 +448,16 @@
   transform: translateY(2px);
 }
 .faq-item[open] summary:hover svg {
+  transform: rotate(-180deg) translateY(2px);
+}
+
+.valor-item summary:hover {
+  color: var(--color-brand);
+}
+.valor-item summary:hover svg {
+  transform: translateY(2px);
+}
+.valor-item[open] summary:hover svg {
   transform: rotate(-180deg) translateY(2px);
 }
 

@@ -493,4 +493,29 @@ todas as seções (0,71 para desktop de 1440), ou a altura bate em 1024 redondo.
 
 ---
 
-> Próximo ID livre: **QA-029**
+## QA-029 — Destaque visual de acordeão preso no item que nasce aberto
+
+**Categoria:** CSS
+**Sintoma:** o item que abre por padrão tem uma borda/cor de "ativo"; ao clicar
+em outro item para abri-lo, a borda continua no primeiro, mesmo com ele já
+fechado.
+**Causa:** o estilo de "ativo" foi aplicado como classe estática no HTML
+(`class:list={[..., v.aberto && 'destaque']}`), calculada uma vez no servidor a
+partir do dado que define qual item nasce aberto. Ela nunca muda depois —
+`<details>` alterna sozinho via nativo, sem re-render, então a classe do
+servidor fica congelada no item original.
+**Correção:** usar o seletor de atributo `[open]`, que o browser mantém
+sincronizado com o estado real do `<details>`:
+
+```css
+.item[open] { border-bottom-color: white; background: #393939; }
+```
+
+Nunca `.item-aberto` como classe do HTML — se depende do estado do próprio
+elemento, o CSS já tem um jeito de perguntar isso ao vivo.
+**Como detectar:** clicar num item diferente do que nasce aberto e ver se o
+destaque visual troca junto.
+
+---
+
+> Próximo ID livre: **QA-030**

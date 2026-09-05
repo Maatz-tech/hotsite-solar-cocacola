@@ -13,7 +13,7 @@ A página cresceu bastante: **desktop 7378 → 8467px** (+1089) e
 
 ## A. Mudanças da designer — entram na implementação
 
-### A1. Seção nova: "Nossos valores" 🔴 bloqueada por conteúdo
+### A1. Seção nova: "Nossos valores" ✅ implementada em 04/09
 `4215:646` (desktop, 1440×932) · `4215:891` (mobile, 375×1114)
 Entra **entre Etapas e Depoimentos**.
 
@@ -25,10 +25,9 @@ Itens em `#535353`, radius 24, título 24px bold branco, texto 16px light,
 chevron de 24px. O primeiro item nasce aberto e tem borda inferior branca de
 4px marcando o estado ativo.
 
-> **Bloqueio:** só **Paixão** tem resposta escrita —
-> *"Somos apaixonados pelo que fazemos. Porque levar alegria e sorrisos para as
-> pessoas nos inspira. Temos sede de vencer, servir e superar desafios."*
-> Os outros cinco estão sem texto no Figma. É a mesma situação do FAQ em agosto.
+> **Resolvido:** os 6 textos foram enviados pelo cliente em 04/09 e estão em
+> `ValoresSection.astro`. Seção implementada, comparada pixel a pixel nos dois
+> breakpoints (desktop 944×932 Figma, mobile 1128×1114 Figma — dentro de 15px).
 
 Existe também `4214:82` ("Nossos valores", 897px), **oculto** — versão antiga.
 Ignorar.

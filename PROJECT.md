@@ -64,6 +64,7 @@ Ordem da página. Nodes desktop → mobile.
 | 7 | Pré-requisitos | `4015:213` | `4031:2669` | ✅ | Desktop vive dentro de `4028:1686` |
 | 8 | Benefícios | `4025:651` | `4031:2785` | ✅ | Desktop vive dentro de `4028:1686` |
 | 9 | Etapas do processo | `4026:905` | `4031:3006` | ✅ | Timeline Setembro → Outubro → … |
+| 9.5 | Nossos valores | `4215:646` | `4215:891` | ✅ | Seção nova (04/09). Acordeão de 6 valores, 1º aberto por padrão |
 | 10 | Depoimentos | `4016:377` | `4031:3255` | 🟡 | Cards: `4102:120` `4102:127` `4102:141` `4102:149` `4102:156` |
 | 11 | FAQ | `4016:326` | `4031:3326` | 🟡 | ⚠ texto placeholder de outro projeto no Figma |
 | 12 | Footer | `4016:482` | `4031:2952` | ✅ | Logos + redes sociais |
