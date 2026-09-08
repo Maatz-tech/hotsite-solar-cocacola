@@ -6,7 +6,7 @@ import { NAV_LINKS, CTA_URL, CTA_LABEL, SITE_NAME } from '../data/site';
 
 <header id="site-header" class="sticky top-0 z-50 bg-surface">
   <div
-    class="mx-auto flex h-14 max-w-[1440px] items-center justify-between px-6 lg:h-23 lg:px-28"
+    class="mx-auto flex h-14 max-w-[1440px] items-center justify-between respiro-x lg:h-23"
   >
     <a href="#top" class="logo-link shrink-0" aria-label={`${SITE_NAME} — topo da página`}>
       <img
@@ -19,10 +19,12 @@ import { NAV_LINKS, CTA_URL, CTA_LABEL, SITE_NAME } from '../data/site';
       />
     </a>
 
-    <!-- Nav e CTA formam um bloco só à direita (Figma 4010:419, gap 64). -->
-    <div class="hidden items-center gap-16 lg:flex">
+    <!-- Nav e CTA formam um bloco só à direita (Figma 4010:419, gap 64). Os
+         64 do Figma só cabem em 1440: entre 1024 e lá, logo + 4 links + botão
+         somavam mais que a largura útil e o bloco vazava. -->
+    <div class="hidden items-center gap-6 lg:flex wide:gap-16">
       <nav aria-label="Navegação principal">
-        <ul class="flex items-center gap-10 text-base font-bold">
+        <ul class="flex items-center gap-5 text-base font-bold wide:gap-10">
           {
             NAV_LINKS.map((link) => (
               <li>

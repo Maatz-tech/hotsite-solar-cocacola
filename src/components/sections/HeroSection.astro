@@ -3,18 +3,20 @@ import { asset } from '../../lib/url';
 /**
  * Hero — Figma desktop 4010:290 · mobile 4029:2268.
  *
- * O palco tem altura fixa nos dois breakpoints (o design é de largura fixa),
- * e toda a arte é ancorada às bordas para degradar bem entre 1024 e 1440.
+ * O palco tem altura fixa nos dois breakpoints porque o design é de largura
+ * fixa: 1360x610 no desktop. Entre 1024 e 1440 essa composição não reflui —
+ * ela encolhe inteira (ver `.hero-cena` no <style>). Tentar ancorar cada peça
+ * na borda fazia a foto entrar por cima do "Trainee" por volta de 1100.
+ * Ver playbook/09-qa-erros-comuns.md#qa-032
  */
 import Button from '../Button.astro';
 import { CTA_URL } from '../../data/site';
 ---
 
 <section id="top" class="px-3 lg:px-10 lg:py-6">
-  <div class="relative mx-auto max-w-[1360px]">
-  <div
-    class="relative h-[814px] overflow-hidden rounded-[32px] bg-surface-alt lg:h-[610px]"
-  >
+  <div class="hero-quadro relative mx-auto max-w-[1360px]">
+  <div class="hero-palco relative h-[814px] overflow-hidden rounded-[32px] bg-surface-alt">
+    <div class="hero-cena absolute inset-0">
     <!--
       Curvas de nível da garrafa. No desktop é vetor (escala sem perder
       nitidez); no mobile vai rasterizado: são 67 paths e decodificá-los
@@ -82,7 +84,7 @@ import { CTA_URL } from '../../data/site';
     </div>
 
     <div
-      class="absolute left-5 top-16 flex w-[311px] flex-col items-center gap-8 lg:left-[72px] lg:top-[70px] lg:w-[484px] lg:gap-10"
+      class="absolute left-5 top-16 flex w-[311px] flex-col items-center gap-8 max-lg:sm:left-1/2 max-lg:sm:-translate-x-1/2 lg:left-[72px] lg:top-[70px] lg:w-[484px] lg:gap-10"
     >
       <div class="flex w-full flex-col items-center gap-8">
         <div class="flex flex-col items-center gap-4 lg:flex-row lg:gap-8">
@@ -125,6 +127,7 @@ import { CTA_URL } from '../../data/site';
         <Button href={CTA_URL}>Inscreva-se agora!</Button>
       </div>
     </div>
+    </div>
   </div>
 
   <!--
@@ -135,7 +138,7 @@ import { CTA_URL } from '../../data/site';
     dois lados: (1360-908)/2 = 226).
   -->
   <div class="hidden lg:-mt-14 lg:block" data-reveal>
-    <div class="mx-auto flex w-[908px] items-center justify-between rounded-3xl border border-[#d4d4d4] bg-surface px-20 py-6">
+    <div class="mx-auto flex w-[908px] max-w-full items-center justify-between rounded-3xl border border-[#d4d4d4] bg-surface px-20 py-6 max-wide:gap-6 max-wide:px-10">
       <img src={asset('/images/hero/evp2.svg')} alt="Propósito nos faz Solar" width="163" height="48" class="h-12 w-auto" />
       <div class="h-16 border-l border-[#d4d4d4]"></div>
       <img src={asset('/images/hero/evp1.svg')} alt="Desenvolvimento nos faz Solar" width="176" height="48" class="h-12 w-auto" />
@@ -177,6 +180,35 @@ import { CTA_URL } from '../../data/site';
 </section>
 
 <style>
+  /*
+    Entre 1024 e 1440 o hero encolhe inteiro em vez de refluir: a cena mantém
+    os 1360x610 do Figma e leva um `scale`, então nenhuma peça troca de lugar
+    em relação às outras. `cqw` (e não `vw`) porque a barra de rolagem entra
+    em `100vw` no Chrome do Windows e o card estouraria a caixa por alguns px.
+  */
+  .hero-quadro {
+    container-type: inline-size;
+  }
+
+  @media (width >= 64rem) {
+    .hero-palco {
+      /* Razão largura-disponível ÷ 1360 como número puro. `calc(100cqw/1360)`
+         devolveria um comprimento, e comprimento não entra em `scale()`;
+         `tan(atan2(a, b))` é a forma de dividir dois comprimentos em CSS e sair
+         com um número. Teto em 1: acima de 1440 o hero fica no tamanho do Figma. */
+      --escala: min(1, tan(atan2(100cqw, 1360px)));
+      height: calc(610px * var(--escala));
+    }
+
+    .hero-cena {
+      inset: 0 auto auto 0;
+      width: 1360px;
+      height: 610px;
+      transform: scale(var(--escala));
+      transform-origin: top left;
+    }
+  }
+
   .evp-trilho-mobile {
     animation: evp-marquee 28s linear infinite;
   }

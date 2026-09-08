@@ -48,10 +48,13 @@ const valores = [
 
 <section id="valores">
   <div
-    class="relative mx-auto max-w-[1440px] overflow-hidden rounded-3xl bg-ink px-6 py-16 lg:rounded-[40px] lg:px-28 lg:py-25"
+    class="relative mx-auto max-w-[1440px] overflow-clip rounded-3xl bg-ink respiro-x py-16 lg:rounded-[40px] lg:py-25"
   >
     <!-- Duas texturas decorativas do Figma, compostas sobre #282828 (mesma
-         técnica da textura do hero: assar a cor evita carregar alpha à toa). -->
+         técnica da textura do hero: assar a cor evita carregar alpha à toa).
+         O recorte é `overflow-clip`, não `overflow-hidden`: `hidden` torna a
+         caixa um contêiner de rolagem e mataria o `sticky` da foto abaixo.
+         Ver playbook/09-qa-erros-comuns.md#qa-034 -->
     <img
       src={asset('/images/valores/swirl-bottom.webp')}
       alt=""
@@ -71,7 +74,10 @@ const valores = [
       class="pointer-events-none absolute -top-[0.2px] right-0 w-[200px] lg:w-[306px]"
     />
 
-    <div class="relative grid gap-8 lg:grid-cols-[1fr_595px] lg:items-start lg:gap-x-20">
+    <!-- Colunas em proporção, não em px: 1:1.1 dá exatamente os 541/595 do Figma
+         em 1440 e continua batendo em qualquer largura menor. Com `595px` fixo,
+         a foto ficava com 259px em 1100 e o `object-cover` comia a cena. -->
+    <div class="relative grid gap-8 lg:grid-cols-[1fr_1.1fr] lg:items-start lg:gap-x-10 wide:gap-x-20">
       <RevealText
         as="h2"
         class="text-[32px] font-bold text-surface lg:col-start-2 lg:row-start-1 lg:text-[48px]"
@@ -81,13 +87,13 @@ const valores = [
       <!-- Foto + garrafa sangrando no canto (Figma: bottle rotacionada 15.61°,
            ancorada no canto inferior direito da foto). -->
       <div
-        class="relative aspect-[1092/776] w-full lg:aspect-auto lg:col-start-1 lg:row-start-1 lg:row-span-2 lg:h-[383px]"
+        class="relative aspect-[1092/776] w-full lg:sticky lg:top-28 lg:aspect-[541/383] lg:col-start-1 lg:row-start-1 lg:row-span-2 lg:self-start"
         data-reveal
       >
         <img
           src={asset('/images/valores/foto.webp')}
           srcset={`${asset('/images/valores/foto-sm.webp')} 800w, ${asset('/images/valores/foto.webp')} 1100w`}
-          sizes="(min-width: 1024px) 541px, calc(100vw - 48px)"
+          sizes="(min-width: 1024px) 42vw, calc(100vw - 48px)"
           width="1100"
           height="781"
           alt="Colaboradores da Solar Coca-Cola comemorando juntos, sorrindo"
@@ -117,9 +123,15 @@ const valores = [
           valores.map((v) => (
             <details
               name="valores"
-              class="valor-item rounded-3xl border-b-4 border-transparent p-6"
+              class="valor-item rounded-3xl border-b-4 border-transparent"
             >
-              <summary class="flex list-none items-start justify-between gap-4 text-xl font-bold text-surface lg:text-2xl">
+              <!-- O padding mora no summary, não no details: assim o cabeçalho
+                   inteiro (e não só a linha do texto) é alvo de clique e de hover.
+                   pb-5 em vez de pb-6 compensa a borda inferior de 4px — o fundo
+                   pinta por baixo dela, então 20+4 devolve os mesmos 24px visuais
+                   do topo e o título fica no centro óptico da pílula fechada.
+                   Ver playbook/09-qa-erros-comuns.md#qa-030 e #qa-031 -->
+              <summary class="flex list-none items-center justify-between gap-4 px-6 pb-5 pt-6 text-xl font-bold text-surface lg:text-2xl">
                 {v.titulo}
                 <svg
                   viewBox="0 0 24 24"
@@ -134,7 +146,7 @@ const valores = [
                   <path d="m6 9 6 6 6-6" />
                 </svg>
               </summary>
-              <p class="mt-4 text-base font-light leading-[1.5] text-surface">
+              <p class="px-6 pb-6 text-base font-light leading-[1.5] text-surface">
                 {v.texto}
               </p>
             </details>

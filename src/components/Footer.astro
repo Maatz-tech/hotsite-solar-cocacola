@@ -11,23 +11,31 @@ import { asset } from '../lib/url';
 import Instagram from './icons/Instagram.astro';
 import LinkedIn from './icons/LinkedIn.astro';
 import YouTube from './icons/YouTube.astro';
-import { SOCIAL_LINKS, LEGAL_LINKS, MAATZ_URL, SITE_NAME } from '../data/site';
+import { SOCIAL_LINKS, LEGAL_LINKS, MAATZ_URL, EURECA_URL, SITE_NAME } from '../data/site';
 
 const ICONS = { Instagram, LinkedIn, YouTube };
 ---
 
 <footer>
   <div
-    class="mx-auto flex max-w-[1440px] flex-col items-center gap-10 rounded-t-3xl lg:rounded-t-[40px] bg-brand px-6 py-10 lg:flex-row lg:justify-between lg:px-30 lg:py-20"
+    class="mx-auto flex max-w-[1440px] flex-col items-center gap-10 rounded-t-3xl lg:rounded-t-[40px] bg-brand respiro-x-rodape py-10 lg:flex-row lg:justify-between lg:py-20"
   >
-    <img
-      src={asset('/images/brand/eureca.webp')}
-      width="164"
-      height="30"
-      alt="Eureca"
-      loading="lazy"
-      class="h-6 w-auto lg:h-[30px]"
-    />
+    <a
+      href={EURECA_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="alvo-44 -m-2 flex p-2 transition-opacity hover:opacity-70"
+      aria-label="Eureca (abre em nova aba)"
+    >
+      <img
+        src={asset('/images/brand/eureca.webp')}
+        width="164"
+        height="30"
+        alt="Eureca"
+        loading="lazy"
+        class="h-6 w-auto lg:h-[30px]"
+      />
+    </a>
 
     <div class="flex flex-col items-center gap-[18px]">
       <img
@@ -68,39 +76,46 @@ const ICONS = { Instagram, LinkedIn, YouTube };
 
   <div class="bg-ink">
     <div
-      class="mx-auto flex max-w-[1440px] flex-col items-center justify-between gap-4 px-6 py-6 text-sm lg:flex-row lg:px-30 lg:py-6"
+      class="mx-auto flex max-w-[1440px] flex-col items-center justify-between gap-4 respiro-x-rodape py-6 text-sm lg:flex-row lg:py-6"
     >
       <ul class="flex flex-wrap items-center justify-center gap-x-6 gap-y-1">
         {
-          LEGAL_LINKS.map((link) => (
-            <li>
-              <a href={link.href} class="alvo-44 inline-block text-ink-20 underline underline-offset-2 transition-colors hover:text-surface">
-                {link.label}
-              </a>
-            </li>
-          ))
+          LEGAL_LINKS.map((link) => {
+            const externo = link.href.startsWith('http');
+            return (
+              <li>
+                <a
+                  href={link.href}
+                  target={externo ? '_blank' : undefined}
+                  rel={externo ? 'noopener noreferrer' : undefined}
+                  class="alvo-44 inline-block text-ink-20 underline underline-offset-2 transition-colors hover:text-surface"
+                >
+                  {link.label}
+                </a>
+              </li>
+            );
+          })
         }
       </ul>
 
-      <p class="flex items-center gap-2 text-surface">
+      <!-- O link abraça "Desenvolvido por" + logo: alvo maior e uma frase só. -->
+      <a
+        href={MAATZ_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="alvo-44 -m-2 flex items-center gap-2 p-2 text-surface transition-opacity hover:opacity-70"
+        aria-label="Desenvolvido por Maatz (abre em nova aba)"
+      >
         Desenvolvido por
-        <a
-          href={MAATZ_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="alvo-44 -m-2 flex p-2 transition-opacity hover:opacity-70"
-          aria-label="Maatz (abre em nova aba)"
-        >
-          <img
-            src={asset('/images/brand/maatz-branco.svg')}
-            width="72"
-            height="18"
-            alt="Maatz"
-            loading="lazy"
-            class="h-[18px] w-auto"
-          />
-        </a>
-      </p>
+        <img
+          src={asset('/images/brand/maatz-branco.svg')}
+          width="72"
+          height="18"
+          alt="Maatz"
+          loading="lazy"
+          class="h-[18px] w-auto"
+        />
+      </a>
     </div>
   </div>
 </footer>

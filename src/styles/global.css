@@ -38,6 +38,10 @@
   --font-sans: "VAG Rounded Std", ui-sans-serif, system-ui, sans-serif;
 
   /* --- Layout --- */
+  /* `wide:` = a largura do desktop do Figma. Entre `lg` (1024) e ela o layout
+     precisa de medidas menores; os números literais do Figma só valem daqui
+     pra cima. */
+  --breakpoint-wide: 1440px;
   --container-lp: 1216px;   /* 1440 - 112*2 */
   --radius-section: 40px;   /* cantos das seções */
   --radius-card: 32px;
@@ -378,6 +382,24 @@
     display: none;
   }
 
+  /* Respiro lateral das seções.
+     O Figma dá 24px em 390 e 112px em 1440. O salto seco de um pro outro em
+     `lg` comia 224px de uma tela de 1024 — sobrava menos da metade da largura
+     pras colunas internas, e por isso tudo entre 1024 e 1440 ficava espremido.
+     Aqui ele cresce junto com a tela e bate exatamente nos dois valores do
+     Figma nas pontas. Coeficiente = (112-24)/(1440-390).
+     Ver playbook/09-qa-erros-comuns.md#qa-033
+     Como utilitária do Tailwind vence @layer components, quem usa `.respiro-x`
+     NÃO pode carregar `px-*` junto. Ver playbook/09-qa-erros-comuns.md#qa-001 */
+  .respiro-x {
+    padding-inline: clamp(24px, calc(24px + (100vw - 390px) * 0.08381), 112px);
+  }
+
+  /* Mesma ideia, mas o rodapé fecha em 120px no Figma. */
+  .respiro-x-rodape {
+    padding-inline: clamp(24px, calc(24px + (100vw - 390px) * 0.09143), 120px);
+  }
+
   /* --- Pill / chip --- */
   .pill {
     display: inline-flex;
@@ -479,8 +501,13 @@
     background: #535353;
   }
 }
+/* Hover do cabeçalho é opacidade, não a cor da marca: vermelho sobre o cinza
+   escuro do item tem contraste baixo demais pra ler. */
+.valor-item summary {
+  transition: opacity 200ms ease;
+}
 .valor-item summary:hover {
-  color: var(--color-brand);
+  opacity: 0.7;
 }
 .valor-item summary svg {
   transition: transform 200ms ease;

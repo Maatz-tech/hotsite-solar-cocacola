@@ -12,12 +12,13 @@ import Estrela from '../icons/Estrela.astro';
 <!-- Sem margem lateral: no mobile só o hero tem (Figma). -->
 <section id="programa">
   <div
-    class="relative mx-auto max-w-[1440px] overflow-hidden rounded-3xl lg:rounded-[40px] bg-ink px-6 py-16 lg:px-28 lg:py-25"
+    class="relative mx-auto max-w-[1440px] overflow-hidden rounded-3xl lg:rounded-[40px] bg-ink respiro-x py-16 lg:py-25"
   >
     <Estrela class="absolute right-20 top-[62px] size-26 text-brand max-lg:hidden" />
 
     <!-- No mobile a foto entra entre o título e o corpo (Figma 4031:2456). -->
-    <div class="grid gap-8 lg:grid-cols-[595px_1fr] lg:items-start lg:gap-x-20">
+    <!-- Colunas em proporção (ver ValoresSection): 1.1:1 = os 595/541 do Figma. -->
+    <div class="grid gap-8 lg:grid-cols-[1.1fr_1fr] lg:items-start lg:gap-x-10 wide:gap-x-20">
       <div class="flex flex-col items-start gap-4 lg:col-start-1 lg:row-start-1">
         <Eyebrow data-reveal>Trainee 2026 · Supply Chain</Eyebrow>
         <RevealText as="h2" class="h2 text-surface" text="Conectamos você a um futuro sustentável" />
@@ -26,12 +27,12 @@ import Estrela from '../icons/Estrela.astro';
       <img
         src={asset('/images/programa/time.webp')}
         srcset={`${asset("/images/programa/time-sm.webp")} 800w, ${asset("/images/programa/time.webp")} 1100w`}
-        sizes="(min-width: 1024px) 546px, calc(100vw - 72px)"
+        sizes="(min-width: 1024px) 42vw, calc(100vw - 48px)"
         width="546"
         height="388"
         alt="Três trainees da Solar Coca-Cola reunidos em volta de um notebook, sorrindo"
         loading="lazy"
-        class="w-full rounded-card border border-brand object-cover shadow-[-5px_5px_0_var(--color-brand)] max-lg:mt-0 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:h-[388px]"
+        class="w-full rounded-card border border-brand object-cover shadow-[-5px_5px_0_var(--color-brand)] max-lg:mt-0 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:aspect-[546/388]"
         data-reveal
       />
 

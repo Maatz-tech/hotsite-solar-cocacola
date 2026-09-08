@@ -55,7 +55,7 @@ const extras = [
 <!-- Sem margem lateral: no mobile só o hero tem (Figma). -->
 <section id="pre-requisitos">
   <div
-    class="mx-auto flex max-w-[1440px] flex-col items-center gap-10 lg:gap-16 rounded-t-3xl lg:rounded-t-[40px] bg-surface-alt px-6 pb-24 pt-16 lg:px-28 lg:pb-35 lg:pt-20"
+    class="mx-auto flex max-w-[1440px] flex-col items-center gap-10 lg:gap-16 rounded-t-3xl lg:rounded-t-[40px] bg-surface-alt respiro-x pb-24 pt-16 lg:pb-35 lg:pt-20"
   >
     <div class="flex flex-col items-center gap-4 text-center">
       <Eyebrow data-reveal>Pré-requisitos</Eyebrow>
@@ -65,23 +65,23 @@ const extras = [
       </p>
     </div>
 
-    <div class="flex w-full flex-col items-start gap-12 lg:flex-row lg:justify-center">
+    <div class="flex w-full flex-col items-start gap-12 max-lg:mx-auto max-lg:max-w-[640px] lg:flex-row lg:justify-center">
       <img
         src={asset('/images/requisitos/mesa.webp')}
         srcset={`${asset("/images/requisitos/mesa-sm.webp")} 800w, ${asset("/images/requisitos/mesa.webp")} 1050w`}
-        sizes="(min-width: 1024px) 514px, calc(100vw - 72px)"
+        sizes="(min-width: 1440px) 514px, (min-width: 1024px) 42vw, (min-width: 640px) 640px, calc(100vw - 48px)"
         width="514"
         height="351"
         alt="Cinco jovens sentados à mesa de um refeitório brindando com garrafas de Coca-Cola"
         loading="lazy"
-        class="w-full rounded-card object-cover lg:w-[514px] lg:shrink-0"
+        class="w-full rounded-card object-cover lg:sticky lg:top-28 lg:w-[42%] lg:max-w-[514px] lg:shrink-0 lg:self-start wide:w-[514px]"
         data-reveal
       />
 
       <div class="flex w-full flex-col gap-4" data-reveal-stagger>
         {
           requisitos.map((r) => (
-            <article class="card flex items-start gap-5 p-6 shadow-solid-lg max-lg:flex-col lg:py-[33px] lg:pl-[33px] lg:pr-[65px]">
+            <article class="card flex items-start gap-5 p-6 shadow-solid-lg max-sm:flex-col lg:py-[33px] lg:pl-[33px] lg:pr-8 wide:pr-[65px]">
               <span class="flex size-13 shrink-0 items-center justify-center rounded-btn bg-brand">
                 <img src={asset(r.icone)} alt="" aria-hidden="true" width="24" height="24" class="size-6" loading="lazy" />
               </span>
@@ -98,7 +98,7 @@ const extras = [
                   <!-- No Figma (4141:61) a linha de chips tem 492 e extrapola a coluna de
                        texto: o padding direito de 65px do card vale para o parágrafo,
                        não para ela. -->
-                  <ul class="mt-4 flex flex-col gap-4 lg:-mr-8 lg:flex-row lg:flex-wrap">
+                  <ul class="mt-4 flex flex-col gap-4 sm:flex-row sm:flex-wrap wide:-mr-8">
                     {r.vagas.map((v) => (
                       <li class="w-fit rounded-lg border border-ink bg-surface px-3 py-2 text-base leading-[1.5] text-ink-70">
                         {v}
@@ -118,7 +118,7 @@ const extras = [
 <!-- No mobile a seção sangra de borda a borda (Figma 4031:2785, x=0 w=375). -->
 <section id="beneficios" class="-mt-10 lg:px-0">
   <div
-    class="mx-auto flex max-w-[1440px] flex-col items-center gap-10 lg:gap-16 rounded-3xl lg:rounded-[40px] bg-brand px-6 py-16 lg:px-28 lg:py-20"
+    class="mx-auto flex max-w-[1440px] flex-col items-center gap-10 lg:gap-16 rounded-3xl lg:rounded-[40px] bg-brand respiro-x py-16 lg:py-20"
   >
     <!-- Mobile alinha à esquerda; desktop centraliza (Figma 4031:2785 vs 4025:651). -->
     <div class="flex w-full flex-col items-start gap-4 text-left lg:items-center lg:text-center">
@@ -134,12 +134,12 @@ const extras = [
     </div>
 
     <ul
-      class="flex w-full flex-col gap-4 lg:w-auto lg:flex-row lg:flex-wrap lg:items-center lg:justify-center"
+      class="flex w-full flex-col gap-4 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:justify-center"
       data-reveal-stagger
     >
       {
         beneficios.map((b) => (
-          <li class="flex h-20 items-center gap-4 rounded-icon bg-surface p-4 lg:h-auto lg:w-auto">
+          <li class="flex h-20 items-center gap-4 rounded-icon bg-surface p-4 sm:h-auto sm:w-auto">
             <span class="flex shrink-0 items-center justify-center rounded-btn bg-ink p-3">
               <img src={asset(b.icone)} alt="" aria-hidden="true" width="24" height="24" class="size-6" loading="lazy" />
             </span>
@@ -159,7 +159,7 @@ const extras = [
 
     <!-- Mobile: lista vertical à esquerda (Figma 4031:2880). Desktop: em linha, centralizado. -->
     <div
-      class="flex w-full max-w-[742px] flex-col items-start gap-2.5 lg:w-auto lg:flex-row lg:flex-wrap lg:items-center lg:justify-center lg:gap-4"
+      class="flex w-full max-w-[742px] flex-col items-start gap-2.5 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-4"
       data-reveal
     >
       <p class="text-xl text-surface">E mais:</p>

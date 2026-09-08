@@ -33,7 +33,10 @@ export const SOCIAL_LINKS = [
 
 /** Assinatura da agência no rodapé. O utm_source identifica de qual site veio. */
 export const MAATZ_URL =
-  'https://maatz.com.br?utm_source=trainee-solar-coca-cola&utm_medium=footer&utm_campaign=portfolio';
+  'https://maatz.com.br/sites/?utm_source=trainee-solar-coca-cola&utm_medium=footer&utm_campaign=portfolio';
+
+/** Eureca — dona do programa; o logo do rodapé leva pro site dela. */
+export const EURECA_URL = 'https://eureca.me/';
 
 export const LEGAL_LINKS = [
   { label: 'Política de Privacidade', href: 'https://eureca.me/politica-de-privacidade/' },

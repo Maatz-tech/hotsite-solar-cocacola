@@ -4,8 +4,10 @@ import { asset } from '../../lib/url';
  * Depoimentos — Figma desktop 4016:377 · mobile 4031:3255.
  * Cards em 4102:120 · 127 · 141 · 149 · 156.
  *
- * Carrossel com scroll-snap nativo: os botões só empurram o scroll. Sem
- * biblioteca, funciona com teclado, com toque e sem JS.
+ * Carrossel de um card por página, com scroll-snap nativo: setas, bolinhas,
+ * arrasto e autoplay só mandam o trilho para o índice certo (ver lib/carrossel).
+ * Sem biblioteca, funciona com teclado, com toque e sem JS.
+ * Ver playbook/09-qa-erros-comuns.md#qa-035
  */
 import RevealText from '../RevealText.astro';
 
@@ -52,7 +54,7 @@ const decorativos = [
 <!-- Sem margem lateral: no mobile só o hero tem (Figma). -->
 <section id="depoimentos">
   <div
-    class="mx-auto grid max-w-[1440px] gap-10 rounded-3xl lg:rounded-[40px] bg-surface-alt px-6 py-16 lg:grid-cols-[280px_1fr] lg:gap-16 lg:px-28 lg:py-25"
+    class="mx-auto grid max-w-[1440px] gap-10 rounded-3xl lg:rounded-[40px] bg-surface-alt respiro-x py-16 lg:grid-cols-[220px_1fr] lg:gap-10 lg:py-25 wide:grid-cols-[280px_1fr] wide:gap-16"
   >
     <div class="flex flex-col justify-between gap-10">
       <div class="flex flex-col gap-6">
@@ -107,7 +109,7 @@ const decorativos = [
 
     <div
       id="trilho-depoimentos"
-      class="trilho-arrastavel flex snap-x snap-mandatory gap-8 overflow-x-auto scroll-pl-6 scroll-smooth max-lg:-mx-6 max-lg:w-[calc(100%+48px)] max-lg:px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      class="trilho-arrastavel flex snap-x snap-mandatory gap-8 overflow-x-auto scroll-smooth max-lg:-mx-6 max-lg:w-[calc(100%+48px)] max-lg:scroll-pl-6 max-lg:px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       tabindex="0"
       role="group"
       aria-roledescription="carrossel"
@@ -116,19 +118,19 @@ const decorativos = [
       {
         depoimentos.map((d, i) => (
           <article
-            class="flex w-full shrink-0 snap-start flex-col items-start gap-10 rounded-card bg-surface p-6 lg:flex-row lg:p-10"
+            class="flex w-full shrink-0 snap-start snap-always flex-col items-start gap-10 rounded-card bg-surface p-6 lg:flex-row lg:gap-8 lg:p-8 wide:gap-10 wide:p-10"
             aria-roledescription="slide"
             aria-label={`${i + 1} de ${depoimentos.length}`}
           >
             <img
               src={asset(d.foto)}
               srcset={`${asset(d.foto.replace('.webp', '-sm.webp'))} 620w, ${asset(d.foto)} 918w`}
-              sizes="(min-width: 1024px) 300px, calc(100vw - 120px)"
+              sizes="(min-width: 1440px) 300px, (min-width: 1024px) 240px, calc(100vw - 120px)"
               width="300"
               height="400"
               alt={d.nome}
               loading="lazy"
-              class="h-[400px] w-[300px] shrink-0 rounded-btn border border-ink object-cover object-top shadow-solid-lg max-lg:aspect-[279/227] max-lg:h-auto max-lg:w-full"
+              class="h-[340px] w-[240px] shrink-0 rounded-btn border border-ink object-cover object-top shadow-solid-lg max-lg:aspect-[279/227] max-lg:h-auto max-lg:w-full wide:h-[400px] wide:w-[300px]"
             />
 
             <div class="flex flex-1 flex-col justify-between gap-8 self-stretch">
@@ -164,59 +166,41 @@ const decorativos = [
 
 <script>
   import { revealWords } from '../../lib/motion';
-  import { arrastavelComMouse } from '../../lib/carrossel';
+  import { arrastavelComMouse, autoplay, paginar } from '../../lib/carrossel';
   revealWords('#depoimentos [data-reveal-words]');
 
   const trilho = document.getElementById('trilho-depoimentos');
-  const anterior = document.querySelector<HTMLButtonElement>('[data-carrossel="anterior"]');
-  const proximo = document.querySelector<HTMLButtonElement>('[data-carrossel="proximo"]');
 
-  if (trilho && anterior && proximo) {
-    const passo = () => trilho.querySelector('article')?.clientWidth ?? trilho.clientWidth;
+  if (trilho) {
+    // Setas, bolinhas e arrasto falam em índice de card — nunca em pixels.
+    const carrossel = paginar(trilho);
 
-    anterior.addEventListener('click', () => trilho.scrollBy({ left: -passo() - 32 }));
-    proximo.addEventListener('click', () => trilho.scrollBy({ left: passo() + 32 }));
+    const anterior = document.querySelector<HTMLButtonElement>('[data-carrossel="anterior"]');
+    const proximo = document.querySelector<HTMLButtonElement>('[data-carrossel="proximo"]');
+    const bolinhas = Array.from(
+      document.querySelectorAll<HTMLButtonElement>('#pontos-depoimentos button')
+    );
 
-    // As setas mostram onde dá pra ir: no fim do trilho a seta apaga.
-    const sincronizar = () => {
-      const fim = trilho.scrollWidth - trilho.clientWidth - 1;
-      anterior.disabled = trilho.scrollLeft <= 1;
-      proximo.disabled = trilho.scrollLeft >= fim;
+    // Passa sozinho; qualquer troca manual reinicia a contagem.
+    const rodizio = autoplay(trilho, carrossel);
+    const trocar = (i: number) => {
+      carrossel.irPara(i);
+      rodizio?.adiar();
     };
 
-    trilho.addEventListener('scroll', sincronizar, { passive: true });
-    sincronizar();
+    anterior?.addEventListener('click', () => trocar(carrossel.indice() - 1));
+    proximo?.addEventListener('click', () => trocar(carrossel.indice() + 1));
+    bolinhas.forEach((b, i) => b.addEventListener('click', () => trocar(i)));
+
+    // As setas mostram onde dá pra ir: na ponta do trilho a seta apaga.
+    carrossel.aoMudar((indice, total) => {
+      if (anterior) anterior.disabled = indice === 0;
+      if (proximo) proximo.disabled = indice === total - 1;
+      bolinhas.forEach((b, i) => b.setAttribute('aria-current', String(i === indice)));
+    });
 
     // No desktop as setas eram a única forma de trocar: o mouse não arrasta
     // contêiner de scroll sozinho.
-    arrastavelComMouse(trilho);
-  }
-
-  const pontos = document.getElementById('pontos-depoimentos');
-
-  if (trilho && pontos) {
-    const bolinhas = Array.from(pontos.querySelectorAll('button'));
-    const cards = () => Array.from(trilho.children) as HTMLElement[];
-
-    const marcar = () => {
-      const alvo = trilho.scrollLeft + trilho.clientWidth / 2;
-      let ativo = 0;
-      let menor = Infinity;
-      cards().forEach((c, i) => {
-        const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - alvo);
-        if (d < menor) { menor = d; ativo = i; }
-      });
-      bolinhas.forEach((b, i) => b.setAttribute('aria-current', String(i === ativo)));
-    };
-
-    bolinhas.forEach((b, i) =>
-      b.addEventListener('click', () => {
-        const card = cards()[i];
-        if (card) trilho.scrollTo({ left: card.offsetLeft - trilho.offsetLeft });
-      })
-    );
-
-    trilho.addEventListener('scroll', marcar, { passive: true });
-    marcar();
+    arrastavelComMouse(trilho, carrossel);
   }
 </script>

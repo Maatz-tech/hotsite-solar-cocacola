@@ -518,4 +518,119 @@ destaque visual troca junto.
 
 ---
 
-> Próximo ID livre: **QA-030**
+## QA-030 — Padding do acordeão no `<details>` deixa metade do cabeçalho morto
+
+**Categoria:** CSS · A11y
+**Sintoma:** o item do acordeão só abre quando o clique cai exatamente em cima
+do texto do título; a faixa de respiro em volta não responde a clique nem a
+hover.
+**Causa:** o `p-6` estava no `<details>`. O `<summary>` — o único elemento que
+o browser trata como cabeçalho clicável — ficava só com a caixa do texto, e a
+moldura de 24px em volta pertencia ao pai.
+**Correção:** o padding é do `<summary>` (e do bloco de conteúdo), nunca do
+`<details>`:
+
+```html
+<details class="item rounded-3xl">
+  <summary class="flex items-center justify-between p-6">…</summary>
+  <div class="px-6 pb-6">…</div>
+</details>
+```
+
+**Como detectar:** passar o mouse a 10px do texto do título. Se o cursor não
+vira mãozinha e o hover não acende, o alvo está errado.
+
+---
+
+## QA-031 — Borda transparente desloca o texto do centro óptico
+
+**Categoria:** CSS · Figma
+**Sintoma:** o título dentro de uma pílula parece alto demais, "colado" no topo,
+mesmo com padding igual em cima e embaixo.
+**Causa:** uma `border-bottom` reservada para o estado ativo (`border-b-4
+border-transparent`, para a caixa não pular de altura ao abrir). Como o
+`background` pinta por baixo da borda (`background-clip: border-box`), o retângulo
+colorido tem 4px a mais embaixo — e 24/24 de padding vira 24/28 de respiro visual.
+**Correção:** descontar a borda do padding do lado dela (`pb-5` + 4px de borda =
+os mesmos 24px de cima), ou `background-clip: padding-box`.
+**Como detectar:** medir no DevTools a distância do texto até o topo e até a
+base da área **colorida** — não da caixa de conteúdo.
+
+---
+
+## QA-032 — Composição de largura fixa do Figma quebra entre `lg` e o desktop
+
+**Categoria:** CSS · Figma
+**Sintoma:** o hero (ou qualquer bloco montado com posições absolutas em px)
+funciona em 1440 e em 390, mas em 1100 as peças se atropelam — a foto entra por
+cima do título.
+**Causa:** o Figma entrega uma cena de largura fixa (1360×610). Ancorar cada
+peça na borda mais próxima não preserva a distância ENTRE elas: cada uma anda
+num ritmo diferente conforme a caixa encolhe.
+**Correção:** a cena não reflui, encolhe inteira. Caixa interna no tamanho do
+Figma + `transform: scale()`, com a altura do palco acompanhando:
+
+```css
+.quadro { container-type: inline-size; }
+.palco  { --escala: min(1, tan(atan2(100cqw, 1360px))); height: calc(610px * var(--escala)); }
+.cena   { width: 1360px; height: 610px; transform: scale(var(--escala)); transform-origin: top left; }
+```
+
+`tan(atan2(a, b))` é como se divide dois comprimentos em CSS e sai um número
+puro — `calc(100cqw / 1360)` devolveria um comprimento, e comprimento não entra
+em `scale()`. `cqw` e não `vw`: a barra de rolagem entra em `100vw` no Chrome do
+Windows e o card estoura a caixa.
+**Como detectar:** screenshot em 1024, 1100 e 1280 — não só nos dois breakpoints
+que o Figma documenta.
+
+---
+
+## QA-033 — Padding lateral que salta de 24px para 112px espreme o tablet
+
+**Categoria:** CSS · Figma
+**Sintoma:** entre 1024 e 1440 as colunas internas ficam absurdas — uma coluna
+de texto com 110px, uma foto recortada pela metade.
+**Causa:** `px-6 lg:px-28` traduz literalmente os dois frames do Figma. Em 1440
+os 112px são 15% da tela; em 1024 são 22%, e some quase um quarto da largura
+útil justo onde ela é mais escassa.
+**Correção:** padding fluido que bate nos dois valores do Figma nas pontas —
+`padding-inline: clamp(24px, calc(24px + (100vw - 390px) * 0.08381), 112px)` —
+e colunas em proporção (`grid-cols-[1fr_1.1fr]`) em vez de px fixo
+(`grid-cols-[1fr_595px]`).
+**Como detectar:** medir a largura da coluna mais estreita em 1024. Se ela cabe
+menos de 40 caracteres por linha, o layout não é responsivo, é só desktop
+encolhido.
+
+---
+
+## QA-034 — `overflow-hidden` no ancestral mata o `position: sticky`
+
+**Categoria:** CSS
+**Sintoma:** o elemento com `sticky` simplesmente rola junto, como se a
+propriedade não existisse.
+**Causa:** um ancestral com `overflow: hidden` vira o contêiner de rolagem do
+sticky. Como esse ancestral não rola, o elemento nunca "gruda".
+**Correção:** `overflow: clip` recorta igual e **não** cria contêiner de
+rolagem — o sticky volta a se referenciar na viewport. Só trocar `overflow-hidden`
+por `overflow-clip`.
+**Como detectar:** rolar 300px e comparar `getBoundingClientRect().top` antes e
+depois. Se mudou o mesmo tanto que o scroll, não grudou.
+
+---
+
+## QA-035 — `scroll-padding` sem o padding correspondente desalinha o snap
+
+**Categoria:** CSS
+**Sintoma:** no carrossel o primeiro card encaixa certo, mas do segundo em
+diante sobra uma faixa do card anterior à esquerda e o card atual fica cortado
+à direita.
+**Causa:** `scroll-pl-6` aplicado em todos os breakpoints, enquanto o `px-6` que
+ele compensa só existe no mobile. No desktop o snap recua 24px que não têm par.
+**Correção:** o `scroll-padding` acompanha o padding — `max-lg:scroll-pl-6`
+junto de `max-lg:px-6`.
+**Como detectar:** clicar na seta e medir a distância do card ao início do
+trilho. Tem que ser zero (ou exatamente o padding).
+
+---
+
+> Próximo ID livre: **QA-036**
