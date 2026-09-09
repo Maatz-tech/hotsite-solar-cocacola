@@ -143,6 +143,11 @@ e com `prefers-reduced-motion`.
 
 ## Pendências / bloqueios
 
+> **Resolvida em 09/09** — 4º card dos diferenciais: o cliente confirmou que
+> mobile e desktop são o mesmo card, "Proposta de Valor ao Colaborador"
+> (com V maiúsculo). A versão antiga "Nossa Cultura" (`4031:2554`), que
+> aparecia só no mobile, saiu.
+
 > **Resolvida em 27/08** — Open Graph desenhada pela Bia (Figma `4168:117`),
 > exportada em 2× e reduzida para 1200×630. A versão que eu tinha montado
 > saiu junto com o gerador.

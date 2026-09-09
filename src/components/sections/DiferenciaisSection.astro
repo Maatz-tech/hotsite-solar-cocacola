@@ -43,31 +43,15 @@ import { CTA_URL } from '../../data/site';
         como uma das melhores empresas para se trabalhar no Brasil.
       </BenefitCard>
 
-      <!--
-        O Figma diverge entre breakpoints neste card: desktop já trocou para
-        "Proposta de valor ao Colaborador" (4015:169), mobile ainda mostra a
-        versão antiga "Nossa Cultura" (4031:2554). Implementado fiel a cada
-        um até a designer sincronizar — ver Pendências no PROJECT.md.
-      -->
       <BenefitCard
-        class="w-[327px] shrink-0 snap-start max-lg:hidden lg:w-auto lg:shrink"
+        class="w-[327px] shrink-0 snap-start lg:w-auto lg:shrink"
         icone="/images/beneficios/proposta-valor.svg"
-        titulo="Proposta de valor ao Colaborador"
+        titulo="Proposta de Valor ao Colaborador"
         caixa
       >
         <strong class="font-bold">Propósito, Desenvolvimento e Performance:</strong>
         os três pilares que traduzem nossa marca empregadora e impulsionam a
         experiência das nossas pessoas Solares.
-      </BenefitCard>
-
-      <BenefitCard
-        class="w-[327px] shrink-0 snap-start lg:hidden"
-        icone="/images/beneficios/cultura.svg"
-        titulo="Nossa Cultura"
-        caixa
-      >
-        Um ambiente de trabalho seguro e colaborativo, onde a individualidade e a
-        autenticidade das nossas pessoas Solares são o combustível para ir além.
       </BenefitCard>
     </div>
 
@@ -104,8 +88,7 @@ import { CTA_URL } from '../../data/site';
 
   if (trilho && pontos) {
     const bolinhas = Array.from(pontos.querySelectorAll('button'));
-    // filtra os que estão display:none (o 4º card tem duas versões, uma por
-    // breakpoint) — offsetParent é null quando o elemento não está renderizado.
+    // offsetParent é null quando o card não está renderizado (display:none).
     const cards = () =>
       (Array.from(trilho.children) as HTMLElement[]).filter((c) => c.offsetParent !== null);
 
