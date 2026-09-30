@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { SITE_URL, SITE_NAME } from '../data/site';
+import { SITE_URL, SITE_NAME, INDEXAVEL } from '../data/site';
 import { asset } from '../lib/url';
 
 // `?url` devolve o caminho final do arquivo processado pelo Vite — com hash e
@@ -55,6 +55,7 @@ const schemas = [
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-TLVV5RQ');</script>
     <!-- End Google Tag Manager -->
+    {!INDEXAVEL && <meta name="robots" content="noindex, nofollow" />}
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href={asset('/favicon.svg')} />

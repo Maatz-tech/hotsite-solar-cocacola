@@ -13,6 +13,19 @@ export const SITE_NAME = 'Solar Coca-Cola';
 // PENDENTE: domínio final não definido — trocar antes da entrega.
 export const SITE_URL = 'https://exemplo.com.br';
 
+/**
+ * Governa indexação em UM lugar só. Em `false`:
+ *   · o Base.astro emite <meta name="robots" content="noindex, nofollow">
+ *   · o robots.txt bloqueia tudo e não anuncia o sitemap
+ *
+ * Os dois juntos são o ponto: `Disallow` sozinho barra o rastreio, mas não
+ * impede o Google de indexar a URL achada por link de fora — quem garante
+ * isso é o meta. Enquanto o que está no ar for o espelho do GitHub Pages,
+ * fica `false`. No lançamento, virar `true` e publicar.
+ * A nota de SEO do Lighthouse fica baixa de propósito até lá.
+ */
+export const INDEXAVEL = false;
+
 /** Destino do CTA principal — formulário de inscrição (Eureca). */
 export const CTA_URL = 'https://go.eureca.me/N1DfGX';
 export const CTA_LABEL = 'Inscreva-se agora';

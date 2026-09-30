@@ -3,15 +3,15 @@
  * real em vez de ficar comentada esperando alguém lembrar.
  */
 import type { APIRoute } from 'astro';
-import { SITE_URL } from '../data/site';
+import { SITE_URL, INDEXAVEL } from '../data/site';
 
 /**
- * Enquanto o domínio final não for definido, o que está no ar é preview
- * (GitHub Pages). Liberar indexação aí faria o preview competir com o site
- * real na busca — então o padrão é bloquear e só liberar quando SITE_URL
- * deixar de ser o placeholder.
+ * Quem manda é a chave `INDEXAVEL` de src/data/site.ts — a mesma que governa
+ * o meta noindex do Base.astro. Antes isto era deduzido do SITE_URL ser o
+ * placeholder, o que amarrava duas decisões diferentes (ter domínio e querer
+ * ser indexado) numa condição só.
  */
-const ehPreview = SITE_URL.includes('exemplo.com.br');
+const ehPreview = !INDEXAVEL;
 
 export const GET: APIRoute = () =>
   new Response(
