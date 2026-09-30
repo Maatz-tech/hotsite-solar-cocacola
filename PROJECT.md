@@ -94,6 +94,31 @@ e com `prefers-reduced-motion`.
 
 ---
 
+## Analytics
+
+GTM da Eureca (**`GTM-TLVV5RQ`**) instalado no `Base.astro` em 30/09/2026 — o
+par script+`<noscript>`, conforme [playbook/14-analytics.md](playbook/14-analytics.md).
+Daqui pra frente **tag nova é configuração no painel do GTM, não deploy**.
+
+Os números de Lighthouse da tabela acima são de 25/08/2026 e **anteriores ao
+GTM**. O contêiner é `async` e não deve mexer em LCP nem CLS; o TBT tende a
+subir alguns ms. Remedir antes de citar performance pro cliente.
+
+---
+
+## Inscrições encerradas
+
+`INSCRICOES_ENCERRADAS` em `src/data/site.ts` é a chave única do fim do
+programa. Ligada, os 7 CTAs viram botão, trocam o rótulo e abrem o
+`ModalEncerrado`; o chip do Hero e o `<title>` acompanham. Para reabrir, voltar
+para `false` — nada mais muda.
+
+As datas do modal saem de `PERIODO_INSCRICAO` (`src/data/vaga.ts`), derivadas
+das mesmas constantes que alimentam o JobPosting: **26/08/2026 a 28/09/2026**.
+Confirmar com o cliente se a data de início real difere da de publicação.
+
+---
+
 ## Assets
 
 | Asset | Origem | Destino | Formato |

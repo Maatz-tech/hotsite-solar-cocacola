@@ -1,0 +1,34 @@
+---
+/**
+ * O CTA de inscrição da página, em um lugar só.
+ *
+ * Com as inscrições abertas, é um link para o formulário da Eureca. Com
+ * INSCRICOES_ENCERRADAS ligado (src/data/site.ts), vira botão, troca o rótulo
+ * para "Inscrições encerradas" e abre o ModalEncerrado.
+ *
+ * Os textos de cada seção entram pelo slot e só aparecem com as inscrições
+ * abertas — encerrado, todos os CTAs falam a mesma coisa.
+ */
+import Button from './Button.astro';
+import { CTA_URL, INSCRICOES_ENCERRADAS, ENCERRADO_LABEL } from '../data/site';
+
+interface Props {
+  variant?: 'primary' | 'outline' | 'invert';
+  size?: 'sm' | 'md' | 'lg';
+  class?: string;
+}
+
+const { variant, size, class: className } = Astro.props;
+---
+
+{
+  INSCRICOES_ENCERRADAS ? (
+    <Button variant={variant} size={size} class={className} data-abre-aviso>
+      {ENCERRADO_LABEL}
+    </Button>
+  ) : (
+    <Button href={CTA_URL} variant={variant} size={size} class={className}>
+      <slot />
+    </Button>
+  )
+}

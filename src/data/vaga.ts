@@ -38,3 +38,21 @@ Uma trilha de aprendizagem robusta, com desafios práticos e mentoria direta das
 Pré-requisitos: cursando ensino superior nas modalidades bacharelado, licenciatura ou tecnólogo, nas áreas de Logística, Manutenção ou Engenharia, com conclusão entre janeiro/2021 e dezembro/2026. É necessária disponibilidade para trabalhar presencialmente durante os 18 meses do programa.
 
 Benefícios: salário de R$ 7.500,00 por mês, vale-refeição ou refeitório na unidade, plano de saúde, plano odontológico, vale-transporte ou fretado, seguro de vida, participação nos resultados, Wellhub (Gympass), desconto nos produtos, kit natalino, programa de saúde emocional, telemedicina e auxílio-mudança.`;
+
+/**
+ * As mesmas datas acima em dd/mm/aaaa, para o texto do modal de inscrições
+ * encerradas. Derivadas — mudar DATA_PUBLICACAO/PRAZO_INSCRICAO muda o modal
+ * junto, sem uma segunda data para esquecer de atualizar.
+ *
+ * O corte em 'T' e a montagem manual evitam `new Date('2026-08-26')`, que é
+ * lido como UTC e volta um dia antes em qualquer fuso a oeste de Greenwich.
+ */
+const paraBR = (iso: string) => {
+  const [ano, mes, dia] = iso.split('T')[0].split('-');
+  return `${dia}/${mes}/${ano}`;
+};
+
+export const PERIODO_INSCRICAO = {
+  inicio: paraBR(DATA_PUBLICACAO),
+  fim: paraBR(PRAZO_INSCRICAO),
+};

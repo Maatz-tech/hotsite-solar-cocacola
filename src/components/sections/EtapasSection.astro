@@ -6,13 +6,13 @@ import { asset } from '../../lib/url';
  * `border-l` de cada coluna: sólida vermelha no mês, tracejada no conteúdo.
  */
 import RevealText from '../RevealText.astro';
-import { CTA_URL } from '../../data/site';
+import { CTA_URL, INSCRICOES_ENCERRADAS, ENCERRADO_LABEL } from '../../data/site';
 
 const meses = [
   {
     mes: 'Setembro',
     etapas: [{ texto: '1. Inscrições online', destaque: true, link: true }],
-    chamada: 'Clique para se inscrever',
+    chamada: INSCRICOES_ENCERRADAS ? ENCERRADO_LABEL : 'Clique para se inscrever',
   },
   {
     mes: 'Outubro',
@@ -40,12 +40,15 @@ const meses = [
             <div class="flex w-full flex-1 flex-col items-start gap-4 border-l border-dashed border-ink-20 px-4 py-6">
               {m.etapas.map((e) =>
                 e.link ? (
-                  <a
-                    href={CTA_URL}
-                    class="btn btn-primary flex min-h-11 items-center justify-start whitespace-normal rounded-btn px-4 py-2.5 text-left text-lg font-bold leading-6"
-                  >
-                    {e.texto}
-                  </a>
+                  INSCRICOES_ENCERRADAS ? (
+                    <button type="button" data-abre-aviso class="btn btn-primary flex min-h-11 items-center justify-start whitespace-normal rounded-btn px-4 py-2.5 text-left text-lg font-bold leading-6">
+                      {e.texto}
+                    </button>
+                  ) : (
+                    <a href={CTA_URL} class="btn btn-primary flex min-h-11 items-center justify-start whitespace-normal rounded-btn px-4 py-2.5 text-left text-lg font-bold leading-6">
+                      {e.texto}
+                    </a>
+                  )
                 ) : (
                   /* O foguete é irmão do chip, não conteúdo dele (Figma 4141:39). */
                   <span class="flex items-center gap-4">

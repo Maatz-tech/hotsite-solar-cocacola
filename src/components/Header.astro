@@ -1,7 +1,7 @@
 ---
 import { asset } from '../lib/url';
-import Button from './Button.astro';
-import { NAV_LINKS, CTA_URL, CTA_LABEL, SITE_NAME } from '../data/site';
+import CtaInscricao from './CtaInscricao.astro';
+import { NAV_LINKS, CTA_LABEL, SITE_NAME } from '../data/site';
 ---
 
 <header id="site-header" class="sticky top-0 z-50 bg-surface">
@@ -37,7 +37,7 @@ import { NAV_LINKS, CTA_URL, CTA_LABEL, SITE_NAME } from '../data/site';
         </ul>
       </nav>
 
-      <Button href={CTA_URL}>{CTA_LABEL}</Button>
+      <CtaInscricao>{CTA_LABEL}</CtaInscricao>
     </div>
 
     <button
@@ -127,7 +127,7 @@ caixa do header (375×56) em vez da viewport.
     </nav>
 
     <div class="border-t border-ink-20 p-6">
-      <Button href={CTA_URL} class="w-full">{CTA_LABEL}</Button>
+      <CtaInscricao class="w-full">{CTA_LABEL}</CtaInscricao>
     </div>
   </div>
 </div>

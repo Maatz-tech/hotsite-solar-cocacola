@@ -9,8 +9,8 @@ import { asset } from '../../lib/url';
  * na borda fazia a foto entrar por cima do "Trainee" por volta de 1100.
  * Ver playbook/09-qa-erros-comuns.md#qa-032
  */
-import Button from '../Button.astro';
-import { CTA_URL } from '../../data/site';
+import CtaInscricao from '../CtaInscricao.astro';
+import { INSCRICOES_ENCERRADAS, ENCERRADO_LABEL } from '../../data/site';
 ---
 
 <section id="top" class="px-3 lg:px-10 lg:py-6">
@@ -104,10 +104,10 @@ import { CTA_URL } from '../../data/site';
           </p>
 
           <p
-            class="flex h-11 w-full shrink-0 items-center justify-center rounded-btn border border-ink bg-surface px-4 text-lg font-light text-brand lg:w-auto"
+            class="flex min-h-11 w-full shrink-0 items-center justify-center text-balance rounded-btn border border-ink bg-surface px-4 py-2 text-center text-lg font-light text-brand lg:w-auto"
             data-reveal
           >
-            Inscrições até 28 de setembro
+            {INSCRICOES_ENCERRADAS ? ENCERRADO_LABEL : 'Inscrições até 28 de setembro'}
           </p>
         </div>
 
@@ -124,7 +124,7 @@ import { CTA_URL } from '../../data/site';
       </div>
 
       <div class="flex w-full items-center justify-center" data-reveal>
-        <Button href={CTA_URL}>Inscreva-se agora!</Button>
+        <CtaInscricao>Inscreva-se agora!</CtaInscricao>
       </div>
     </div>
     </div>

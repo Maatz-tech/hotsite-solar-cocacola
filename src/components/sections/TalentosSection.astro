@@ -1,11 +1,10 @@
 ---
 import { asset } from '../../lib/url';
 /** Quem procuramos — Figma desktop 4028:1819 · mobile 4031:2641. */
-import Button from '../Button.astro';
+import CtaInscricao from '../CtaInscricao.astro';
 import Eyebrow from '../Eyebrow.astro';
 import RevealText from '../RevealText.astro';
 import Estrela from '../icons/Estrela.astro';
-import { CTA_URL } from '../../data/site';
 ---
 
 <section id="talentos" class="relative respiro-x py-16 lg:py-25">
@@ -46,7 +45,7 @@ import { CTA_URL } from '../../data/site';
       </p>
 
       <div class="w-full lg:w-auto" data-reveal>
-        <Button href={CTA_URL} class="w-full lg:w-auto">Quero ser Trainee Solar Coca-Cola!</Button>
+        <CtaInscricao class="w-full lg:w-auto">Quero ser Trainee Solar Coca-Cola!</CtaInscricao>
       </div>
     </div>
 

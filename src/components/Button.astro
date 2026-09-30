@@ -2,26 +2,36 @@
 /**
  * Botão da marca. Estilo mora em global.css (.btn / .btn-primary / …).
  * Com `href` vira <a> (navega), sem `href` vira <button> (executa ação).
+ *
+ * Atributos não listados aqui (data-*, aria-*, type…) são repassados ao
+ * elemento — é o que permite marcar um CTA com `data-abre-aviso`.
  */
 interface Props {
   href?: string;
   variant?: 'primary' | 'outline' | 'invert';
   size?: 'sm' | 'md' | 'lg';
   class?: string;
+  [key: string]: unknown;
 }
 
-const { href, variant = 'primary', size = 'md', class: className = '' } = Astro.props;
+const {
+  href,
+  variant = 'primary',
+  size = 'md',
+  class: className = '',
+  ...rest
+} = Astro.props;
 
 const classes = ['btn', `btn-${variant}`, `btn-${size}`, className].filter(Boolean).join(' ');
 ---
 
 {
   href ? (
-    <a href={href} class={classes}>
+    <a href={href} class={classes} {...rest}>
       <slot />
     </a>
   ) : (
-    <button type="button" class={classes}>
+    <button type="button" class={classes} {...rest}>
       <slot />
     </button>
   )

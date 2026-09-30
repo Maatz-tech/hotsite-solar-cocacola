@@ -330,6 +330,14 @@ projeto no HTML, ou sorteando uma porta livre em vez de fixar 4322.
 **Como detectar:** parar o preview e ver se a porta continua respondendo. Se
 continuar, não era ele.
 
+**Não é só o Lighthouse:** `npm run preview` tem o mesmo problema por outro
+caminho — quando a 4321 está ocupada ele **não falha**, avisa `Port 4321 is in use,
+trying another one...` e sobe na 4322. Quem for tirar screenshot ou rodar teste
+apontando para a 4321 fotografa o projeto do vizinho sem nenhum erro aparecer.
+Ler a porta real na saída do `preview` antes de usar, e confirmar no HTML que é
+o projeto certo (`<title>`, por exemplo).
+
+
 ---
 
 ## QA-021 — Anel deduzido de dois círculos concêntricos em vez do `stroke-width`

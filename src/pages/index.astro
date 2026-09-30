@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { SITE_NAME, SITE_URL, CTA_URL } from '../data/site';
+import { SITE_NAME, SITE_URL, CTA_URL, INSCRICOES_ENCERRADAS, ENCERRADO_LABEL } from '../data/site';
 import { FAQ } from '../data/faq';
 import {
   DATA_PUBLICACAO,
@@ -11,6 +11,7 @@ import {
 } from '../data/vaga';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import ModalEncerrado from '../components/ModalEncerrado.astro';
 import HeroSection from '../components/sections/HeroSection.astro';
 import SobreSection from '../components/sections/SobreSection.astro';
 import ProgramaSection from '../components/sections/ProgramaSection.astro';
@@ -76,7 +77,9 @@ const perguntas = {
 ---
 
 <Base
-  title="Trainee 2026 Supply Chain | Solar Coca-Cola — Inscrições abertas"
+  title={`Trainee 2026 Supply Chain | Solar Coca-Cola — ${
+    INSCRICOES_ENCERRADAS ? ENCERRADO_LABEL : 'Inscrições abertas'
+  }`}
   dadosEstruturados={[vaga, perguntas]}
 >
   <Header />
@@ -95,4 +98,6 @@ const perguntas = {
   </main>
 
   <Footer />
+
+  {INSCRICOES_ENCERRADAS && <ModalEncerrado />}
 </Base>

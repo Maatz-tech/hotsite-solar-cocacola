@@ -7,9 +7,8 @@ import { asset } from '../../lib/url';
  * no desktop as fotos ocupam a coluna da esquerda inteira. Resolvido com
  * grid (posicionamento) em vez de duplicar markup.
  */
-import Button from '../Button.astro';
+import CtaInscricao from '../CtaInscricao.astro';
 import SectionHeader from '../SectionHeader.astro';
-import { CTA_URL } from '../../data/site';
 
 const fotos = [
   {
@@ -94,7 +93,7 @@ const fotos = [
     </div>
 
     <div class="lg:col-start-2 lg:row-start-3" data-reveal>
-      <Button href={CTA_URL}>Dê um gás na sua carreira!</Button>
+      <CtaInscricao>Dê um gás na sua carreira!</CtaInscricao>
     </div>
   </div>
 </section>

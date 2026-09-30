@@ -17,6 +17,19 @@ export const SITE_URL = 'https://exemplo.com.br';
 export const CTA_URL = 'https://go.eureca.me/N1DfGX';
 export const CTA_LABEL = 'Inscreva-se agora';
 
+/**
+ * Chave do fim das inscrições. Em `true`, os 7 CTAs da página param de levar ao
+ * formulário: viram botão, trocam o rótulo para ENCERRADO_LABEL e abrem o modal
+ * de aviso. Para reabrir o programa, basta voltar para `false` — nada mais muda.
+ *
+ * Datas exibidas no modal saem de src/data/vaga.ts, que é a mesma fonte do
+ * JobPosting; não duplicar aqui.
+ */
+export const INSCRICOES_ENCERRADAS = true;
+
+/** Rótulo que substitui o CTA_LABEL com as inscrições encerradas. */
+export const ENCERRADO_LABEL = 'Inscrições encerradas';
+
 export const NAV_LINKS = [
   { label: 'Pré-Requisitos', href: '#pre-requisitos' },
   { label: 'Benefícios', href: '#beneficios' },
