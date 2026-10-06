@@ -10,8 +10,14 @@
 export const SITE_NAME = 'Solar Coca-Cola';
 
 /** URL final, sem barra no fim. Usada em canonical, OG e sitemap. */
-// PENDENTE: domínio final não definido — trocar antes da entrega.
-export const SITE_URL = 'https://exemplo.com.br';
+export const SITE_URL = 'https://traineesolarcocacola.eureca.me';
+
+/**
+ * A main é produção. O espelho do GitHub Pages não é mais atualizado em push
+ * (o workflow ficou só manual), mas continua existindo: é o build que recebe
+ * BASE_PATH, e ele nunca é indexável, não importa a chave abaixo.
+ */
+export const ESPELHO = (process.env.BASE_PATH ?? '/') !== '/';
 
 /**
  * Governa indexação em UM lugar só. Em `false`:
@@ -20,11 +26,13 @@ export const SITE_URL = 'https://exemplo.com.br';
  *
  * Os dois juntos são o ponto: `Disallow` sozinho barra o rastreio, mas não
  * impede o Google de indexar a URL achada por link de fora — quem garante
- * isso é o meta. Enquanto o que está no ar for o espelho do GitHub Pages,
- * fica `false`. No lançamento, virar `true` e publicar.
- * A nota de SEO do Lighthouse fica baixa de propósito até lá.
+ * isso é o meta.
+ *
+ * `LANCADO` é a decisão; `INDEXAVEL` é o que o build usa. No espelho o
+ * resultado é sempre `false`, para o github.io não disputar com o domínio.
  */
-export const INDEXAVEL = false;
+const LANCADO = true;
+export const INDEXAVEL = LANCADO && !ESPELHO;
 
 /** Destino do CTA principal — formulário de inscrição (Eureca). */
 export const CTA_URL = 'https://go.eureca.me/N1DfGX';

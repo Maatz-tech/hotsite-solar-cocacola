@@ -1,9 +1,9 @@
-# Publica no GitHub Pages a cada push na main.
+# Espelho no GitHub Pages — só manual (Actions → Deploy → Run workflow).
+# Não roda mais em push: a main é produção e o espelho parou de ser atualizado.
+# Se rodar, o build sai sempre noindex (ver ESPELHO em src/data/site.ts).
 name: Deploy
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 # Um deploy por vez; não cancela o que está no meio para não publicar pela metade.

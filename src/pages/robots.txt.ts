@@ -16,7 +16,7 @@ const ehPreview = !INDEXAVEL;
 export const GET: APIRoute = () =>
   new Response(
     ehPreview
-      ? `# Preview — domínio final ainda não definido. Não indexar.
+      ? `# Preview ou espelho — não indexar.
 User-agent: *
 Disallow: /
 `

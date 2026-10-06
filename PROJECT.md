@@ -13,8 +13,8 @@
 - **Fonte(s):** VAG Rounded Std — Light (300) e Bold (700). **Licenciada**,
   ainda não entregue. Substituta em uso: **Nunito** (Google Fonts, 300/700).
 - **Paleta base:** ver Design tokens
-- **Domínio final:** *pendente*
-- **Indexação:** sim no lançamento — `public/robots.txt` já libera tudo.
+- **Domínio final:** `https://traineesolarcocacola.eureca.me`
+- **Indexação:** domínio final indexável; espelho do GitHub Pages sempre `noindex` (`ESPELHO` em `src/data/site.ts`) e sem deploy automático — a `main` é produção.
 - **Assinatura de rodapé:** Solar Coca-Cola · Eureca · "Desenvolvido por Maatz"
 
 ---

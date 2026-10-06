@@ -24,7 +24,11 @@ const {
   ogImage = '/og.jpg',
 } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname, SITE_URL).href;
+// O canonical aponta sempre para o domínio final. No espelho o pathname vem
+// com o `base` (/<repo>/) na frente, que não existe lá — sai antes de montar.
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const caminho = Astro.url.pathname.slice(base.length) || '/';
+const canonical = new URL(caminho, SITE_URL).href;
 const ogImageUrl = new URL(ogImage, SITE_URL).href;
 
 const schemas = [
